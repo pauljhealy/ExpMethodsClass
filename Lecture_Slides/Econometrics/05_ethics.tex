@@ -1,0 +1,921 @@
+\include{Lecture_Slides/metropolis_preamble}
+
+\begin{document}
+
+\title[Power and Ethics]{ExpEcon Methods:\\Ethical \& Unethical Research Practices}
+\author[ECON 8877]{ECON 8877\\P.J. Healy\\First version thanks to Irfan Khan} \color{metrop}
+\institute[OSU]{}
+\date[]{\vfill {\tiny Updated \today}}
+
+\frame{\maketitle}
+
+
+% \begin{frame}
+% \frametitle{Power Calculations}
+% \begin{itemize}
+% \item What is the risk of an underpowered study? Consider the following example:
+% \item we are evaluating a healthcare program that would be profitable if it decreased hospitalizations by 10 percent, but we are only powered to detect changes in hospitalization of 20 percent or more. If hospitalizations decrease by a (statistically insignificant) 15 percent after the program for study participants, we cannot be sure that the program decreased hospitalizations by 10 percent, but we also cannot be sure that the program decreased hospitalizations by zero percent (i.e. had no impact); thus, the evaluation offers inconclusive evidence on whether or not the program should be continued.
+% \item  Failure to find a statistically significant effect can be misinterpreted as the failure of the program, rather than the failure of the evaluation.
+% \item  Or IRL: your research is less likely to get published if its not powered correctly
+% \end{itemize}
+
+% \end{frame}
+
+
+% \begin{frame}
+% \frametitle{Some Basic Terminology }
+% \begin{itemize}
+% \item Statistical Power - The sensitivity of an experiment to detect differences between the treatment and control groups (Higher power → higher sensitivity i.e we want well powered experiments)  Type 1 errors: “A false positive”. Falsely rejecting the null hypothesis of no effect/ falsely concluding that the intervention had no effect when it did not. The probability of committing this is $\beta$  Type 2 errors: “A false negative”. Failing to detect an effect (reject the null hypothesis)  when there is one. The probability of committing this is $1-\beta$
+% \item Power - The probability of rejecting a false null hypothesis - typically given by $1-\beta$. That is, maximizing statistical power is to minimize the probability of a Type 2 error  Mainly, power calculations are a statistical tool used to help compute what your sample size should be given other parameters: power and minimum desirable effect size (MDES)
+% \item Alternatively can calculate power given sample size and MDES or calculate MDES given sample size and power
+% \end{itemize}
+
+% \end{frame}
+
+
+% \begin{frame}
+% \frametitle{Components of Power Calculations}
+% \begin{itemize}
+% \item Significance ($\alpha$) - Probability of Type 1 error, typically set to .05 Power ($1-\beta$) - Typically set to .8, implying that the probability of falsely failing to reject the null hypothesis is .2. Inversely related to $\alpha$
+% \item Minimum Detectable Effect: The smallest effect, that if true, has a $1-\beta$\% chance of producing an estimate that is significant at the $\alpha$\% level. In other words, MDE is the effect size that which below we cannot distinguish whether the effect is different from 0 
+
+% This might be the smallest effect that would still make it worthwhile to run this program (from their own perspective, or from a funder’s or policymaker’s perspective), as opposed to dedicating resources elsewhere.
+% \end{itemize}
+% \end{frame}
+
+
+% \begin{frame}
+% \frametitle{Components of Power Calculations}
+% \begin{itemize}
+
+% \item Sample Size (N) and Variance of the outcome variable ($\sigma^2$)  Treatment allocation (P) - proportion of sample assigned to the treatment group. Highest power is typically a balanced treatment  Intra-cluster correlation coefficient (ICC) - a measure of correlation between observations within the same cluster (given as $\rho$) which will cause some loss in statistical efficiency as a result of the ‘relatedness’ . For example, primary care research can produce clustered results by selecting groups of patients at the practitioner level 
+% \end{itemize}
+
+% \end{frame}
+
+
+% \begin{frame}
+% \frametitle{How could a Type II error occur?}
+% \begin{itemize}
+% \item Distribution under the Null Effect size is 0
+% \end{itemize}
+% \includegraphics[width=4in]{graphics/ethics/img0000.png}
+% \begin{itemize}
+% \item Distribution of $\beta$ under the Alternative
+% \end{itemize}
+
+% \end{frame}
+
+
+% \begin{frame}
+% \frametitle{}
+% \includegraphics[width=4in]{graphics/ethics/img0001.png}
+
+% \end{frame}
+
+
+% \begin{frame}
+% \frametitle{Power and Sample Size Calculations }
+% \includegraphics[width=3in]{graphics/ethics/img0002.png}
+% \includegraphics[width=3in]{graphics/ethics/img0003.png}
+% \begin{itemize}
+% \item If sample size is fixed (due to budget constraints, etc.), power calculations determine the effect size that the study is powered to detect    If sample size is not fixed, power calculations can be performed to detect the minimum sample size needed to detect the MDE given the parameters     Where outcome variance is assumed to be fixed across treatment arms, and $t(1-k)$ and $t(\alpha/2)$ are the critical values associated with a Student’s t distribution
+% \end{itemize}
+
+% \end{frame}
+
+
+% \begin{frame}
+% \frametitle{Change in sample size/outcome variance}
+% \includegraphics[width=4in]{graphics/ethics/img0004.png}
+
+% \end{frame}
+
+
+% \begin{frame}
+% \frametitle{True effect size affects Power}
+% \includegraphics[width=4in]{graphics/ethics/img0005.png}
+
+% \end{frame}
+
+
+\begin{frame}{Replication Crises \& Data Colada}
+\begin{itemize}
+    \item Replication crisis in psychology \& social science: mid-2010s
+    \begin{itemize}
+        \item Concerns had been floating around since the 1960s...
+        \item Social Psych hit especially hard
+    \end{itemize}
+    \item Replication projects re-running existing experiments
+    \begin{itemize}
+        \item Nosek et al. (2015): Only 36\% of results replicated!!
+        \begin{itemize}
+            \item Social psych: 25\%
+            \item Cognitive psych: 50\%
+        \end{itemize}
+        \item Camerer et al. (2016): Experimental economics papers
+        \begin{itemize}
+            \item 11 of 18 (61\%) replicated
+        \end{itemize}
+    \end{itemize}
+    \item Data Colada blog identified systemic problems
+    \begin{itemize}
+        \item Co-authored by data sleuths, notably Uri Simonsohn
+        \item Identified outright fraud by several famous economists
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Dishonesty in Research}
+There are two widely recognized types of research-driven publication biases
+\begin{itemize}
+\item Selection Problems: The “file drawer effect”
+\begin{itemize}
+    \item Studies with nonsignificant effects have lower publication rates
+    \item Version of this for ExpEcon: ``g-hacking'' (game hacking)
+\end{itemize}
+\item Inflation Bias: “p-hacking” or “selective reporting”
+\begin{itemize}
+    \item Data analysis practices that lead to false positives
+    \item Strategic reporting of favorable specifications/results
+\end{itemize}
+\end{itemize}
+\br
+
+Do these only come from maliciously fraudulent researchers? NO!
+\end{frame}
+
+
+\begin{frame}
+\frametitle{File Drawer Bias}
+\begin{itemize}
+\item Assuming the Null is true, if 100 studies are performed, 5 of them should yield statistically significant results
+\item If only these 5 are sent in for publication, then the community may believe that these are indicative of the true effect, while in fact they are not
+\item Many researchers have huge budgets, and can carry out many studies, and put the ones that do not produce significant results in the file drawer
+\item How to correct? 
+\begin{enumerate}
+    \item Replication by self or others. 
+    \begin{itemize}
+        \item Currently: not very lucrative
+        \item Journals should publish null results \& replications (JESA)
+    \end{itemize}
+    \item Requiring robustness checks (but that's unfair)
+\end{enumerate}
+\item Discuss: does pre-registration/pre-analysis plan fix this?
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{P-Hacking}
+``P-Hacking'': unethical techniques to try to get a significant result\\
+\br
+``False-Positive Psychology: Undisclosed Flexibility in Data Collection and Analysis Allows Presenting Anything as Significant''\\ by Simmons, Nelson, and Simonsohn
+\begin{itemize}
+\item Researchers have a lot of flexibility in their analyses:
+\renewcommand{\theenumi}{\Alph{enumi}}
+\begin{enumerate}
+    \item Choosing the best dependent variables/outcome measures
+    \item Adding to the sample size if $p$-value is ``close''
+    \item Adding/removing covariates (gender, IQ, etc.)
+    \item Discarding ``outliers'' or even treatments ex-post
+\end{enumerate}
+\end{itemize}
+They simulate some of these ``tricks'' for a hypothetical study:
+\end{frame}
+
+
+% \begin{frame}
+% \frametitle{The Simulation }
+% \begin{itemize}
+% \item With these 4 Researcher degrees of freedom, the authors simulate the rate of rejecting the null with these 4 Treatments:  Situation A: There are two dependent variables (such as Willingness to Pay and Liking that are correlated r = .50) and we use either of these and the average of these as the dependent variable Situation B: The researcher collects 20 results per condition and then tests for significance. If the result is significant, they stop, otherwise they add 10 more results per condition Situation C: Flexibility in specification - controlling for Gender or interacting Gender with the independent variable(s) Situation D: Dropping conditions selectively
+% \end{itemize}
+
+% \end{frame}
+
+
+\begin{frame}
+\frametitle{}
+\includegraphics[width=4in]{graphics/ethics/img0006.png}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Illustration: Combining Pilots With Data}
+A simulation:
+\begin{enumerate}
+    \item Run a pilot with $n_p$ subjects
+    \begin{itemize}
+        \item Generate $n_p$ observations of $X_i^p$ and $Y_i^p$ from $N(0,1)$
+        \item Run a $t$-test on $X^p$ vs $Y^p$
+        \item $\approx 5\%$ will (wrongly) reject $H_0$
+    \end{itemize}
+    \item[2a.] If pilot fails to reject, stop the project! It's a dud
+    \item[2b.] If pilot rejects, run full sample with $n_s$ subjects
+    \setcounter{enumi}{2}
+    \begin{itemize}
+        \item Generate $n_s$ observations of $X_i^s$ and $Y_i^s$ from $N(0,1)$
+        \item Two options:
+        \begin{enumerate}
+            \item[Ethical:] Analyze new samples only: $X^s$ vs. $Y^s$. Throw away the pilot.
+            \item[Unethical:] Analyze combined samples: $(X^p,X^s)$ vs. $(Y^p,Y^s)$
+        \end{enumerate}
+    \end{itemize}
+\end{enumerate}
+Simulation: Repeat this 10,000 times, look at rejection rates\\
+How bad will it be?
+\end{frame}
+
+\begin{frame}{Simulation Results}
+\begin{center}
+    \begin{tabular}{|r|c|c|c|}
+    \hline
+    Simulation \#: & 1 & 2 & 3 \\
+    \hline
+      Pilot $n_p$: & 100 & 100 & 500\\
+    \hline
+      Sample $n_s$: & 100 & 500 & 100\\
+    \hline
+    \hline
+    \# Simulations: & 10,000 & 10,000 & 10,000 \\
+    \hline
+    \% where Pilot rejects: & 0.0483 & 0.0511 & 0.0463\\
+    \hline
+    \# Continued Studies: & 483 & 511 & 463 \\
+    \hline
+    \% Reject (New Data Only): & 0.056 & 0.053 & 0.048 \\
+    \hline
+    \% Reject (Combined Data): & {\color{red}0.354} & {\color{red}0.160} & {\color{red}0.631} \\
+    \hline
+    \end{tabular}
+\end{center}
+You're selectively picking only pilots with false positives!
+\end{frame}
+
+
+\begin{frame}
+\frametitle{What about checking your data?}
+Entirely hypothetical question:
+\begin{itemize}
+    \item Suppose you're a nervous young researcher
+    \item Maybe your experiment software has a bug!!
+    \item So, you run 50 subjects on Prolific to make sure it works
+    \item If it looks okay, you run 300 more. If not, stop and fix.
+\end{itemize}
+Is this a problem? (discuss)\br
+\pause
+No, as long as either
+\begin{enumerate}
+    \item you throw away the first 50 subjects, or
+    \item your stop/go decision doesn't depend on the statistical test result (just on ``data quality'')
+\end{enumerate}
+But wait: is your 50-person pilot really all that well-powered??\\
+Also see discussion of ``design hacking'' later...
+\end{frame}
+
+\begin{frame}{Unethical Sequential Sampling}
+More generally, consider this (unethical) sampling algorithm:\\
+Parameters: 
+\begin{itemize}
+    \item Initial sample size: $n$. Max you can afford: $\bar{n}>n$.
+    \item Keep adding subjects as long as $p$-value is in $[0.05,\bar{p}]$
+    \item Subjects added at each step: $n_a$
+\end{itemize}
+Algorithm:
+\begin{enumerate}
+    \item Collect $n$ initial observations each of $X$ and $Y$
+    \begin{itemize}
+        \item Suppose the null is true. e.g. $X,Y\sim N(0,1)$
+    \end{itemize}
+    \item Run test. 
+    \begin{itemize}
+        \item If $p<0.05$, stop. You win! $H_0$ is rejected! Publish!
+        \item If $p>\bar{p}$, stop. It's hopeless. You lose. File drawer.
+        \item Otherwise, continue to next step:
+    \end{itemize}
+    \item Add another $n_a$ observations each of $X$ and $Y$
+    \begin{itemize}
+        \item If $n+n_a>\bar{n}$, stop. You ran out of money. File drawer.
+        \item Otherwise, run test (return to step 2), 
+    \end{itemize} 
+\end{enumerate}
+How bad can it be?
+\end{frame}
+
+\begin{frame}{Unethical Sequential Sampling}
+\begin{center}
+Rejection frequencies, varying give-up $\bar{p}$
+    \begin{tabular}{|r|c|c|c|}
+    \hline
+      Simulation \#: & 1 & 2 & 3 \\
+    \hline
+      Initial $n$: & 100   & 100 & 100\\
+    \hline
+      Added $n_a$: & 10    & 20   & 20\\
+    \hline
+      Max $\bar{n}$: & 200 & 200 & 400\\
+    \hline
+    \hline
+    $\bar{p}=0.10$ & 0.0665 & 0.0666 & 0.0649 \\
+    \hline
+    $\bar{p}=0.15$ & 0.0785 & 0.0779 & 0.0744\\
+    \hline
+    $\bar{p}=0.20$ & 0.0914 & 0.0843 & 0.0907 \\
+    \hline
+    $\bar{p}=0.30$ & 0.1011 & 0.0991 & 0.1023 \\
+    \hline
+    $\bar{p}=0.50$ & 0.1172 & 0.1117 & 0.1378 \\
+    \hline
+    \end{tabular}
+\end{center}
+\begin{enumerate}
+    \item Increasing $\bar{p}$ (give-up threshold) $\Rightarrow$ more false positives
+    \item Increasing $n_a$ $\Rightarrow$ fewer tries $\Rightarrow$ slightly fewer false positives
+    \item Increasing $\bar{n}$ (budget) $\Rightarrow$ depends on $\bar{p}$
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Unethical Sequential Sampling}
+How much do you spend?
+($n=100$, $n_a=20$, $\bar{n}=400$, $\bar{p}=0.50$)
+\br
+\begin{center}
+    \includegraphics[width=2in]{graphics/ethics/SampleSizeHist.png}
+\end{center}
+Avg: 154 subjects. Median: 120 subjects
+\br
+Quit because $p>0.50$: 83\%\\
+Quit because $n>400$: 3.6\% $\leftarrow$ budget not binding
+\end{frame}
+
+\begin{frame}{Unethical Sequential Sampling}
+    Paths of $p$-values that led to rejection:\\
+    ($n=100$, $n_a=20$, $\bar{n}=400$, $\bar{p}=0.50$)
+    \begin{center}
+        \includegraphics[width=3in]{graphics/ethics/PvalPaths.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Ethical Sequential Sampling}
+\begin{itemize}
+    \item There are ethical sequential sampling procedures...
+    \item Wald's Sequential Probability Ratio Test
+    \begin{itemize}
+        \item Requires 2 specific, parameterized hypotheses
+        \item Ex: $H_0$: $N(0,1)$ vs $H_1$: $N(1,1)$
+        \item Let $p(x_i|0)$ and $p(x_i|1)$ be likelihoods of $x_i$ under each
+        \item Likelihood ratio of $H_1$ for data vector $x=(x_1,\ldots,x_n)$:
+        $$
+            \frac{p(x_1|1)\ p(x_2|1)\ \cdots\ p(x_n|1)}{p(x_1|0)\ p(x_2|0)\ \cdots\ p(x_n|0)} \rightarrow \sum_i log\left(\frac{p(x_i|1)}{p(x_i|0)}\right)
+        $$
+        \item Under $H_0$, compare to test error ratio:
+        $$
+            \frac{p(x_1|1)\ p(x_2|1)\ \cdots\ p(x_n|1)}{p(x_1|0)\ p(x_2|0)\ \cdots\ p(x_n|0)} = \frac{\beta}{1-\alpha} \rightarrow \log\left(\frac{\beta}{1-\alpha}\right)
+        $$
+        \item Collect data \textit{sequentially}, monitoring the total log-likelihood ratio
+        \item If it falls below $a=\log(\beta/(1-\alpha))$, accept $H_0$
+        \item If it rises above $b=\log((1-\beta)/\alpha)$, accept $H_1$
+    \end{itemize}
+    \item $\exists$ a sequential test for a single hypothesis?
+\end{itemize}
+    
+\end{frame}
+
+\begin{frame}
+\frametitle{}
+\includegraphics[width=3.5in]{graphics/ethics/img0007.png}
+
+\end{frame}
+
+\begin{frame}{Solutions}
+\begin{enumerate}
+    \item Pre-Registration (AEA RCT Registry, e.g.)
+    \begin{itemize}
+        \item Basic plan of your research
+        \item Design, sample size, clusters, dates
+        \item Problem: can be vague, so not very constraining
+    \end{itemize}
+    \item Pre-Analysis Plans (PAPs)
+    \begin{itemize}
+        \item Much more detailed
+        \item Instructions, regressions, hyp. tests, etc.
+        \item You can deviate, but would need to document it
+        \item Problem: referees might punish deviations
+        \item Problem: might kill scientific discovery
+    \end{itemize}
+    \item Registered Reports
+    \begin{itemize}
+        \item Journal decides \textit{before} you collect data
+        \item Problem: Very few journals do this (JPE:Micro, JESA)
+        \item Problem: If results are great you'll want to renege!
+        \item Problem: Editors become advisors
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{My Recommendation}
+My (current) recommendation:
+\begin{enumerate}
+    \item Might as well create a pre-analysis plan.
+    \item One step further: generate simulated data \textit{before} running
+    \begin{enumerate}
+        \item Figure out your power
+        \item Nail down the tests you want
+        \item Make sure your tests actually answer the right question!!!
+        \item Now your code is ready! Gather the data and hit ``play''
+    \end{enumerate}
+    \item In the paper, be honest about exploratory results
+    \begin{enumerate}
+        \item Cross your fingers that referees are willing to listen
+    \end{enumerate}
+\end{enumerate}
+\end{frame}
+
+% \begin{frame}
+% \frametitle{}
+% \begin{itemize}
+% \item “Our goal as scientists is not to publish as many articles as we can, but to discover and disseminate truth. Many of us— and this includes the three authors of this article—often lose sight of this goal, yielding to the pressure to do whatever is justifiable to compile a set of studies that we can publish. This is not driven by a willingness to deceive but by the self-serving interpretation of ambiguity, which enables us to convince ourselves that whichever decisions produced the most publishable outcome must have also been the most appropriate”
+% \end{itemize}
+
+% \end{frame}
+
+
+\begin{frame}
+\frametitle{Evidence for P-hacking}
+How to identify P-hacking?
+\begin{itemize}
+\item ``P-Curve: A Key to the File-Drawer'' by Simonsohn, Nelson, and Simmons
+\item Look at the distribution of p-values in a literature
+\item What should the distribution look like below 0.05??
+\begin{itemize}
+    \item Red flag: lots of values just below 0.50
+    \begin{itemize}
+        \item That shouldn't happen naturally!
+    \end{itemize}
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{P-Curve under certain distributions}
+\includegraphics[width=4.5in]{graphics/ethics/img0008.png}
+\br
+Look for ``uphill'' or ``flattened'' curves
+\end{frame}
+
+
+\begin{frame}
+\frametitle{A demonstration}
+\includegraphics[width=4.5in]{graphics/ethics/img0009.png}
+\br
+Red flag: papers that add controls when treatment was random
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Specification Curve Analysis}
+Simonsohn, Simmons, Lennon (2020)
+\begin{itemize}
+    \item Report all results of all sensible specifications. Meaning:
+    \begin{enumerate}
+        \item a sensible test of the research question,
+        \item expected to be statistically valid, and
+        \item not redundant with the other tests reported.
+    \end{enumerate}
+    \item Similar to applied micro's table of regressions
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Specification Curve}
+\begin{itemize}
+    \item Your regression specification:
+    $$
+        y = F(x;Z) + \epsilon
+    $$
+    \item Lots of degrees of freedom!
+    \begin{itemize}
+        \item Different $y$ (wealth, education...)
+        \item Different $F$ (linear, polynomial...)
+        \item Different $x$ (treatments, covariates...)
+        \item Different $Z$ (gender, race, education...)
+        \item You can easily generate 100+ specifications
+    \end{itemize}
+\end{itemize}
+\br
+Example: ``Hurricanes with female names cause more damage''
+\end{frame}
+
+\begin{frame}
+\frametitle{}
+\includegraphics[width=4.25in]{graphics/ethics/img0011.png}
+\\
+\textbf{Top:} Marginal effects of female name on extra deaths.\\
+\hspace{1.4cm}Height: estimated effect size. Black dot: $p<0.05$\\
+\textbf{Bottom:} dots show specification choices for points on the line above
+\end{frame}
+
+\begin{frame}{How To Analyze This?}
+Bootstrapping!
+\begin{enumerate}
+    \item Reshuffle the hurricane names, but nothing else (null is true)
+    \item Run the specification curve on the bootstrapped sample
+    \item Repeat many times, plot each curve
+\end{enumerate}
+\begin{center}
+    \includegraphics[width=2in]{graphics/ethics/SpcificationBootstrap.png}
+\end{center}
+Median effect size (across \emph{all} specifications) using \textit{true} names: 1.56.\\
+\% Bootstrapped medians $>1.56$? 0.536 of them $\leftarrow$ $p$-value\\
+(Can use ``\% significant specifications'' instead of median effect size)
+\end{frame}
+
+
+% \begin{frame}
+% \frametitle{Inference using the Specification Curve}
+% \begin{itemize}
+% \item Take the median effect of  X on Y across all specifications and test whether this median effect is more extreme than what would be expected if all specifications had a true effect of 0
+% \item Take the share of all specifications that had a statistically significant effect in the predicted direction, and testing if this share is higher than if all specifications had a true effect of 0
+% \item Take the average Z value in all specifications and see if this is more extreme than if all specifications had a true effect of 0 (very similar to 2) 
+% \item Issues: These give equal weight to all specifications, and 
+% \item In a larger picture, it’s hard to consider all possible specifications
+% \end{itemize}
+
+% \end{frame}
+
+\begin{frame}
+\frametitle{``Design Hacking''}
+``Design Hacking'' (my term) or ``Game Hacking'' (Muriel's term)\\
+File-drawer bias can happen ``within'' a project as well:
+\begin{itemize}
+    \item Try one design, throw it on Prolific, get a null result
+    \item Tweak your design, keep trying, until finally you reject the null
+    \item Collect a fresh new full sample using the design that worked
+\end{itemize}
+\br
+Is it problematic?? Discuss.
+\pause
+\begin{enumerate}
+    \item Fresh new full sample $\Rightarrow$ not $p$-hacking
+    \item But you now \textbf{know} that your design isn't robust!!
+    \begin{itemize}
+        \item Are you comfortable if someone tries to replicate your result?
+        \item Doing this often \emph{should} be a bad career choice...
+        \item Sadly: literature gets trapped in one specific design\\
+        See: Ellsberg and Allais paradoxes
+    \end{itemize}
+\end{enumerate}
+\br
+Solution (again): replications and robustness checks!!
+\end{frame}
+
+\begin{frame}{Coffman \& Dreber's Chapter}
+    ``Running Replicable Experiments'' for new Handbook (Yariv \& Snowberg)
+    \begin{itemize}
+        \item Idea: suppose your paper will be replicated. Great!
+        \item But wait... are you scared now???
+        \item This chapter: how to make sure your results replicate        
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Coffman \& Dreber}
+    They summarize it with two main guidelines:
+    \begin{enumerate}
+        \item Be very clear and comprehensive in describing everything you did.
+        \item Be rigorous and self-critical in your own work
+        \begin{itemize}
+            \item If someone replicates your work, you can be confident!
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Coffman \& Dreber}
+Useful terms:
+\begin{description}
+    \item[Reproducibility:] Can others reproduce what you did?
+    \begin{description}
+        \item[Computational reproducibility] Can others get the same results using your data \& code?
+        \item[Procedural reproducibility:] From your write-up and materials, can someone rerun the same experiment without your help?
+    \end{description}
+    \item[Replicability:] Will others get the same results as you?
+    \begin{description}
+        \item[Direct replication:] Same instructions, type of subjects, etc.
+        \item[Conceptual/robust replication:] Test of the same hypotheses in a slightly different setting
+    \end{description}
+\end{description}
+\end{frame}
+
+\begin{frame}{Coffman \& Dreber}
+    Should you pilot? Might that improve replicability?
+    \br
+    Three types of pilot studies:
+    \begin{enumerate}
+        \item Testing software, subject confusion, etc.
+        \item Measuring means \& variances for power calculations
+        \item Seeing if the hypothesis is right
+    \end{enumerate}
+    \br
+    \pause
+    (1) is good, (2) is iffy (probably wasteful), (3) is bad
+\end{frame}
+
+\begin{frame}{Coffman \& Dreber}
+    Should the profession require pre-analysis/pre-registration?
+    \br
+    \begin{itemize}
+        \item \textbf{Single-paper view}: conclusive evidence re: a hypothesis can/should happen within a single paper
+        \begin{itemize}
+            \item That one paper better be extremely solid! Require PAP!
+            \item But, are we punishing exploration?
+            \item And incentivizing design-hacking?
+        \end{itemize}
+        \item \textbf{Literature-level view}: a body of literature collectively tests a hypothesis. Process of ``explore and replicate.''
+        \begin{itemize}
+            \item Much more room for exploration. Replication replaces PAP
+            \item But then, can we trust any given paper?
+            \item And are we really replicating enough??
+        \end{itemize}
+    \end{itemize}
+    Two more thoughts:
+    \begin{enumerate}
+        \item Often, my control was your treatment. Free replication!
+        \item Theory testing: are there really that many dof?
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Coffman \& Dreber}
+    Should \textbf{you} choose to do a Pre-analysis plan??\\
+    Pros:
+    \begin{enumerate}
+        \item Eliminates your own degrees of freedom. Ties your hands.
+        \item Referees \& editors are looking for it more and more
+        \item Helpful to be more thoughtful about your research
+        \item Lets you do things like exclude outliers or confused subjects in a scientifically-credible way
+        \item Forces coauthors to agree \textit{ex-ante} on the right analyses
+    \end{enumerate}
+    Cons:
+    \begin{enumerate}
+        \item More likely to get a null result! (Which is honest...)
+        \item If you have to deviate (and you will), those results can be heavily discounted by referees as ``exploratory''
+        \item Might make you less adventurous as a researcher
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Coffman \& Dreber}
+    Power calculations
+    \begin{itemize}
+        \item Not just for the reader... they boost your own confidence!
+        \item Extra important if a null result would be interesting
+    \end{itemize}
+    Inputs:
+    \begin{enumerate}
+        \item Pilots? Probably a waste
+        \item Your budget, of course
+        \item Literature! Existing effect sizes (incl. SE's)
+        \item Ask other experts?
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Coffman \& Dreber}
+    Replication Packages
+    \begin{itemize}
+        \item Zip file of all original data and code (with readme) to guarantee computational reproducibility
+        \begin{itemize}
+            \item Some journals actually have a data editor that reproduces your results before you can publish!
+        \end{itemize}
+        \item Experiments: include instructions and screenshots.
+        \item Comment code well \textit{as you write it}
+        \begin{itemize}
+            \item Imagine someone is reading your code as you type it
+        \end{itemize}
+        
+    \end{itemize}
+    
+\end{frame}
+
+\section{A Quick Discussion on Deception}
+
+\begin{frame}
+\frametitle{Deception}
+Another ethical issue: Deception
+\begin{itemize}
+    \item Estimates: $\sim$50\% of papers in social psych
+    \item It's (informally) banned in econ
+    \begin{itemize}
+        \item Subject trust is a public good across experiments
+        \item We need them to believe our instructions!
+    \end{itemize}
+    \item What counts?
+    \begin{itemize}
+        \item Lying to subjects
+        \item Surprise treatments/questions?
+        \item Hiding information from subjects???
+    \end{itemize}
+    \item Blatant deception unlikely to publish in Econ
+    \begin{itemize}
+        \item Vernon credits Sidney Siegel for this norm
+        \item Really implemented by Plott and Smith, others
+    \end{itemize}
+    \item There are gray areas... see below
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Deception: Some Evidence}
+Jamison Karlan \& Schechter (2008)
+\begin{itemize}
+    \item Control: play trust games against human opponents
+    \item Treatment: same, but opponents are actually computers
+    \begin{itemize}
+        \item Programmed to play the same as the humans
+        \item Deception \textit{was} revealed at the end
+    \end{itemize}
+    \item All subjects recruited for a 2nd experiment 2--3 weeks later
+    \begin{itemize}
+        \item Variety of different games
+    \end{itemize}
+    \item Results:
+    \begin{enumerate}
+        \item 2nd-experiment participation marginally lower among the deceived
+        \begin{enumerate}
+            \item Effect was significant \& large for women
+        \end{enumerate}
+        \item 2nd-experiment participation not correlated with behavior
+        \item Deceived: more likely to be multiple-switchers in MPL
+        \item Deceived: more variance in responses
+    \end{enumerate}
+\end{itemize}
+Lesson: deception scares people away (differentially!) and maybe causes them to take future experiments ``less seriously''
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Deception}
+Charness, Samek, and van Den Van (2022)
+\begin{itemize}
+    \item Survey of experimental econ researchers
+    \item What counts as deception?
+    \item 788 of 1554 responded
+    \item Also surveyed experiment participants
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{}
+\includegraphics[width=3.25in]{graphics/ethics/img0012.png}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{}
+\includegraphics[width=4.25in]{graphics/ethics/DeceptionSurvey.png}
+\\
+Questions asked:\\
+1. How \textbf{deceptive} is it? 2. Would you feel \textbf{negative} as a referee?\\
+3. How \textbf{appropriate} is it if $\not\exists$ alternative? 4. How \textbf{useful} is it?
+
+\end{frame}
+
+
+% \begin{frame}
+% \frametitle{}
+% \includegraphics[width=4.25in]{graphics/ethics/img0014.png}
+
+% \end{frame}
+
+
+% \begin{frame}
+% \frametitle{Krawcyzk JEBO 2019}
+% \includegraphics[width=4in]{graphics/ethics/img0015.png}
+
+% \end{frame}
+
+\begin{frame}{My View}
+\only<1>{What do you think?}
+\pause
+\only<2>{
+My view:
+\begin{itemize}
+    \item All that matters is whether subjects will believe the instructions next time they come to an experiment
+    \begin{itemize}
+        \item This is a public good!
+        \item Ethical issues matter, but this conservative approach covers them
+    \end{itemize}
+    \item My assumption: Likelihood that they care/notice is driven by likelihood that they regret their former actions
+    \begin{itemize}
+        \item Example: Testing Gang-of-Four with a surprise restart
+        \item ``Regret-inducing surprise''
+        \item ``Regret-free'' deception \textit{might} be okay, but still risky!
+    \end{itemize}
+    \item Isn't it okay if they don't find out?
+    \begin{itemize}
+        \item How sure are you? What if they talk?
+        \item What if they read our papers?
+    \end{itemize}
+    \item I think it's rare that you \textit{must} use deception
+\end{itemize}
+}
+\end{frame}
+
+\begin{frame}{Experimenter Demand Effects}
+Smaller but pervasive issue: Experimenter Demand Effects
+    \begin{itemize}
+        \item Altering choices through framing/display
+        \begin{itemize}
+            \item Example: Preference for Randomization
+        \end{itemize}
+        \item Or, making it obvious what's the research question
+        \begin{itemize}
+            \item Ex: Gender study, only ask about gender
+        \end{itemize}
+        \item Directional effect may be unclear!
+        \item Raises deeper questions about:
+        \begin{enumerate}
+            \item What is a preference? Depends on framing?
+            \item What does it mean to have ``external validity''?
+        \end{enumerate}
+        \item 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Can We Reduce Experimenter Demand Effects?}
+\begin{itemize}
+    \item Incentives: Vernon's ``Dominance''
+    \begin{itemize}
+        \item Camerer: larger stakes reduce noise
+    \end{itemize}
+    \item Neutral framing/instructions
+    \begin{itemize}
+        \item But isn't ``neutral'' just another frame??
+    \end{itemize}
+    \item Reducing interaction with the experimenter
+    \begin{itemize}
+        \item Read-alone instructions? Video? 
+    \end{itemize}
+    \item My view: every frame alters preferences. 
+    \begin{itemize}
+        \item There is no ``neutral frame'' or ``true preference''
+        \item So just document the framing you used
+        \item Future researchers can test robustness
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+% \begin{frame}
+% \frametitle{Reducing Experimenter Demand in the Design}
+% \begin{itemize}
+% \item An experiment should not make it clear to the subjects what the hypothesis is, so that they do not try to adhere to the hypothesis (be good subjects).How to do this?
+% \item Masking the independent variable.  This is more effectively done in a between-subject design than within subjects, as subjects are only exposed to one environment, and cannot see what variable is being manipulated. However good design in within-subjects treatments can mitigate this (changing order of treatments, selective information revelation, gaps between treatments)
+% \item Masking the dependent variable.  If the experiment collects many dependent variables, the participant may be in doubt as to which is the primary variable. Similarly, design should take care that the form of  elicitation does not signal a hypothesis or appropriate behavior. Of particular concern are strategy method elicitation which allow subjects to condition on various features of the environment
+% \end{itemize}
+
+% \end{frame}
+
+\begin{frame}
+\frametitle{The de Quidt et al (2017) Method}
+de Quidt et al. (2017)\\
+Example: effect of incentives on effort
+\begin{enumerate}
+    \item Run original design as planned.
+    \begin{itemize}
+        \item Control ($0$): no pay
+        \item Treatment ($1$): piece rate pay
+        \item Let the mean actions be $a^0(0)$ and $a^0(1)$
+    \end{itemize}
+    \item Run a new copy, but with a ``strongly positive'' demand
+    \begin{itemize}
+        \item ``You would be doing us a favor if you work hard''
+        \item Let mean actions be $a^+(0)$ and $a^+(1)$
+    \end{itemize}
+    \item Run a ``strongly negative'' demand experiment
+    \begin{itemize}
+        \item ``You would be doing us a favor if you are lazy''
+        \item Let mean actions be $a^-(0)$ and $a^-(1)$
+    \end{itemize}
+    \item Compare treatment effects
+    \begin{itemize}
+        \item Original treatment effect: $a^0(1)-a^0(0)$
+        \item Lower bound on treatment effect: $a^-(1)-a^+(0)$
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{The de Quidt et al (2017) Method}
+Another usage:
+\begin{itemize}
+    \item If $a^+\approx a^0$ or $a^-\approx a^0$ then no big deal!
+    \item Usually prior expectation of direction ($+$ or $-$)
+\end{itemize}
+    
+\end{frame}
+
+
+\end{document}

@@ -1,0 +1,371 @@
+\include{Lecture_Slides/metropolis_preamble}
+
+\begin{document}
+
+
+% Title page info
+\title{ExpEcon Methods:\\Multiple Hypotheses Corrections}
+\author[ECON 8877]{ECON 8877\\P.J. Healy\\First version thanks to Floyd Carey} \color{metrop}
+\institute[OSU]{}
+\date[]{\vfill {\tiny Updated \today}}
+
+\frame{\maketitle}
+
+
+
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\section{Multiple Hypothesis Corrections}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Multiple Tests}
+The setup:
+\begin{itemize}
+    \item You're going to run $m$ tests (say, $m=2$)
+    \item Each test on its own has a 0.05 Type-I error
+    \item The game is that you ``win'' if \textit{at least} one is significant
+    \begin{itemize}
+        \item Publish a paper, claim a result, etc.
+    \end{itemize}
+    \item Problem: $\uparrow m \Rightarrow \uparrow$ chance you win
+\end{itemize}
+\begin{definition}
+    The \textbf{Family-Wise Error Rate (FWER)} is the probability that you ``win'' given that all $m$ null hypotheses are true.
+\end{definition}
+\begin{itemize}
+    \item We want FWER to be 0.05, not each test
+\end{itemize}
+    
+\end{frame}
+
+\begin{frame}{Multiple Tests}
+Suppose you run two tests and {\color{red}``\textbf{win}''} if one is significant\\
+Each has 0.05 Type-I error. Baseline case: independent tests
+\begin{center}
+    \textbf{Independent} tests:\\
+     \begin{tabular}{r|c|c|l}
+          \multicolumn{1}{r}{ } & \multicolumn{1}{c}{Accept} & \multicolumn{1}{c}{Reject} & \\
+          \cline{2-3}
+           Accept & {\color{olive}0.9025} & {\color{red} 0.0475} & 0.95 \\
+          \cline{2-3}
+          Reject & {\color{red} 0.0475} & {\color{red} 0.0025} & 0.05 \\
+          \cline{2-3}
+          \multicolumn{1}{r}{ }  & \multicolumn{1}{c}{0.95}  & \multicolumn{1}{c}{0.05} &  {\color{red}$FWER=0.0975$}
+     \end{tabular}
+\end{center}
+{\color{blue}\textbf{\u{S}id\'{a}k correction}}: use a lower $\alpha$:
+\begin{center}
+     \begin{tabular}{r|c|c|l}
+          \multicolumn{1}{r}{ } & \multicolumn{1}{c}{Accept} & \multicolumn{1}{c}{Reject} & \\
+          \cline{2-3}
+           Accept & {\color{olive}$(1-\alpha)^2$} & {\color{red} $(1-\alpha)\alpha$} & $1-\alpha$ \\
+          \cline{2-3}
+          Reject & {\color{red} $(1-\alpha)\alpha$} & {\color{red} $\alpha^2$} & $\alpha$ \\
+          \cline{2-3}
+          \multicolumn{1}{r}{ }  & \multicolumn{1}{c}{$1-\alpha$}  & \multicolumn{1}{c}{$\alpha$} &  {\color{red}$FWER=2\alpha - \alpha^2$}
+     \end{tabular}
+\end{center}
+For $FWER=0.05$ use $\alpha \approx 0.025321$. If you have $k$ tests:\\
+$1-(1-\alpha)^k=0.05 \Rightarrow {\color{blue}\alpha^* = 1-(1-0.05)^{1/k}}$ which is $>0.05/k$
+\end{frame}
+
+
+\begin{frame}{Multiple Tests}
+Worst-case situation: perfectly negative correlation\\
+Need a bigger correction!
+\begin{center}
+    \textbf{Perfect Negative Correlation}:\\
+     \begin{tabular}{r|c|c|l}
+          \multicolumn{1}{r}{ } & \multicolumn{1}{c}{Accept} & \multicolumn{1}{c}{Reject} & \\
+          \cline{2-3}
+           Accept & {\color{olive}0.90} & {\color{red} 0.05} & 0.95 \\
+          \cline{2-3}
+          Reject & {\color{red} 0.05} & {\color{red} 0} & 0.05 \\
+          \cline{2-3}
+          \multicolumn{1}{r}{ }  & \multicolumn{1}{c}{0.95}  & \multicolumn{1}{c}{0.05} &  {\color{red}$Pr(R)=0.10$}
+     \end{tabular}
+\end{center}
+{\color{blue}\textbf{Bonferroni correction}}: what's the right $\alpha$?
+\begin{center}
+     \begin{tabular}{r|c|c|l}
+          \multicolumn{1}{r}{ } & \multicolumn{1}{c}{Accept} & \multicolumn{1}{c}{Reject} & \\
+          \cline{2-3}
+           Accept & {\color{olive}$1-2\alpha$} & {\color{red} $\alpha$} & $1-\alpha$ \\
+          \cline{2-3}
+          Reject & {\color{red} $\alpha$} & {\color{red} $0$} & $\alpha$ \\
+          \cline{2-3}
+          \multicolumn{1}{r}{ }  & \multicolumn{1}{c}{$1-\alpha$}  & \multicolumn{1}{c}{$\alpha$} &  {\color{red}$Pr(R)=2\alpha$}
+     \end{tabular}
+\end{center}
+For $Pr(R)=0.05$ use $\alpha \approx 0.025$\\
+$k$ tests: $1-(1-k\alpha)=0.05 \Rightarrow k\alpha=0.05\Rightarrow {\color{blue}\alpha^*=0.05/k}$
+\end{frame}
+
+
+\begin{frame}{Multiple Tests}
+Best case: perfect positive correlation\\
+Extra tests don't add to the FWER!
+\begin{center}
+    \textbf{Perfect Positive Correlation}:\\
+     \begin{tabular}{r|c|c|l}
+          \multicolumn{1}{r}{ } & \multicolumn{1}{c}{Accept} & \multicolumn{1}{c}{Reject} & \\
+          \cline{2-3}
+           Accept & {\color{olive}0.95} & {\color{red} 0} & 0.95 \\
+          \cline{2-3}
+          Reject & {\color{red} 0} & {\color{red} 0.05} & 0.05 \\
+          \cline{2-3}
+          \multicolumn{1}{r}{ }  & \multicolumn{1}{c}{0.95}  & \multicolumn{1}{c}{0.05} &  {\color{red}$Pr(R)=0.05$}
+     \end{tabular}
+\end{center}
+No correction needed!
+\begin{center}
+     \begin{tabular}{r|c|c|l}
+          \multicolumn{1}{r}{ } & \multicolumn{1}{c}{Accept} & \multicolumn{1}{c}{Reject} & \\
+          \cline{2-3}
+           Accept & {\color{olive}$1-\alpha$} & {\color{red} $0$} & $1-\alpha$ \\
+          \cline{2-3}
+          Reject & {\color{red} $0$} & {\color{red} $\alpha$} & $\alpha$ \\
+          \cline{2-3}
+          \multicolumn{1}{r}{ }  & \multicolumn{1}{c}{$1-\alpha$}  & \multicolumn{1}{c}{$\alpha$} &  {\color{red}$Pr(R)=\alpha$}
+     \end{tabular}
+\end{center}
+\u{S}id\'{a}k or Bonferroni would be way too conservative!
+\end{frame}
+
+
+\subsection{Types of Corrections}
+
+\begin{frame}
+\frametitle{The Bonferroni Correction}
+Setup:
+\begin{itemize}
+    \item $k$ tests. Nulls: $H_0^1,\ldots,H_0^k$
+    \item $\alpha_f$ is your adjusted $p$-value on each
+    \item FWER (Family-Wise Error Rate) is $Pr(R)$ on at least one test
+\end{itemize}
+Bonferonni Correction: $\alpha_f = \alpha/k$
+\begin{itemize}
+    \item The most popular (and conservative)
+    \item Safe: appropriate regardless of correlation
+    \item Too safe: likely have FWER $< 0.05$
+    \item Tradeoff: high chance of Type-II error (failure to reject false $H_0$)
+    %\item Bonferroni has the added advantage of controlling for the per-family error rate, which is the average number of false rejections per family (a more exacting standard) (Frane, 2015).
+    %\item The issue with the Bonferroni correction (and all corrections) is that you cannot decrease the probability of a Type-1 error ($\alpha$) without increasing the probability of a Type-2 error ($1-\beta$).
+\end{itemize}
+\u{S}id\'{a}k Correction: $\alpha_f = 1-(1-\alpha)^{1/k}$
+\begin{itemize}
+    \item Exact correction for independent tests
+    \item In practice, Bonferroni $\approx$ \u{S}id\'{a}k
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{The Holm-Bonferroni Correction (Holm, 1979)}
+\begin{itemize}
+    \item More powerful while keeping FWER $\leq 0.05$
+    \item Order the p-values lowest to highest ($p_1 \leq p_2 \leq \ldots \leq p_{k}$). Will test nulls $(H_0^1,H_0^2,\ldots,H_0^k)$ \textit{sequentially}:
+\end{itemize}
+\pause
+\begin{enumerate}
+    \item Is $p_1<\frac{\alpha}{k}$?
+    \begin{itemize}
+        \item Yes: Reject $H_0^1$ and move on to test $H_0^2$.
+        \item No: Do not reject any $H_0^i$ (as in Bonferroni). Stop.
+        \begin{itemize}
+            \item Note: $k-1$ tests remaining, so correction increases to $\frac{\alpha}{k-1}$
+        \end{itemize}
+    \end{itemize}
+    \item Is $p_2 < \frac{\alpha}{k-1}$?
+    \begin{itemize}
+        \item Yes: Reject $H_0^2$ as well and continue. $k-2$ tests remain.
+        \item No: Do not reject $H_0^2$ through $H_0^k$. Stop.
+    \end{itemize}
+    \item[j.] Is $p_j < \frac{\alpha}{k+1-j}$?
+    \begin{itemize}
+        \item Yes: Reject $H_0^j$ as well and continue.
+        \item No. Do not reject $H_0^j$ through $H_0^k$. Stop.
+    \end{itemize}
+\end{enumerate}
+Recall: Bonferroni also allows only some nulls to be rejected. Same.\\
+``Win'' if you reject at least one? Then Holm-Bonferroni = Bonferroni.\\
+Can use \u{S}id\'{a}k version assuming independence: $1-(1-\alpha)^{1/(k+1-j)}$
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{The Hotchberg Step-Down Procedure}
+\begin{itemize}
+    \item Holm-Bonferonni: Reject $H_0^1,\ldots,H_0^j$ where $j$ is the smallest index for which $p_{j+1}\geq \frac{\alpha}{k+1-(j+1)}$
+    \begin{itemize}
+        \item Reject up to the ``first crossing'' of the threshold
+    \end{itemize}
+    \item Hotchberg procedure: Reject $H_0^1,\ldots,H_0^j$ where $j$ is the largest index for which $p_j\leq \frac{\alpha}{k+1-j}$
+    \begin{itemize}
+        \item Reject up to the ``last crossing'' of the threshold
+    \end{itemize}
+    \item Alternatively, first crossing when working top-to-bottom.
+    \item This method is more powerful than the Holm-Bonferroni correction, but it sometimes does not control the FWER (see Dmitrienko et al., 2010 for details).
+    \begin{itemize}
+        \item Not valid for negative correlation (worst case)
+    \end{itemize}
+    %\item An issue with the Holm and Hotchberg corrections is that neither are balanced.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+% \begin{frame}
+% \frametitle{Issues with the Holm and Hotchberg Corrections}
+% \begin{itemize}
+%     \item They are not balanced, so that there is the potential for a rejection of $H_0$ for one test which has a higher unadjusted p-value than another test whose null hypothesis is not rejected.
+%     \item Romano and Wolf's (2005,2010) method deals with these issues and creates a correction that is more powerful than either the Holm or Hotchberg corrections.
+% \end{itemize}
+% \end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Balanced Resampling Using Bootstrapping}
+\begin{itemize}
+    \item How do we know the correlation across tests??
+    \item Can be estimated via resampling methods! Hooray!
+    \item Romano and Wolf (2005,2005,2016)
+    \item This, combined with a ``step-down" method like that used in Holm (1979), creates a more powerful correction.
+    \item Furthermore, this method also creates balance, such that all tests contribute equally to error control.
+    \item List et al. (2019) develop version of this correction for experiments where treatment is randomly assigned.
+\end{itemize}
+\br 
+I would use these methods!\\
+Stata: \texttt{rwolf} can be downloaded
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+% \begin{frame}
+% \frametitle{Miscellaneous}
+% \begin{itemize}
+%     \item There are even more corrections such as the \v{S}id\'{a}k correction (1967), the Dunnet correction (1964), The Scheff\'{e} (1959) correction, the Tukey (1949) correction, the Harmonic Mean p-value (Good, 1958) and Duncan's new multiple range test (1955), but they are less powerful (I'm pretty sure).
+%     \item Furthermore, there are other paradigms through which to consider multiple hypothesis corrections besides the FWER such as the more liberal False Discovery Rate (Benjamini \& Hochberg, 1995) and the more conservative experimentwise error rates (Tukey, 1956).
+%     \item I'm not going to get into this stuff, but I figured I'd mention for completeness.
+% \end{itemize}
+% \end{frame}
+
+%----------------------------------------------------------------------------------------
+
+
+\begin{frame}
+\frametitle{The Family-Wise Error Rate}
+\begin{itemize}
+    \item What is the ``family'' in the Family-Wise Error Rate? What tests should be ``combined''?
+    \begin{itemize}
+        \item A ``family'' is (frustratingly) loosely defined, but an intuitive way to think about it is a set of tests whose inference is getting at the same question.
+        \item An easy experimental example: suppose you have two treatments and a control group, and you want to determine if either of the treatments increased the mean, so you perform two t-tests. Both of those t-tests constitute a family.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+
+
+\subsection{When to Use Corrections?}
+
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{When to Use Corrections?}
+\begin{itemize}
+    \item Some \sout{people} non-statisticians say we should \textit{never} use them (O'Keefe, 2003; Perneger, 1998; Rothman, 1990)
+    \item Other \sout{people} non-statisticians say we should \textit{always} use them (Bennett  et  al., 2009; Goeman \& Solari, 2014; Moy\'{e}, 1998; Ottenbacher, 1998)
+    \item Still others say we should use them only in exploratory research (Armstrong, 2014; Cramer et al., 2016; Streiner, 2015)
+    \item Finally, some say we should use them only in confirmatory research (Bender \& Lange, 2001; Schochet, 2009; Stacey et al., 2012; Tutzauer, 2003; Wason et al., 2014)
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{When to Use Corrections? (Continued)}
+\begin{itemize}
+    \item MHT corrections in ExpEcon are fairly rare, but growing.
+    \item List et al. (2019) argue we \textit{should} correct when:
+\end{itemize}
+\begin{enumerate}
+    \item Multiple outcomes for a given treatment (eg, GPA, SAT, ACT)
+    \item Multiple subgroups for given trt (eg, Black, Hispanic, Asian)
+    \item Multiple treatments (eg, different incentive schemes on effort)
+\end{enumerate}
+\br
+PJ's view: ``Can your claim be validated by \emph{any} test being significant?''\\
+Thus, depends on what you're claiming!\\
+Ex: ``Giving teachers incentives improves educational outcomes''\\
+vs. ``Giving teachers incentives improves GPAs''\\
+\br
+If GPA, SAT, and ACT are 3 different hypotheses, then don't correct
+\br
+Discussion: I write a paper with 20 unrelated hypotheses. MHT??
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{When to Use Corrections? (Continued)}
+Fancy language for this idea: Rubin (2021)
+\br
+\begin{itemize}
+    \item Disjunction testing: ``win'' if you reject at least once
+    \begin{itemize}
+        \item $H_0$: both green and red jelly beans \textit{do not} cause acne
+        \item $H_1$: either green or red jelly beans (or both) cause acne
+        \item Rule: reject $H_0$ if either is significant (correction needed!)
+    \end{itemize}
+    \item Conjunction testing: ``win'' only if you reject all
+    \begin{itemize}
+        \item $H_0$: either green or red jelly beans (or both) \textit{do not} cause acne
+        \item $H_1$: both green and red jelly beans cause acne
+        \item Rule: reject $H_0$ if bother are significant (no correction needed)
+    \end{itemize}
+    \item Individual testing: each test has its own ``win''
+    \begin{itemize}
+        \item $H_0^1$: green jelly beans do not cause acne
+        \item $H_1^1$: green jelly beans cause acne
+        \item $H_0^2$: red jelly beans do not cause acne
+        \item $H_1^2$: red jelly beans cause acne
+        \item Rule: two separate tests. No ex-ante ``either/both'' claim
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Conclusion}
+\begin{itemize}
+    \item Mathematically, there are ways to correct for MHT
+    \item Degree of correction should depend on correlation across tests
+    \begin{itemize}
+        \item Resampling methods (Wolf-Romano) are best here.
+    \end{itemize}
+    \item The hard question is: when to use them??
+    \begin{itemize}
+        \item Be precise in what exactly you're claiming!
+        \item ``educational outcomes'' vs. ``GPAs''
+    \end{itemize}
+    \item Final thought: readers are decent Bayesians. They don't just blindly trust 0.05. Tie your hands with preregistration and report everything. They'll update appropriately.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+
+\end{document}

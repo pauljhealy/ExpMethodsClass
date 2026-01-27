@@ -1,0 +1,164 @@
+\documentclass[11pt]{article}
+\newif\ifshowsolutions
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Choose to show solutions (\showsolutionstrue) or not (\showsolutionsfalse).
+% (Commenting this out entirely should hide the solutions).
+\showsolutionsfalse %true or false
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[normalem]{ulem}
+\usepackage{amsfonts,amsmath,amssymb}
+\usepackage{rotating}
+\usepackage{color,graphicx}
+\usepackage{fullpage,setspace}
+\usepackage[dvips,colorlinks=false,urlcolor=darkgray,bookmarks=false,pdfborder={0 0 0}]{hyperref}
+\usepackage{sgame,multirow,pstricks,egameps}
+\usepackage{verbatim}
+\usepackage{natbib}
+\newcounter{question}
+\newtheorem{problem}{Problem}[question]
+\newcommand{\newquestion}[1][]{\stepcounter{question}\bigskip{\large \textbf{\underline{Problem \arabic{question}{#1}}}}\bigskip}
+
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+\newenvironment{solution}[1][Solution]{\doublespacing\noindent\textbf{#1 \theproblem}\ \ }{\hfill\rule{0.5em}{0.5em} %don't delete these 2 line breaks:
+
+\bigskip}
+
+\ifshowsolutions
+    % do nothing... solutions will be shown.
+\else
+    % hide the solutions as comments.
+    \let\solution=\comment \let\endsolution=\endcomment\bigskip
+\fi
+
+\newtheorem{theorem}{Theorem}[question]
+\renewcommand{\thetheorem}{\arabic{question}.\Alph{theorem}}
+\newtheorem{axiom}[theorem]{Axiom}
+\renewcommand{\theaxiom}{\arabic{question}.\Alph{axiom}}
+\newtheorem{assumption}[theorem]{Assumption}
+\renewcommand{\theassumption}{\arabic{question}.\Alph{assumption}}
+\newtheorem{claim}[theorem]{Claim}
+\renewcommand{\theclaim}{\arabic{question}.\Alph{claim}}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\renewcommand{\theconjecture}{\arabic{question}.\Alph{conjecture}}
+\newtheorem{definition}[theorem]{Definition}
+\renewcommand{\thedefinition}{\arabic{question}.\Alph{definition}}
+\newtheorem{example}[theorem]{Example}
+\renewcommand{\theexample}{\arabic{question}.\Alph{example}}
+\newtheorem{proposition}[theorem]{Proposition}
+\renewcommand{\theproposition}{\arabic{question}.\Alph{proposition}}
+\newtheorem{remark}[theorem]{Remark}
+\renewcommand{\theremark}{\arabic{question}.\Alph{remark}}
+\newtheorem{corollary}[theorem]{Corollary}
+\renewcommand{\thecorollary}{\arabic{question}.\Alph{corollary}}
+\newtheorem{lemma}[theorem]{Lemma}
+\renewcommand{\thelemma}{\arabic{question}.\Alph{lemma}}
+
+\newtheorem{case}{Case}[theorem]
+\renewcommand{\thelemma}{\arabic{question}.\Alph{theorem}.\alph{case}}
+
+\numberwithin{figure}{question}
+\setlength{\parindent}{0mm}
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist
+\definecolor{scarlet}{cmyk}{0,1.00,0.65,0.15}
+\definecolor{gray}{cmyk}{0.06,0,0,0.34}
+\definecolor{darkgray}{cmyk}{0.07,0,0,0.90}
+
+\begin{document}
+\vspace*{-20mm}
+\begin{changemargin}{-0.5in}{0.5in}
+\footnotesize{
+\begin{tabular}{lr}
+\multirow{1}{*}{\includegraphics
+[height=0.66in,width=0.66in]{graphics/osu_logo.pdf}} & \vspace{-5pt}\textbf{\small{Department of Economics}}\\
+                &\color{scarlet}{\rule{6.375in}{0.4pt}}\hspace*{1pt}\\
+                & 410 Arps Hall\\
+                & 1945 North High Street\\
+                & Columbus, OH 43210-1172\\
+                & \\
+\textbf{ECON 8877} & \textbf{Prof. Paul J. Healy}\\
+Fall 2023           & Email: \href{mailto:healy.52@osu.edu}{healy.52@osu.edu}\\
+\end{tabular}
+}
+\end{changemargin}
+
+\begin{center}
+\bigskip
+
+{\Large Regression Assignment
+\ifshowsolutions
+    - Solutions
+\fi }
+
+\textbf{Due by Monday, December 11}$^{\textbf{th}}$\textbf{ 2023 at 4:00 PM}
+
+\smallskip
+
+\end{center}
+
+
+First, from the course website, download FakeData.csv. This data is fake, but it supposed to represent some hypothetical experiment you might have run. The columns are as follows:
+\begin{itemize}
+    \item[SubjectID:] In each there are 120 total subjects. This is their ID number $i\in\{1,\ldots,120\}$.
+    \item[DecisionID:] Each subject makes 15 decisions during the experiment (say, contributions to a public good). This is the decision ID number $t\in\{1,\ldots,15\}$.
+    \item[Constant:] This is just a column of ones.
+    \item[Treatment:] The first 60 subjects are in the control ($T_{i}=0$) and the last 60 are in the treatment ($T_{i}=1$).
+    \item[SessionID:] This is the ID number of the session that they participated in. Denote it by $S_{i}\in\{1,\ldots,20\}$.
+    \item[SwitchPoint:] We measured risk aversion using an MPL and their switch point is the row on which they switched from Option A to Option B on the list. It is a number $W_{i}\in\{0,\ldots,10\}$.
+    \item[Gender:] Odd-numbered subjects reported male as their gender ($G_i=0$), and even-numbered subjects reported female ($G_i=1$). Those were the only two genders reported.
+    \item[Complexity:] Each of the 15 decisions has a different complexity level. The complexity of decision problem $t$ is simply $X_t=t$, which ranges from 1 (simplest) to 15 (most complex). In other words, the decisions become more and more complex during the 15-question experiment.
+\end{itemize}
+
+There is a missing variable that you're going to create. It's their choice on each decision, called Choice and denoted $y_{it}$.
+
+\begin{enumerate}
+    \item First, we test OLS with homoskedasticity
+    \begin{enumerate}
+        \item For each row in the data, generate an error $\epsilon_{it}$ drawn iid from $N(0,7.5)$ (where 7.5 is the standard deviation, not variance).
+        \item Next, generate a column of data called ``Choice'' using the formula
+        $$
+            y_{it}=\beta_0 + \beta_1 T_i + \beta_2 S_i + \beta_3 W_i + \beta_4 G_i + \beta_5 X_t + \epsilon_{it}.
+        $$
+        Use the following ``true'' values for $\beta$:
+        $$
+        \beta=(\beta_0,\ldots,\beta_5)=(1,0.75,0,0.10,0,-0.10)
+        $$
+        \item Run a regression to get $\hat{\beta}$. Note the $p$-values as well.
+        \item Repeat the previous three steps 100 times. 
+        \item For each $\beta_j$, what is the median value of $\hat{\beta}_j$ (out of 100)? How close is it to the true value of $\beta_j$? This is an estimate of the bias in your regression.
+        \item For each $\beta_j$, count the fraction of the 100 regressions for which the $p$-value was below 0.05. This is the estimated power of that test. 
+    \end{enumerate}
+    \item Re-run that excercise, but with heterskedasticity. Specifically, let the standard deviation of $\epsilon_{it}$ equal the Decision ID number. So, for example, everyone subject's choice on decision 8 has noise $\epsilon_{it}\sim N(0,8)$. Re-generate these errors with that structure, and then re-generate the Choice data using the same linear equation as above.
+    \begin{enumerate}
+        \item This time, run 100 regressions of OLS, then 100 each with HC0, HC1, HC2, and HC3.
+        \item Which methods give unbiased estimates?
+        \item Among methods with unbiased estimates, which has the most power (when $\beta_j\neq 0$).
+    \end{enumerate}
+    \item Now let's add session effects. The way to do this is first create a random column $\epsilon_{it}\sim N(0,7.5)$ of uncorrelated errors. Then, for each session $S$, generate a \textit{single} random number $u_{S}\sim N(0,7.5)$. Finally, generate the Choice variable using the linear equation
+        $$
+            y_{it}=\beta_0 + \beta_1 T_i + \beta_2 S_i + \beta_3 W_i + \beta_4 G_i + \beta_5 X_t + u_{S_i} + \epsilon_{it}.
+        $$
+    Use the same values for $\beta$ as above.
+    \begin{enumerate}
+        \item Run 100 regressions of OLS, ignoring the session effects. Are your estimates biased? Is your power affected? Are the tests still valid (rejecting 5\% of the time when $\beta=0$)? Pay special attention to $\hat{\beta}_2$, which measures session effects directly.
+        \item Run 100 regressions with clustering at the session level. Does this fix any bias? Does it give better power? Are tests valid?
+        \item Run 100 regressions using random effects. Note that the $u_S$ is highly correlated with one of the $X$ columns, so we're told this is not valid. Analyze bias, power, and validity.
+        \item Run 100 regressions with fixed effects. Analyze bias, power, and validity.
+        \item Our regression equation contains $\beta_2 S_i$, which assumes a linear relationship between the session ID and choices. This seems a bit silly. Instead, one could create dummy variables for each of the sessions. So, replace $S_i$ with 19 dummy variables (leaving session 1 as the omitted session). Run 100 regressions of regular OLS (with no clustering, fixed effects, or random effects) but with this dummy variable specification. Presumably this drastically reduces power since we've added so many variables. Analyze bias, power, and validity.
+    \end{enumerate}
+    \item Repeat the previous exercise, but this time with individual effects instead of session effects. In other words, one value of $u_i\sim N(0,7.5)$ is drawn for each individual $i$. For this part, drop $\beta_2 S_i$ from the regression.
+    \begin{enumerate}
+        \item Run 100 OLS regressions and analyze bias, power, and validity.
+        \item Run 100 regressions with clustering at the individual level. Analyze bias, power, and validity.
+        \item Run 100 regressions with random effects. Analyze bias, power, and validity. Since there's no correlation with any independent variable, this should now be a valid procedure.
+        \item Run 100 regressions with fixed effects. Analyze bias, power, and validity.
+    \end{enumerate}
+\end{enumerate}
+
+
+%\bibliographystyle{elsarticle-harv}
+%\bibliography{pjbib}
+
+\end{document}

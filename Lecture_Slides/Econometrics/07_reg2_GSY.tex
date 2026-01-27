@@ -1,0 +1,818 @@
+\include{Lecture_Slides/metropolis_preamble}
+\newcommand{\eps}{\varepsilon}
+
+\begin{document}
+
+% Title page info
+\title[Regressions 2]{ExpEcon Methods:\\Measurement Error \& Attenuation Bias in OLS}
+\author[ECON 8877]{ECON 8877\\P.J. Healy\\First version thanks to Changkuk Im} \color{metrop}
+\institute[OSU]{}
+\date[]{\vfill {\tiny Updated \today}}
+
+\frame{\maketitle}
+
+
+\begin{frame}
+    \huge{\color{blue}Instrumental Variable (IV)}\\
+    \vspace{8mm}
+    \center\large{\color{blue}to deal with}\\
+    \vspace{5mm}
+    \hfill\huge{\color{blue}Measurement Error (ME)}
+    \br
+    \br
+    But aren't IVs for applied folks???
+\end{frame}
+
+\begin{frame}{Gillen, Snowberg \& Yariv (2019)}
+\begin{itemize}
+    \item \textbf{Measurement errors (ME)} in the lab
+    \begin{itemize}
+        \item Participant's attention and focus
+        \item Rounding due to finite choice menus
+        \item Measures of risk/ambiguity aversion
+    \end{itemize}
+    \vspace{3mm}
+    \item This paper illustrates the issue and proposes a mix of statistical tools (duplicate elicitations and IV approach) and design recommendations
+    \begin{itemize}
+        \item Other ways to solve: improve elicitation techniques, multiple rounds, ...
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Outline}
+    \begin{itemize}
+        \item Gender gap in competition \citep{niederle2007women}
+        \item[]<2-> {\color{blue}$\implies$ risk attitudes and overconfidence account for the gap}
+        \begin{itemize}
+            \item \color{blue}Linearly include controls
+            \item \color{blue}Principal component analysis
+            \item \color{blue}Instrumental variables
+        \end{itemize}
+        \item Low correlation between different methods of measuring risk \citep{friedman2014risky}
+        \item[]<3-> {\color{blue}$\implies$ measures of risk attitudes are highly correlated}
+        \begin{itemize}
+            \item \color{blue}Obviously related instrumental variables (ORIV)
+        \end{itemize}
+        \item Compound risk and ambiguity are separate phenomena \citep{halevy2007ellsberg, epstein2010paradox, ahn2014estimating}
+        \item[]<4-> {\color{blue}$\implies$ very little difference btw the two attitudes}
+        \begin{itemize}
+            \item \color{blue}Obviously related instrumental variables (ORIV)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Measurement Error}
+    \begin{definition}
+        The model $X = X^{*} + \nu_{X}$ with $X^{*}$ and $\nu_{X}$ independent and $\mathrm{E}[\nu_{X}]=0$ is known as \textbf{classical measurement error}.
+    \end{definition}
+    \vspace{3mm}
+    \begin{definition}
+        We say that there is \textbf{endogeneity} in the linear model $Y=\beta X + \varepsilon$
+        \\if $\beta$ is the parameter of interest and $\mathrm{E}[X \eps] \neq 0$.
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Measurement Error}
+    Suppose that we are interested in to estimate the \textit{relationship} between the two variables, $Y^{*}$ and $X^{*}$.\\
+    \vspace{3mm}
+    But we can only observe variables measured with independent and identically distributed error,
+    \[
+    Y=Y^{*} + \nu_{Y} \quad \text{and} \quad X = X^{*} + \nu_{X}
+    \]
+     with $\text{E}[\nu_{k}]=0$, $\text{Var}[\nu_{k}] = \sigma^{2}_{\nu_{k}}$, and $\text{E}[\nu_{Y}\nu_{X}] = 0$.
+\end{frame}
+
+\begin{frame}{Measurement Error}
+    The ideal regression model would be
+    \[
+    Y^{*} = \alpha^{*} + \beta^{*} X^{*} + \eps^{*}.
+    \]
+    Instead, we can only estimate
+    \[
+    Y = \alpha + \beta X + \eps
+    \]
+    where $\alpha$ is a constant and $\eps$ is a mean-zero random noise.\\
+    \vspace{3mm}
+    In this case, we have an \textbf{endogeneity problem}.
+\end{frame}
+
+\begin{frame}{Measurement Error}
+Why?
+    \begin{equation*}\begin{split}
+    Y^{*} = \alpha^{*} + \beta^{*} X^{*} + \eps^{*}
+    &\implies Y-\nu_{Y} = \alpha^{*} + \beta^{*} (X-\nu_{X}) + \eps^{*} \\
+    &\implies Y = \alpha^{*} + \beta^{*} X + \underbrace{(\eps^{*} - \beta^{*}\nu_{X} + \nu_{Y})}_{=\eps}
+\end{split}\end{equation*}
+Hence
+\begin{equation*}\begin{split}
+    \text{E}[X\eps]
+    = \text{E}[(X^{*}+\nu_{X}) (\eps^{*} - \beta^{*}\nu_{X} + \nu_{Y})]
+    = -\beta^{*} \sigma^{2}_{\nu_{X}} \neq 0
+\end{split}
+\end{equation*}
+if $\beta^{*}\neq 0$ and $\sigma^{2}_{\nu_{X}} \neq 0$.
+\end{frame}
+
+\begin{frame}{Measurement Error}
+    Annotating finite-sample estimates with hats and population moments without hats, we have
+\begin{equation*}
+    \hat{\beta}
+    = \frac{\widehat{\text{Cov}}[Y,X]}{\widehat{\text{Var}}[X]}
+    = \frac{\widehat{\text{Cov}}[\alpha^{*} + \beta^{*} X^{*} + \eps^{*} + \nu_{Y}, X^{*}+\nu_{X}]}{\widehat{\text{Var}}[X^{*}+\nu_{X}]}
+\end{equation*}
+and
+\begin{equation*}
+    \text{E}[\hat{\beta}] = \text{plim}_{n\rightarrow \infty} \hat{\beta}
+    = \beta^{*} \underbrace{\left( \frac{\sigma^{2}_{X^{*}}}{\sigma^{2}_{X^{*}} + \sigma^{2}_{\nu_{X}}} \right)}_{<1} < \beta^{*}.
+\end{equation*}
+This is called \textbf{measurement error bias} or \textbf{attenuation bias}.\\
+\vspace{3mm}
+{\color{blue}\phantom{Q. Against false positive... Is this a big problem?}}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+\frametitle{Measurement Error}
+    Annotating finite-sample estimates with hats and population moments without hats, we have
+\begin{equation*}
+    \hat{\beta}
+    = \frac{\widehat{\text{Cov}}[Y,X]}{\widehat{\text{Var}}[X]}
+    = \frac{\widehat{\text{Cov}}[\alpha^{*} + \beta^{*} X^{*} + \eps^{*} + \nu_{Y}, X^{*}+\nu_{X}]}{\widehat{\text{Var}}[X^{*}+\nu_{X}]}
+\end{equation*}
+and
+\begin{equation*}
+    \text{E}[\hat{\beta}] = \text{plim}_{n\rightarrow \infty} \hat{\beta}
+    = \beta^{*} \underbrace{\left( \frac{\sigma^{2}_{X^{*}}}{\sigma^{2}_{X^{*}} + \sigma^{2}_{\nu_{X}}} \right)}_{<1} < \beta^{*}.
+\end{equation*}
+This is called \textbf{measurement error bias} or \textbf{attenuation bias}.\\
+\vspace{3mm}
+{\color{blue}Q. Against false positive... Is this a big problem?}
+\end{frame}
+
+\begin{frame}{Simulated Example}
+    \begin{table}[]
+\centering
+\label{tab:risk}
+\scalebox{0.84}{
+\begin{tabular}{lcccccc}
+\hline
+                                                                     & \multicolumn{6}{c}{Error as a percentage of $\text{Var}[X]$ and $\text{Var}[Y]$}    \\ \cline{2-7}
+\multicolumn{1}{c}{}                                                 & 0\%      & 10\%         & 20\%         & 30\%         & 40\%         & 50\%         \\ \hline
+$\widehat{\text{Corr}}[X,Y]$                                         & $1.00$   & $0.90^{***}$ & $0.80^{***}$ & $0.70^{***}$ & $0.60^{***}$ & $0.50^{***}$ \\
+                                                                     & $(0.00)$ & $(0.02)$     & $(0.04)$     & $(0.05)$     & $(0.06)$     & $(0.08)$     \\
+\multicolumn{1}{c}{$\widehat{\text{Corr}}[\text{E}[X],\text{E}[Y]]$} & $1.00$   & $0.95^{***}$ & $0.89^{***}$ & $0.82^{***}$ & $0.75^{***}$ & $0.66^{***}$ \\
+                                                                     & $(0.00)$ & $(0.01)$     & $(0.02)$     & $(0.03)$     & $(0.04)$     & $(0.06)$     \\
+ORIV $\widehat{\text{Corr}}[X,Y]$                                    & $1.00$   & $1.00$       & $1.00$       & $1.00$       & $1.00$       & $1.00$       \\
+                                                                     & $(0.00)$ & $(0.01)$     & $(0.02)$     & $(0.04)$     & $(0.06)$     & $(0.10)$     \\ \hline
+\end{tabular}
+}
+\end{table}
+\small{\color{blue}* Coefficients and standard errors are averages from 10,000 simulated regressions ($N=100$).}
+\begin{itemize}
+    \item[$\implies$] Even a bit of ME causes significant deviations from the true correlation of 1, i.e., $\text{Corr}[X^{*},Y^{*}]=1$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Two Replicated Measures}
+    Suppose that we elicit two replicated measures of $X^{*}$, i.e.,
+    \[
+    X^{{\color{red}a}}=X^{*}+\nu_{X}^{{\color{red}a}} \quad \text{and} \quad X^{{\color{blue}b}}=X^{*}+\nu_{X}^{{\color{blue}b}}
+    \]
+    with $\nu_{X}^{a}$, $\nu_{X}^{b}$ i.i.d. random variables, and ${\color{blue}\text{E}[\nu_{X}^{a}\nu_{X}^{b}]=0}$.
+\end{frame}
+
+\begin{frame}{Two-Stage Least Squares}
+    Apply two-stage least squares (2SLS) to instrument $X^{\color{red}a}$ with $X^{\color{blue}b}$,
+    \[
+    X^{\color{red}a} = \pi_{0} + \pi_{1}X^{\color{blue}b} + \eps_{X}
+    \implies \hat{\pi}_{1} = \frac{\widehat{\text{Cov}}[X^{a},X^{b}]}{\widehat{\text{Var}}[X^{b}]}
+    \approx \frac{\widehat{\text{Var}}[X^{*}]}{\widehat{\text{Var}}[X^{b}]}.
+    \]
+    Then estimate $Y=\alpha + \beta (\hat{\pi}_{0} + \hat{\pi}_{1}X^{b}) + \eps_{Y}$.
+    \begin{equation*}\begin{split}
+    \hat{\beta}
+    %&= \frac{\widehat{\text{Cov}}[Y,\hat{\pi}_{0} + \hat{\pi}_{1}X^{b}]}{\widehat{\text{Var}}[\hat{\pi}_{0} + \hat{\pi}_{1}X^{b}]} \\
+    &= \frac{\widehat{\text{Cov}}[\alpha^{*}+\beta^{*}X^{*} + \eps^{*} + \nu_{Y},\hat{\pi}_{0} + \hat{\pi}_{1}X^{b}]}{\widehat{\text{Var}}[\hat{\pi}_{0} + \hat{\pi}_{1}X^{b}]}
+    \approx
+    \frac{\beta^{*} \hat{\pi}_{1} \widehat{\text{Var}}[X^{*}]}{(\hat{\pi}_{1})^{2} \widehat{\text{Var}}[X^{b}]}
+    \rightarrow_{p} \beta^{*}.
+    \end{split}
+    \end{equation*}
+    Thus, $\hat{\beta}$ is a consistent estimate of $\beta^{*}$.
+\end{frame}
+
+\begin{frame}{Instrumentation strategies}
+    \begin{itemize}
+        \item[Q.] Do we instrument $X^{\color{red}a}$ with $X^{\color{blue}b}$, or $X^{\color{blue}b}$ with $X^{\color{red}a}$?
+        \begin{itemize}
+            \item They may produce different results (see Table 5 in the paper).
+        \end{itemize}
+        \item[]
+        \item[A.] The \textbf{obviously related IV (ORIV)} estimator consolidates the information from these different formulations.
+        %\begin{itemize}
+            %\item More efficient estimator.
+            %\item GMM
+        %\end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{ORIV}{Errors in Explanatory Variables}
+The ORIV regressions estimates a \textit{stacked model} to consolidate the information from the two available instrumentation strategies:
+    \begin{equation*}
+        \begin{bmatrix}
+        Y \\ Y \end{bmatrix}
+        =
+        \begin{bmatrix}
+            \alpha_{1} \\ \alpha_{2}
+        \end{bmatrix}
+        + \beta
+        \begin{bmatrix}
+            X^{\color{red}a} \\ X^{\color{blue}b}
+        \end{bmatrix}
+        + \eps,
+    \end{equation*}
+    instrumenting
+    \begin{equation*}
+    \begin{bmatrix}
+        X^{\color{red}a} \\ X^{\color{blue}b}
+    \end{bmatrix}
+    \text{with } W=
+    \begin{bmatrix}
+        X^{\color{blue}b} & 0_{N} \\ 0_{N} & X^{\color{red}a}
+    \end{bmatrix}
+    \end{equation*}
+    \\
+    \vspace{3mm}
+    where $N$ is the number of participants and $0_{N}$ is an $N\times 1$ zero matrix.
+\end{frame}
+
+\begin{frame}{ORIV}
+    This is equivalent to estimating a first stage for both instrumentation strategies, then estimating
+    \begin{equation*}
+        \begin{bmatrix}
+        Y \\ Y \end{bmatrix}
+        =
+        \begin{bmatrix}
+            \alpha_{1} \\ \alpha_{2}
+        \end{bmatrix}
+        + \beta
+        \begin{bmatrix}
+            \hat{X}^{\color{red}a} \\ \hat{X}^{\color{blue}b}
+        \end{bmatrix}
+        + \eps.
+    \end{equation*}
+The stacked regression will produce an estimated of $\beta^{*}$ that is the \textit{average} of the estimates from the two instrumentation approaches.
+\end{frame}
+
+\begin{frame}{ORIV}
+    \begin{block}{Proposition 1}
+        ORIV produces consistent estimates of $\beta^{*}$.
+    \end{block}
+    \vspace{3mm}
+    \begin{block}{Proposition 2}
+        The ORIV estimator satisfies asymptotic normality under standard conditions. The estimated standard errors, when clustered by participant, are consistent estimates of the asymptotic standard errors.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Errors in Outcome and Explanatory Variables}
+Suppose that $Y^{a} = Y^{*} + \nu_{Y}^{a}$, $Y^{b} = Y^{*} + \nu_{Y}^{b}$, with $\text{E}[\nu_{Y}^{a}] = \text{E}[\nu_{Y}^{b}] = 0$.
+    \begin{equation*}\begin{split}
+        \begin{bmatrix}
+        Y^{\color{red}a} \\ Y^{\color{red}a} \\ Y^{\color{blue}b} \\ Y^{\color{blue}b} \end{bmatrix}
+        =
+        \begin{bmatrix}
+            \alpha_{1} \\ \alpha_{2} \\ \alpha_{3} \\ \alpha_{4}
+        \end{bmatrix}
+        + \beta
+        \begin{bmatrix}
+            X^{\color{red}a} \\ X^{\color{blue}b} \\ X^{\color{red}a} \\ X^{\color{blue}b}
+        \end{bmatrix}
+        + \eps, \text{ with } W=
+    \begin{bmatrix}
+        X^{\color{blue}b} & 0_{N} & 0_{N} & 0_{N} \\
+        0_{N} & X^{\color{red}a} & 0_{N} & 0_{N} \\
+        0_{N} & 0_{N} & X^{\color{blue}b} & 0_{N} \\
+        0_{N} & 0_{N} & 0_{N} & X^{\color{red}a} \\
+    \end{bmatrix}.
+    \end{split}
+    \end{equation*}
+\small{\color{blue}* The existence of ME in $Y$ does not change propositions 1 and 2, although estimated standard errors will increase.}
+\end{frame}
+
+\begin{frame}{Estimating Correlations}
+    Note that
+    \begin{equation*}
+        \hat{\beta} = \frac{\widehat{\text{Cov}}[X,Y]}{\widehat{\text{Var}}[X]}
+        \implies
+        \hat{\rho}_{XY} = \hat{\beta} \sqrt{\frac{\widehat{\text{Var}}[X]}{\widehat{\text{Var}}[Y]}}.
+    \end{equation*}
+    We cannot use $\text{Var}[X] = \text{Var}[X^{*}] + \text{Var}[\nu_{X}]$.\\
+    \vspace{3mm}
+    Instead, use $\text{Cov}[X^{\color{red}a},X^{\color{blue}b}] = \text{Cov}[X^{*}+\nu^{\color{red}a}_{X}, X^{*}+\nu^{\color{blue}b}_{X}] = \text{Var}[X^{*}]$.\\
+    Thus,
+    \begin{equation*}
+        \hat{\rho}^{*}_{XY} = \hat{\beta}^{*} \sqrt{\frac{\widehat{\text{Cov}}[X^{\color{red}a},X^{\color{blue}b}]}{\widehat{\text{Cov}}[Y^{\color{red}a},Y^{\color{blue}b}]}}.
+    \end{equation*}
+\end{frame}
+
+\begin{frame}{Estimating Correlations}
+    \begin{block}{Proposition 3}
+        $\hat{\rho}_{XY}^{*}$ is consistent with an asymptotically normal distribution, where standard errors can be derived using the delta method. \\
+        \vspace{3mm}
+        These standard errors can be consistently estimated using a bootstrap to construct confidence intervals.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Designing Experiments for ORIV}
+    \textbf{Assumption.} MEs are {\color{red}\textit{independent}} across elicitations.\\
+    \vspace{3mm}
+    {\color{blue}Q. How to design an experiment to achieve this?}\\
+    \vspace{3mm}
+    A. The paper suggests:
+    \begin{enumerate}
+        \item Duplicated elicitations should use different numerical values.
+        \item When using an MPL, the response grid should be constructed so that implied values are not the same.
+        \item Duplicated items should be placed in different parts of the study.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Measures of Risk}{Caltech Cohort Study}\label{slide:cohort_risk}
+    \begin{itemize}
+        \item \textbf{Project}
+        \begin{itemize}
+            \item Allocate 100 or 200 tokens btw a safe option and a project (e.g., returning 3 tokens w.p. 0.4 or nothing otherwise).
+            \item \cite{gneezy1997experiment}
+        \end{itemize}
+        \item \textbf{Qualitative}
+        \begin{itemize}
+            \item Self-rate, on a scale of $0-10$, in terms of willingness to take risk.
+            \item \cite{dohmen2011individual}
+        \end{itemize}
+        \item \textbf{Lottery menu}
+        \begin{itemize}
+            \item Choose btw six $50/50$ lotteries with different stakes.
+            \item \cite{eckel2002sex}
+        \end{itemize}
+        \item \textbf{MPLs}
+        \begin{itemize}
+            \item E.g., 100 tokens w.p. $\frac{10}{20}$; 150 tokens w.p. $\frac{15}{30}$.
+        \end{itemize}
+    \end{itemize}
+    \hyperlink{app:cohort_over}{\beamerskipbutton{Overconfidence}}\\
+    \hyperlink{app:cohort_mpl}{\beamerskipbutton{Compound and Ambiguity}}
+\end{frame}
+
+\begin{frame}{Correlation Results}
+\begin{table}[]
+\centering
+\label{tab:risk}
+\scalebox{0.84}{
+\begin{tabular}{lccclccc}
+\hline
+                     & \multicolumn{3}{c}{Raw Correlation}        &                      & \multicolumn{3}{c}{Corrected for ME}       \\ \cline{2-4} \cline{6-8}
+                     & Project      & Qualitative  & Lottery      &                      & Project      & Qualitative  & Lottery      \\ \hline
+Qualitative          & $0.26^{***}$ &              &              &                      & $0.40^{***}$ &              &              \\
+\multicolumn{1}{c}{} & $(0.029)$    &              &              & \multicolumn{1}{c}{} & $(0.043)$    &              &              \\
+Lottery              & $0.47^{***}$ & $0.25^{***}$ &              &                      & $0.71^{***}$ & $0.40^{***}$ &              \\
+\multicolumn{1}{c}{} & $(0.029)$    & $(0.032)$    &              & \multicolumn{1}{c}{} & $(0.046)$    & $(0.052)$    &              \\
+Risk MPL             & $0.19^{***}$ & $0.13^{***}$ & $0.22^{***}$ &                      & $0.30^{***}$ & $0.19^{***}$ & $0.38^{***}$ \\
+\multicolumn{1}{c}{} & $(0.032)$    & $(0.033)$    & $(0.030)$    & \multicolumn{1}{c}{} & $(0.048)$    & $(0.047)$    & $(0.053)$    \\ \hline
+\end{tabular}
+}
+\end{table}
+\begin{enumerate}
+    \item The corrected correlations are substantially higher.
+    \item Some measures are noticeably more correlated.
+    \begin{itemize}
+        \item Project is most correlated with others (e.g., Project \& Lottery).
+        \item MPL \& Qualitative are least correlated.
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}\label{slide:NV}
+\frametitle{Misspecified Controls and ME}
+\framesubtitle{\cite{niederle2007women}}
+    $Y$: Competition\\
+    $D$: Gender\\
+    $X$: Controls for risk aversion and overconfidence\\
+    \vspace{3mm}
+    Consider a regression model:
+    \begin{equation*}
+        Y = \alpha D + X'\beta + \eps.
+    \end{equation*}
+    Consider the model:
+    \begin{itemize}
+        \item $Y^{*}=X^{*}$;
+        \item $D$ and $X^{*}$ are correlated;
+        \begin{itemize}
+            \item Overconfidence \& gender \citep{moore2008trouble}
+            \item Risk aversion \& gender \citep{charness2013experimental, holt2014assessment}
+        \end{itemize}
+        \item $X=X^{*}+{\color{red}\nu}$.
+    \end{itemize}
+    \vspace{3mm}
+    \color{blue}We may have an erroneous conclusion that $Y$ and $D$ are correlated, even when controlling for $X$. \hyperlink{app:sim_control1}{\beamerskipbutton{e.g., simulation}}
+\end{frame}
+
+\begin{frame}{Replication Results}
+    \begin{table}[]
+\centering
+%\caption{Gender, Competition, and Controls}
+\label{tab:gender1}
+\scalebox{0.90}{
+\begin{tabular}{lccc}
+\hline
+                           & \multicolumn{3}{c}{Chose to Compete $(N=783)$} \\ \cline{2-4}
+                           & (1)           & (2)           & (3)            \\ \hline
+Male                       & $0.19^{***}$   & {\color{red}$0.11^{***}$}   & {\color{red}$0.048$}         \\
+%                           & $(.034)$      & $(.031)$      & $(.033)$       \\
+Risk aversion: MPL \#1     &               & $0.042^{***}$  &                \\
+%                           &               & $(.015)$      &                \\
+Overplacement: CRT         &               & $0.026^{***}$  &                \\
+%                           &               & $(.015)$      &                \\
+Risk aversion: project \#2 &               &               & $0.067^{***}$   \\
+%                           &               &               & $(.016)$       \\
+Perceived performance: CRT &               &               & $-0.042^{***}$  \\
+%                           &               &               & $(.016)$
+\hline
+\end{tabular}
+}
+\end{table}
+\small{\color{blue}* Guessed tournament rank, Tournament performance, Performance difference are controlled in (2) and (3).}
+\vspace{3mm}
+\begin{itemize}
+    \item (1) and (2) replicate \cite{niederle2007women}.
+    \item A different set of controls in (3) provides different result.
+    \begin{itemize}
+        \item Statistical significance of controls is not a good indicator of whether a trait is fully controlled for.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Three Approaches to Solve}
+    \begin{enumerate}
+        \item Include \textbf{multiple measures} for each of the possible controls $X$.
+        \begin{itemize}
+            %\item Cost of too many degrees of freedom.
+            \item Cannot eliminate the effects of ME without a large enough number of controls. But how many?
+        \end{itemize}
+        \item Include \textbf{principal components} of the multiple controls.
+        \item \textbf{Instrument} each control with a duplicate.
+        \begin{itemize}
+            \item Two controls are enough.
+        \end{itemize}
+    \end{enumerate}
+    \vspace{3mm}
+    The paper suggests that the {\color{blue}IV approach} is preferable whenever feasible.
+\end{frame}
+
+\begin{frame}{Regression Results}
+\begin{table}[]
+\centering
+%\caption{Gender, Competition, and Controls}
+\label{tab:gender2}
+\scalebox{0.90}{
+\begin{tabular}{lcccc}
+\hline
+                                & \multicolumn{4}{c}{Chose to Compete $(N=783)$}      \\ \cline{2-5}
+                                & (1)         & (Sol 1)   & (Sol 2)   & (Sol 3)             \\ \hline
+Male                            & $0.19^{***}$ & \color{red}$0.050$ & \color{red}$0.041$ & \color{red}$0.0063$          \\
+6 risk aversion controls      &             & $F=4.9$ &         &                   \\
+12 overconfidence controls     &             & $F=1.8$ &         &                   \\
+Five Principal components &             &         & $F=37$  &                   \\
+Instrumental variables          &             &         &         & $\chi^{2}_{7}=24$ \\ \hline
+\end{tabular}
+}
+\end{table}
+\small{\color{blue}* (Sol 1) has 76 controls in total including Guessed tournament rank, Tournament performance, Performance difference.}
+\begin{itemize}
+    \item[$\implies$] Estimated coefficients of gender variable is no more statistically significant.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+    \huge{\color{blue}Analysis of Variance}\\
+    \huge{\color{blue}(ANOVA)}
+\end{frame}
+
+\begin{frame}{Motivation}
+\begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.37]{graphics/reg2/screenshots/example_anova.png}
+        \label{fig:anova}
+    \end{figure}
+    \small{\color{blue}Figure 4 from \cite{liguori2018operating}}
+\end{frame}
+
+\begin{frame}{Assumptions}
+Suppose that there are $k$ groups of interest.\\
+\vspace{3mm}
+\textbf{Assumptions} \citep{verma2013one}:
+    \begin{enumerate}
+        \item The data must be measured either on interval or ratio scale.
+        \item The samples must be independent.
+        \item The dependent variable must be normally distributed.
+        \item The population from which the samples have been drawn must be normally distributed.
+        \item The variances of the population must be equal ($\sigma_{1}^{2}=\dots=\sigma_{k}^{2}=\sigma^{2}$).
+        \item The errors are independent and normally distributed.
+    \end{enumerate}
+    \vspace{3mm}
+    \textbf{Hypothesis:}
+    \begin{equation*}\begin{split}
+        &H_{0}: \mu_{1}=\dots=\mu_{k}. \\
+        &H_{a}: \text{At least one $\mu_{i}$ is different.}
+    \end{split}
+    \end{equation*}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+\frametitle{Assumptions}
+Suppose that there are $k$ groups of interest.\\
+\vspace{3mm}
+\textbf{Assumptions} \citep{verma2013one}:
+    \begin{enumerate}
+        \item The data must be measured either on interval or ratio scale.
+        \item The samples must be {\color{red}independent}.
+        \item The dependent variable must be {\color{red}normally distributed}.
+        \item The population from which the samples have been drawn must be {\color{red}normally distributed}.
+        \item The variances of the population must be equal {\color{red}($\sigma_{1}^{2}=\dots=\sigma_{k}^{2}=\sigma^{2}$).}
+        \item The errors are independent and normally distributed.
+    \end{enumerate}
+    \vspace{3mm}
+    \textbf{Hypothesis:}
+    \begin{equation*}\begin{split}
+        &H_{0}: \mu_{1}=\dots=\mu_{k}. \\
+        &H_{a}: \text{At least one $\mu_{i}$ is different.}
+    \end{split}
+    \end{equation*}
+\end{frame}
+
+\begin{frame}{One-Way ANOVA}{\cite{lee2011statistical, verma2013one}}
+Consider a \textit{between-subject} design ($1\sim k$ treatments).\\
+Each treatment $j$ has $n_{j}$ number of (i.i.d.) observations.\\
+Let $n=\sum_{j=1}^{k} n_{j}$ be the total number of observations.\\
+\vspace{3mm}
+Define
+    \begin{itemize}
+        \item[]<2-> $X_{ij}$: $i$-th observation in treatment $j$
+        \item[]<2-> $\bar{X}_{j} = \frac{\sum_{i=1}^{n_{j}}X_{ij}}{ n_{j}}$: sample mean in treatment $j \; (j=1,\dots,k)$.
+        \item[]<2-> $\bar{X} = \frac{\sum_{j=1}^{k}\sum_{i=1}^{n_{j}}X_{ij}}{n}$: grand sample mean.
+        \vspace{3mm}
+        \item[]<3-> $TSS = \sum_{j=1}^{k} \sum_{i=1}^{n_{j}} (X_{ij}-\bar{X})^{2}$: Total sum of squares.
+        \item[]<3-> $SS_{b} = \sum_{j=1}^{k} n_{j} ({\color{red}\bar{X}_{j}}-{\color{red}\bar{X}})^{2}$: Sum of squares between groups.
+        \item[]<3-> $SS_{w} = \sum_{j=1}^{k}\sum_{i=1}^{n_{j}} ({\color{red}X_{ij}}-{\color{red}\bar{X}_{j}})^{2}$: Sum of squares within groups.
+        \begin{itemize}
+            \item<4-> $TSS = SS_{b} + SS_{w}$
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{One-Way ANOVA}{\cite{lee2011statistical, verma2013one}}
+    \begin{itemize}
+        \item[] $TSS = \sum_{j=1}^{k} \sum_{i=1}^{n_{j}} (X_{ij}-\bar{X})^{2}$: Total sum of squares .
+        \item[] $SS_{b} = \sum_{j=1}^{k} n_{j} (\bar{X}_{j}-\bar{X})^{2}$: Sum of squares between groups.
+        \item[] $SS_{w} = \sum_{j=1}^{k}\sum_{i=1}^{n_{j}} (X_{ij}-\bar{X}_{j})^{2}$: Sum of squares within groups.
+    \end{itemize}
+    \vspace{3mm}
+    \begin{itemize}
+        \item $MSS_{b} = \frac{SS_{b}}{\color{red}k-1}$: Mean sum of squares for between groups.
+        \item $MSS_{w} = \frac{SS_{w}}{\color{red}n-k}$: Mean sum of squares for within groups.
+    \end{itemize}
+    \vspace{3mm}
+    \textbf{Test statistic:}
+    \[
+    F = \frac{MSS_{b}}{MSS_{w}} \sim F_{k-1,n-k}.
+    \]
+\end{frame}
+
+\begin{frame}
+\frametitle{One-Way ANOVA}\label{slide:anova}
+    Under the null, both $MSS_{b}$ and $MSS_{w}$ are unbiased estimator of $\sigma^{2}$.\\
+    \vspace{3mm}
+    If $H_{0}$ does not hold, then
+    \begin{itemize}
+        \item $MSS_{b}$ is NOT an unbiased estimator of $\sigma^{2}$ \textit{(biased upward)}.
+        \item $MSS_{w}$ is an unbiased estimator of $\sigma^{2}$.
+    \end{itemize}
+    \hyperlink{app:Fstatistic}{\beamerskipbutton{Details}}
+\end{frame}
+
+\begin{frame}{ANOVA Table}
+    \begin{table}[]
+\centering
+%\caption{}
+\label{tab:anova}
+\begin{tabular}{lllll}
+\hline
+Sources of variation & SS       & df    & MSS                          & $F$-value                   \\ \hline
+Between groups       & $SS_{b}$ & $k-1$ & $MSS_{b}=\frac{SS_{b}}{k-1}$ & $F=\frac{MSS_{b}}{MSS_{w}}$ \\
+Within groups        & $SS_{w}$ & $n-k$ & $MSS_{w}=\frac{SS_{w}}{n-k}$  &                             \\
+Total                & $TSS$    & $n-1$ &                              &                             \\ \hline
+\end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Example}
+\framesubtitle{Stata screenshot}
+Switch points from three different MPLs (MPL 0, MPL 1, MPL 2):
+\begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.68]{graphics/reg2/screenshots/anova.png}
+        \label{fig:anova}
+    \end{figure}
+$\implies$ Switch points from at least one MPL are different.
+\end{frame}
+
+\begin{frame}\label{anova_beyond}
+\frametitle{Beyond One-Way ANOVA}
+    \begin{itemize}
+        \item \textbf{Two-Way ANOVA}: Compare more than one group
+        \begin{itemize}
+            \item E.g., (stata) \texttt{anova switch\char`_average treatment gender}
+            \\
+            \hyperlink{app:anova_twoway}{\beamerskipbutton{Screenshot}}
+        \end{itemize}
+        \vspace{3mm}
+        \item \textbf{Analysis of covariance (ANCOVA)}: Controls for covariates
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Regression with Dummy Variables}
+    Regress $Y$ on \textbf{dummy variables} can do the same thing!\\
+    \vspace{3mm}
+    For example,
+    \begin{equation*}
+        Switch_{i} = \beta_{0} + \delta_{1} {\color{red}D_{i,1}} + \delta_{2} {\color{red}D_{i,2}} + \eps_{i}
+    \end{equation*}
+    where \begin{equation*}D_{i,k}=
+    \begin{cases}
+        0 \text{ if MPL 0}\\
+        1 \text{ if MPL $k$}
+    \end{cases}.
+    \end{equation*}
+\end{frame}
+
+\begin{frame}{Example}{Stata screenshot}
+\begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.62]{graphics/reg2/screenshots/reg.png}
+        \label{fig:anova}
+    \end{figure}
+    \begin{enumerate}
+        \item Switch points btwn MPL0 and MPL1 are significantly different.
+        \item Switch points btwn MPL0 and MPL2 are not sig. different.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Discussion}
+    \begin{itemize}
+        \item[1.] We can put more structures when regressing w/ dummy variables.
+        \begin{itemize}
+            \item Control variables, cluster se, nonlinear regression, ...
+        \end{itemize}
+        \item[]
+        \item[2.] When regressing w/ dummy variables, we need a \textit{control} treatment.
+        \begin{itemize}
+            \item E.g., MPL1 vs MPL2?
+            \item If we want to compare two groups, maybe do pairwise comparison with corrections?
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{ANOVA vs Regression w/ Dummy Variables}
+My takeaways are...
+    \begin{itemize}
+        \item To show the \textit{overall} difference across multiple groups, use \textbf{ANOVA}.
+        \vspace{3mm}
+        %\item To investigate difference between \textit{two specific groups}, regress with \textbf{dummy variables}.
+        \vspace{3mm}
+        \item To put more \textit{structures} (control variables, cluster se, nonlinear regression), regress with \textbf{dummy variables} with a proper specification.
+        \begin{itemize}
+            \item E.g., we often do $t$-test to show the overall difference between two groups, and then run regressions to have further analysis.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+    \huge{\color{blue}The End}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+\frametitle{Appendix}\label{app:cohort_over}
+\framesubtitle{Caltech Cohort Study: Overconfidence}
+\begin{itemize}
+    \item \textbf{Overestimation and overplacement}
+    \begin{itemize}
+        \item How many they think they answered correctly.
+        \item Where they think they are in the performance distribution of all participants
+    \end{itemize}
+    \item \textbf{Overprecision}
+    \begin{itemize}
+        \item How confident they are of their guess (six-point qualitative scale).
+    \end{itemize}
+    \item \textbf{Perception of academic performance}
+    \begin{itemize}
+        \item Where in the grade distribution of their entering cohort they belieive they would fall over the next year.
+    \end{itemize}
+\end{itemize}
+\hyperlink{slide:cohort_risk}{\beamerskipbutton{Caltech Cohort Study: Risk measures}}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+\frametitle{Appendix}\label{app:cohort_mpl}
+\framesubtitle{Caltech Cohort Study: Ambiguous and Compound Lotteries}
+\begin{itemize}
+    \item \textbf{Compound MPL}
+    \begin{itemize}
+        \item Same as MPL except that the number of balls is uniformly drawn.
+    \end{itemize}
+    \item \textbf{Ambiguous MPL}
+    \begin{itemize}
+        \item Same as MPL except that the composition of the urn was chosen by the dean of undergraduate students of Caltech.
+    \end{itemize}
+\end{itemize}
+\hyperlink{slide:cohort_risk}{\beamerskipbutton{Caltech Cohort Study: Risk measures}}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+\frametitle{Appendix: Simulated Example}\label{app:sim_control1}
+$Y$: Participation in dangerous sports\\
+$D$: Gambling\\
+$X$: Risk attitude (experimentally measured)\\
+\vspace{3mm}
+Consider a model:
+    \begin{itemize}
+        \item $Y^{*}=X^{*}$;
+        \begin{itemize}
+            \item $X^{*}\sim N[0,1]$ and $Y=Y^{*} + \zeta$ where $\zeta \sim N[0,1]$.
+        \end{itemize}
+        \item $D = 0.5 \cdot X^{*} + \eta$\quad where $\eta \sim N [0,0.9]$;
+        \item $X = X^{*} + \nu$\quad where $\nu \sim N[0,{\color{red}\sigma^{2}_{\nu}}]$.
+    \end{itemize}
+    \vspace{3mm}
+    Consider a regression model:
+    \[
+    Y = \alpha D + \beta X + \eps
+    \]
+    \hyperlink{slide:NV}{\beamerskipbutton{Model}}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+\frametitle{Appendix: Simulated Example}\label{app:sim_control2}
+    \begin{table}[]
+\centering
+\caption{Simulated Regressions}
+\label{tab:sim}
+\begin{tabular}{lcccccc}
+\hline
+               & \multicolumn{6}{c}{ME as a Percent of Var$[X]$, i.e., $\frac{\sigma^{2}_{\nu}}{\sigma^{2}_{\nu}+\sigma^{2}_{X^{*}}}$}                                                                                                                                                                                                                                                                                                                                          \\ \cline{2-7}
+               & 0\%                                                            & 10\%                                                          & 20\%                                                          & 30\%                                                           & {\color{red}40\%}                                                          & {\color{red}50\%}                                                          \\ \hline
+$\hat{\alpha}$ & \begin{tabular}[c]{@{}c@{}}$.00$\\ $(.11)$\end{tabular}        & \begin{tabular}[c]{@{}c@{}}$.06$\\ $(.11)$\end{tabular}       & \begin{tabular}[c]{@{}c@{}}$.11$\\ $(.12)$\end{tabular}       & \begin{tabular}[c]{@{}c@{}}$.16$\\ $(.12)$\end{tabular}        & \begin{tabular}[c]{@{}c@{}}$.21^{*}$\\ $(.12)$\end{tabular}   & \begin{tabular}[c]{@{}c@{}}$.26^{***}$\\ $(.12)$\end{tabular} \\
+$\hat{\beta}$  & \begin{tabular}[c]{@{}c@{}}$1.00^{***}$\\ $(.12)$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$.87^{***}$\\ $(.11)$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$.75^{***}$\\ $(.11)$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$.64^{***}$\\ $(0.10)$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$.54^{***}$\\ $(.10)$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$.44^{***}$\\ $(.09)$\end{tabular} \\ \hline
+\end{tabular}
+\end{table}
+True model: $\alpha=0$ and $\beta=1$.\\
+\hyperlink{slide:NV}{\beamerskipbutton{Model}}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+\frametitle{Appendix: F-statistic for One-Way ANOVA}\label{app:Fstatistic}
+    Consider $X_{ij}=\mu_{j} + \eps_{ij}$, $\eps_{ij} \sim N(0,\sigma^{2})$ and independent.\\
+    We can rewrite it as
+    \[
+    X_{ij}=\mu + \alpha_{j} + \eps_{ij}
+    \]
+  where $\mu=\frac{1}{k} \sum_{j=1}^{k} \mu_{j}$, and $\alpha_{j}$ is called sample effect.\\
+  %It is easy to show that $\sum_{i=1}^{k} \alpha_{i} = 0$ and $\text{E}(X_{ij})=\mu+\alpha_{i}$.\\
+  Under {\color{red}$n_{j}=m$}, we have
+  \[
+    \text{E}[SS_{b}] = (k-1)\sigma^{2} + m\sum_{j=1}^{k} {\color{red}\alpha_{j}^{2}}
+    \quad \text{and} \quad
+  \text{E}[SS_{w}] = k(m-1)\sigma^{2}.
+  \]
+  Hence, $MSS_{b}$ is an unbiased estimator of $\sigma^{2}$ only if the null ($\alpha_{1}=\dots=\alpha_{k}=0$) is true, while $MSS_{w}$ is an unbiased estimator regardless of the null.\\
+  In particular, $MSS_{b}$ gets larger as $\alpha_{j}$ increases.\\
+  \vspace{3mm}
+  Since $MSS_{b}/\sigma^{2} \sim \chi^{2}_{k-1}$, $MSS_{w}/\sigma^{2} \sim \chi^{2}_{n-k}$, and they are independent (by Cochran theorem), $F=\frac{MSS_{b}}{MSS_{w}} \sim F_{k-1,n-k}$. \hyperlink{slide:anova}{\beamerskipbutton{Slide: One-Way ANOVA}}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+\label{app:anova_twoway}
+\frametitle{Appendix: Two-Way ANOVA}
+\framesubtitle{Screenshot}
+\begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.68]{graphics/reg2/screenshots/anova_2.png}
+        \label{fig:anova2}
+    \end{figure}
+    \hyperlink{anova_beyond}{\beamerskipbutton{Slide: Beyond One-Way ANOVA}}
+\end{frame}
+
+\begin{frame}[noframenumbering, allowframebreaks]
+\frametitle{References}
+\bibliographystyle{elsarticle-harv}
+\bibliography{Lecture_Slides/Econometrics/ref_reg2}
+\end{frame}
+
+\end{document}

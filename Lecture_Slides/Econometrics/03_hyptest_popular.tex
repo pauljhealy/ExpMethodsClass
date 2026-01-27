@@ -1,0 +1,536 @@
+\include{Lecture_Slides/metropolis_preamble}
+\usepackage{copyrightbox}
+
+\begin{document}
+
+% Title page info
+\title[Popular Tests]{ExpEcon Methods:\\Popular Hypothesis Tests}
+\author[ECON 8877]{ECON 8877\\P.J. Healy\\First version of distributional test slides thanks to Floyd Carey} \color{metrop}
+\institute[OSU]{}
+\date[]{\vfill {\tiny Updated \today}}
+
+\frame{\maketitle}
+
+% \begin{frame}{To Add}
+% Stuff to add:
+% \begin{enumerate}
+%     \item You can't test the hypothesis that a proportion is significantly different from zero.
+% \end{enumerate}
+    
+% \end{frame}
+
+\begin{frame}{Siegel \& Castellan's Book}
+\vfill
+Siegel \& Castellan (1988) \textit{Nonparametric Statistics for the Behavioral Sciences}, 2nd ed.
+\vfill
+\end{frame}
+
+\begin{frame}{Siegel \& Castellan's Book}
+The back jacket of 2nd Edition:
+\br
+
+What do your data look like?
+\begin{enumerate}
+    \item Nominal/Categorical
+    \begin{itemize}
+        \item Pass/fail, gender, race...
+    \end{itemize}
+    \item Ordinal
+    \begin{itemize}
+        \item Type/ability
+    \end{itemize}
+    \item Interval
+    \begin{itemize}
+        \item Score on a test
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Siegel \& Castellan's Book}
+The back jacket of 2nd Edition:
+\br
+
+What do you want to test?
+\begin{enumerate}
+    \item One Sample
+    \begin{itemize}
+        \item Value of a statistic ($\mu=0$)
+        \item Fit of a sample to a distribution ($X\sim N(0,1)$)
+        \item Properties of a sample (runs test, symmetry test)
+    \end{itemize}
+    \item Comparing Two or More Samples
+    \begin{enumerate}
+        \item Matched samples
+        \begin{itemize}
+            \item ``Sample of differences'' ($\mu_{diff}=0$)
+        \end{itemize}
+        \item Independent samples
+        \begin{itemize}
+            \item Comparing statistics ($\mu_1 = \mu_2$)
+        \end{itemize}
+    \end{enumerate}
+    \item Measuring Association Between Two Samples
+    \begin{enumerate}
+        \item Various notions of ``correlation''
+    \end{enumerate}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Contingency Tables}
+Comparing samples with categorical data\\
+(or ordinal, discarding order info)
+
+\begin{center}
+    \begin{tabular}{c|c|c|}
+         Category & Control & Treatment \\   
+         \cline{2-3}
+         High & A & B  \\
+         \cline{2-3}
+         Low & C & D \\
+         \cline{2-3}
+    \end{tabular}
+\end{center}
+\br
+Let $P_1=A/C$ and $P_2=B/D$.\\
+$H_0$: $P_1 = P_2$ (category is independent of treatment)\\
+\textbf{Fisher's Exact Test:}\\
+Prob of $(A,B,C,D)$ under $H_0$: Hypergeometric dist'n\\
+1-Tail: Calculate prob of all tables with $P_1-P_2$ bigger than observed\\
+2-Tail: Calculate prob of all tables with $|P_1-P_2|$ bigger than observed\\
+\emph{among tables with the same row \& column sums}.\\
+Exact test since sampling distribution is known for any $n$
+\br
+Problem: calculation intensive! Only for small tables.
+\end{frame}
+
+\begin{frame}{Contingency Tables}
+The Chi-Squared Test (for contingency tables):\\
+\begin{center}
+    \begin{tabular}{c|c|c||c|}
+         OBSERVED & Control & Trt & Pooled\\   
+         \cline{2-4}
+         Bet A & 166 & 107 & 273 (66\%) \\
+         \cline{2-4}
+         Bet B & 91 & 49 & 140 (34\%) \\
+         \cline{2-4}
+         TOTAL & 257 & 156 & 413\\
+         \cline{2-4}
+    \end{tabular}
+    \br
+    \begin{tabular}{c|c|c|}
+         EXPECTED & Control & Trt \\   
+         \cline{2-3}
+         Bet A & 169.9 & 103.1  \\
+         \cline{2-3}
+         Bet B & 87.1 & 52.9 \\
+         \cline{2-3}
+    \end{tabular}
+    \br
+    \begin{tabular}{c|c|c|c}
+         $(O-E)^2/E$ & Control & Trt &  \\   
+         \cline{2-3}
+         Bet A & 0.09 & 0.15 & Sum = 0.693 \\
+         \cline{2-3}
+         Bet B & 0.17 & 0.28 & $p$-val = 0.405\\
+         \cline{2-3}         
+    \end{tabular}
+\end{center}
+\br
+Test statistic $T = \sum \frac{(O-E)^2}{E}$. As $n\rightarrow \infty$ we have $T\sim \chi^2_{(r-1)(c-1)}$
+    
+\end{frame}
+
+\begin{frame}{Contingency Tables}
+Partitioning the D.O.F.\\
+\begin{center}
+    \begin{tabular}{c|c|c|c|}
+         OBSERVED & Black & White & Asian \\   
+         \cline{2-4}
+         Pass & 70 & 70 & 30 \\
+         \cline{2-4}
+         Fail & 30 & 30 & 70 \\
+         \cline{2-4}
+    \end{tabular}
+\end{center}
+$\chi^2$ test rejects $H_0$. But which race is different?\\
+Tempted to test all $2\times 2$ subtables, but they're not independent
+\br
+\begin{center}
+\begin{tabular}{cc}
+         \begin{tabular}{c|c|c|}
+          & Black & White \\   
+         \cline{2-3}
+         Pass & 70 & 70  \\
+         \cline{2-3}
+         Fail & 30 & 30 \\
+         \cline{2-3}
+    \end{tabular}
+    &
+    \begin{tabular}{c|c|c|}
+          & Black + White & Asian \\   
+         \cline{2-3}
+         Pass & 140 & 30  \\
+         \cline{2-3}
+         Fail & 60 & 70 \\
+         \cline{2-3}
+    \end{tabular}
+\end{tabular}
+\end{center}
+As many subtables as there are d.o.f.
+\end{frame}
+
+\begin{frame}{Fisher vs. Chi-Squared}
+    \begin{itemize}
+        \item Use Fisher if your computer can do it
+        \item Chi-Squared test: invalid of $E\leq 5$ in any cell
+        \begin{itemize}
+            \item Combine cells?
+            \item Continuity correction (maybe automatic)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Binomial/Proportion Test}
+What fraction of people passed this test? $H_0$: $p=p_0$\\
+$x_i \in \{0,1\}$, $i=1,2,\ldots,n$\\
+$y=\sum_i x_i$, $\hat{p}=y/n$
+\br
+Recall binomial distribution: $Pr[Y=k] = {n \choose k} p_0^k (1-p_0)^{n-k}$\\
+One-sided test: $Pr[Y\geq y] = \sum_{k=y}^n {n \choose k} p_0^k (1-p_0)^{n-k}$\\
+Two-sided test (if $y>p_0n$): $Pr[Y\geq y] + Pr[Y\leq p_0n-(y-p_0n)]$\\
+\br
+Large samples: use Normal approximation w/ continuity correction
+\br
+\textbf{NOTE: You cannot test $H_0:p=0$ or $H_0:p=1$!}\\
+Not with classical hypothesis testing, anyway.\\
+Confidence interval is \textbf{not} a solution: In $(0,1)$ by construction
+\end{frame}
+
+\begin{frame}{Tests of Association}
+Requires paired data! $n=m$
+    \begin{itemize}
+        \item Pearson (classic parametric test)
+        $$
+        r_{X,Y} = \frac{\sum_i (x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_i (x_i-\bar{x})^2} \sqrt{\sum_i(y_i-\bar{y})^2}} = \frac{\hat{Cov}(X,Y)}{\hat{\sigma}(X)\hat{\sigma}(Y)} \in [-1,1]
+        $$
+        \begin{itemize}
+            \item Tests for \textit{linear} relationship between $X$, $Y$.
+            \item Normal case:
+            \begin{itemize}
+                \item S.E. is $\sigma_r=\sqrt{\frac{1-r^2}{n-2}}$. Conf. interval.
+                \item Also $r/\sigma_r \sim t_{n-1}$, so can get a $p$-value
+            \end{itemize}
+            \item If non-normal:
+            \begin{itemize}
+                \item Conf interval? Bootstrap. Redraw pairs $(x_i,y_i)$ w/ replacement.
+                \item $p$-value for $H_o:r=0$? Perm test: Redraw $(x_i,y_{\pi(i)})\ \forall \pi$
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Tests of Association}
+    \begin{itemize}
+        \item Spearman rank-order coefficient (non-parametric)
+        \begin{itemize}
+            \item Simply Pearson, but data are converted to ranks
+            \begin{itemize}
+                \item Just convert each $x_i$ to $R(x_i)\in\{1,\ldots,n\}$
+                \item Ties? Use average of ranks among ties
+            \end{itemize}
+            \item Now testing a \sout{linear} \textit{monotonic} relationship
+            \begin{itemize}
+                \item Can have Spearman=1 but Pearson$<$ 1
+            \end{itemize}
+            \item Still in $[-1,1]$
+            \item Conf interval? Bootstrap or Jackknife. $\exists$ packages
+            \item $p$-value? Permutation test, redrawing $(x_i,y_{\pi(i)})$.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Tests of Association}
+    \begin{itemize}
+        \item Kendall rank correlation
+        \begin{itemize}
+            \item Interval or ordinal
+            \item Form pairs $(x_i,y_i)$ vs. $(x_j,y_j)$
+            \item Define:
+            \begin{itemize}
+                \item $n_c$ = \# of pairs that ``move together'' ($x_j>x_i$ \& $y_j>y_i$)
+                \item $n_d$ = \# of pairs that ``move oppositely''
+                \item $n_1$ = \# of pairs where $x_i=x_j$
+                \item $n_2$ = \# of pairs whre $y_i=y_j$
+                \item $\bar{n}=\frac{n(n-1)}{2}=\sum_{i=1}^{n-1} i$
+            \end{itemize}
+            \item Test statistic: $\tau = \frac{n_c-n_d}{\sqrt{(\bar{n}-n_1)(\bar{n}-n_2)}} \in [-1,1]$
+            \item Distribution of $\tau$ under $H_0$ known for small $n$
+            \begin{itemize}
+                \item Approximately normal for large $n$
+                \item Analytical sol'ns for conf interval or $p$-value
+            \end{itemize}
+            \item Preferred to Spearman for small $n$ or outliers
+        \end{itemize}
+        \item Cramer
+        \begin{itemize}
+            \item Contingency tables
+            \item Simply a rescaling of the $\chi^2$ statistic to $[0,1]$
+        \end{itemize}
+    \end{itemize}
+    
+\end{frame}
+
+
+%----------------------------------------------------------------------------------------
+%\section{Distributional Tests}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Distributional Tests}
+
+Distributional tests determine how likely a sample is to have come from a pre-specified distribution or how likely two samples are to have been drawn from the same distribution.
+
+\vspace{.25in}
+
+The most well-known (and general) of these tests is the Kolmogorov-Smirnov (KS) test.
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\subsection{The One-Sample Kolmogorov-Smirnov Test}
+
+\begin{frame}
+\frametitle{One-Sample Kolmogorov-Smirnov Test}
+\begin{itemize}
+    \item The one-sample KS test compares the cumulative distribution of a sample of size n ($S_n(x)$) to a pre-specified cumulative distribution function ($F_0(x)$).
+\end{itemize}
+$$S_n(x) = k/n$$
+\begin{itemize}
+    \item where $k$ = the number of observations $\leq x$.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{One-Sample Kolmogorov-Smirnov Test (Continued)}
+\begin{itemize}
+    \item The test is based entirely on the \textit{largest} deviation between $F_0(x)$ and $S_n(x)$, denoted as $D_n$.
+\end{itemize}
+\vspace{.25in}
+$$ D_n = \sup_{x} |F_0(x) - S_n(x)| $$
+\begin{itemize}
+    \item Under the null hypothesis that the sample is drawn from $F_0(x)$, $\lim_{n \to \infty}D_n = 0.$
+    \item the null hypothesis is rejected if $\sqrt{n}D_n > K_{\alpha}$, where $K_{\alpha}$ is found such that $Pr(K \leq K_{\alpha}) = 1 - \alpha$ and $K$ is the Kolmogorov distribution.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{One-Sample Kolmogorov-Smirnov Test Figure}
+    \begin{figure}
+        \centering
+         \includegraphics[scale=.70]{graphics/mht/One_Sample_KS_Example.png}
+         \caption*{The red line is $F_0(x)$, the blue line is $S_n(x)$, and the black line is $D_n$ (Bscan, CC0, via Wikimedia Commons)}
+    \end{figure}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Example: One-Sample Kolmogorov-Smirnov Test}
+\begin{itemize}
+    \item Suppose that there are 5 different salsas where each subsequent salsa is spicier (i.e., the salsa denoted by $x_{n+1}$ is spicier than the salsa denoted by $x_n$).
+    \item Further, suppose that the null hypothesis is that preferences over salsa spiciness is uniformly distributed in the population (i.e., $F_0(x) = \frac{x}{5}).$
+    \item In a sample of 10 subjects ($n$ = 10), one subject prefers the least spicy salsa, 5 subjects prefer the second most spicy salsa, and 4 subjects prefer the spiciest salsa.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Example: One-Sample Kolmogorov-Smirnov Test (Continued)}
+\begin{itemize}
+    \item The difference between $F_0(x)$ and $S_{10}(x)$ is maximized at $x = 3$.
+    \begin{itemize}
+        \item $F_0(3) = \frac{3}{5}$ and $S_{10}(3) = \frac{1}{10}$.
+    \end{itemize}
+    \item Therefore, $D_n = \frac{3}{5} - \frac{1}{10} = .5$.
+    \item $\sqrt{n}D_n = \sqrt{10} \cdot .5 = 1.581$
+    \item $K_{.01} = .48895$
+    \item Because $\sqrt{n}D_n = 1.581 > .48895 = K_{.01}$, we can reject the null hypothesis that the sample was drawn from a population whose preferences for salsa spiciness was uniformly distributed with 99\% confidence.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\subsection{Alternatives to the One-Sample KS Test}
+
+\begin{frame}
+\frametitle{Alternatives to the One-Sample KS Test}
+\begin{itemize}
+    \item Another test, which is based on the quadratic difference between the pre-specified distribution instead of the maximum difference is the Anderson-Darling (AD) test (Anderson \& Darling, 1952).
+    \begin{itemize}
+        \item The AD test is a modification of the Cramer-von Mises (CVM) test (1928).
+    \end{itemize}
+    \item The test statistic is:
+\end{itemize}
+\vspace{.25in}
+$$
+W_n^2=n \int_{-\infty}^{\infty}[S_n(x)-F_0(x)]^2 \psi(F_0(X)) d F_0(x)
+$$
+\begin{itemize}
+    \item Where $\Psi = [F_0(X)(1-F_0(X))]^{-1}$
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Power Comparison for KS and AD tests}
+\begin{columns}
+    \column{0.5\textwidth}
+    \centering
+        \copyrightbox[b]{\includegraphics[scale=0.4]{graphics/mht/AD_KS_Figure1.JPG}}%
+                  {Boyerinas (2016)}
+    \column{0.5\textwidth}
+    \centering
+    \copyrightbox[b]{\includegraphics[scale=0.4]{graphics/mht/AD_KS_Figure2.JPG}}%
+                  {Boyerinas (2016)}
+\end{columns}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Other Alternatives to the One-Sample KS Test}
+\begin{itemize}
+    \item Suppose you want to test ``my data came from a normal distribution'' but you don't know $\mu$ or $\sigma^2$.
+    \item You have a few options: The Lillefors (LF) test (Lillefors, 1967) and the Shapiro-Wilk (SW) test (Shapiro \& Wilk, 1965).
+    \item The SW test is the most powerful, and the LF test is the least powerful for a broad range of normal distributions (Razali \& Wah, 2011).
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{The Shapiro-Wilk Test}
+\begin{itemize}
+    \item The SW test uses the test statistic:
+\end{itemize}
+\vspace{.25in}
+$$
+W=\frac{(\sum_{i=1}^n a_i x_{(i)})^2}{\sum_{i=1}^n(x_i-\bar{x})^2}
+$$
+\begin{itemize}
+    \item $\bar{x}$ is the sample mean
+    \item and $\boldsymbol{a}_i=(a_1, \ldots, a_n)=\frac{m^T V^{-1}}{(m^T V^{-1} V^{-1} m)^{1 / 2}}$
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+
+\begin{frame}
+\frametitle{The Shapiro-Wilk Test (Continued)}
+\begin{itemize}
+    \item where $\boldsymbol{m}_i=(m_1, \ldots, m_n)^T$ are the expected values of order statistics of independent and identically distributed random variables sampled from the standard normal distribution
+    \item and $\boldsymbol{V}$ is the covariance matrix of those order statistics.
+    \item m is computed using GLS, assuming that x is normally distributed.
+\end{itemize}
+$$
+\begin{aligned}
+& \hat{\mu}=\frac{m^{\prime} V^{-1}(m 1^{\prime}-1 m^{\prime}) V^{-1} x}{1^{\prime} V^{-1} 1 m^{\prime} V^{-1} m-(1^{\prime} V^{-1} m)^2} \\
+& \hat{\sigma}=\frac{1^{\prime} V^{-1}(1 m^{\prime}-m 1^{\prime}) V^{-1} x}{1^{\prime} V^{-1} 1 m^{\prime} V^{-1} m-(1^{\prime} V^{-1} m)^2}
+\end{aligned}
+$$
+\begin{itemize}
+    \item In practice, $\boldsymbol{a}_i$ is algorithmically approximated using Royston's (1994) AS R94 for $3 \leq n \leq 5000$.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Power Comparison for KS, LF, AD, and SW Tests}
+\centering
+\begin{tabular}{cc}
+     \includegraphics[scale=0.4]{graphics/mht/AD_KS_LF_SW_Figure2.JPG} & \includegraphics[scale=0.4]{graphics/mht/AD_KS_LF_SW_Figure1.JPG} \\
+     Razali \& Wah, 2011
+     & Razali \& Wah, 2011\\
+\end{tabular}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\subsection{The Two-Sample Kolmogorov-Smirnov Test}
+
+\begin{frame}
+\frametitle{The Two-Sample Kolmogorov-Smirnov Test}
+\begin{itemize}
+    \item Calculating the two-sample Kolmogorov-Smirnov test is similar to the one-sample counterpart except we replace $F_0(x)$ with $S_{m}(x)$, where the second sample has $m$ members.
+    \item Here, $D_{n, m}=\sup_x|S_{n}(x)-S_{m}(x)|$ for the two-sided test and $D_{n, m}=\sup_x [S_{n}(x)-S_{m}(x)]$ for the one-sided test.
+    \item Siegel (1988) uses a heuristic that if $n$ or $m$ are less than 40, then $n$ must equal $m$, but I have not found this in other papers.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+
+\begin{frame}
+\frametitle{Two-Sample Kolmogorov-Smirnov Test Figure}
+    \begin{figure}
+        \centering
+         \includegraphics[scale=.70]{graphics/mht/Two_Sample_KS_Example.png}
+         \caption*{The red line is $S_m(x)$, the blue line is $S_n(x)$, and the black line is $D_n$ (Bscan, CC0, via Wikimedia Commons)}
+    \end{figure}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{The Two-Sample Kolmogorov-Smirnov Test (Continued)}
+\begin{itemize}
+    \item The two-sample test has different critical values from the one-sample test, but I don't think there is an analytical solution for small samples (I couldn't find one if there is!)
+    \item There are tables for small samples, and for larger samples, the equation for the critical value is $c(\alpha)\sqrt{\frac{n+m}{n \cdot m}}$
+    \item where $c(\alpha) = \sqrt{-ln(\frac{\alpha}{2})\cdot \frac{1}{2}}$ (Knuth, 1998)
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\subsection{Alternatives to the Two-Sample KS Test}
+
+\begin{frame}
+\frametitle{Alternatives to the Two-Sample KS Test}
+\begin{itemize}
+    \item Nearly all of the alternatives to the two-sample KS test are location-scale tests which incorporate both the sample means and standard deviations. The two most popular of this class are the Cucconi (C) test (1968) and the Lepage (L) test (1971).
+    \item Both the C and the L tests are \textbf{FAR} more powerful than the Two-Sample KS Test in a simulation using several canonical distributions (Marozzi, 2009).
+    \begin{itemize}
+        \item That same paper indicates that the C test is slightly more powerful than the L test.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Alternatives to the Two-Sample KS Test (Continued)}
+\begin{itemize}
+    \item This increase in power for location-scale tests is  partially due to their assumptions on the alternative hypothesis.
+    \item In location-scale tests, $H_0$ is that $F \equiv G$ and $H_a$ is that $G(y) = F(ay + b)$ such that $a \neq 1$ and/or $b \neq 0$.
+    \item In the two-sample KS test, $H_0$ is unchanged, but $H_a$ does not specify an alternative distribution.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{Power Comparison for KS, C, and L Tests}
+    \centering
+    \includegraphics[scale=.45]{graphics/mht/KS_C_L_Figure1.JPG}\\
+    Marozzi, 2009
+\end{frame}
+
+
+\end{document}

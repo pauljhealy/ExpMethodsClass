@@ -1,0 +1,216 @@
+\include{Lecture_Slides/metropolis_preamble}
+
+\begin{document}
+
+% Title page info
+\title[Incentives in Experiments: Theory]{ExpEcon Methods:\\Clever Elicitations \& Choice Process Data}\author[ECON 8877]{ECON 8877\\P.J. Healy\\Parts thanks to Kirby Nielsen} \color{metrop}
+\institute[OSU]{}
+\date[]{\vfill {\tiny Updated \today\ at\ \DTMcurrenttime}}
+
+\frame{\maketitle}
+
+\begin{frame}{Overview}
+\begin{enumerate}
+    \item MouseLab
+    \item Eye Tracking
+    \item fMRI
+    \item RTs
+    \item Krupka-Weber
+    \item Caplin Dean \& Martin
+    \item Colin \& Judd's audit study
+    \item Mistakes
+    \item Incompleteness
+    \item Strategy Method: conditional cooperators
+    \item Romero-Rosokha-Frechette
+    \item Advice/Muriel
+    \item Team Chat
+    \item Procedures
+\end{enumerate}
+\end{frame}
+
+
+
+\begin{frame}{Search \& Satisficing}
+\begin{itemize}
+    \item Two conditions ensure that data is consistent with satisficing:
+    \begin{enumerate}
+        \item Subjects must always switch to higher value alternatives
+        \item There must be some $u^*$ such that search stops if and only if the utility of the chosen value is above $u^*$
+    \end{enumerate}
+\end{itemize}    
+\end{frame}
+
+\begin{frame}{Caplin, Dean, Martin 2011}
+\begin{itemize}
+    \item Design requires three things:
+    \begin{enumerate}
+        \item Ranking of alternatives is clear to the experimenter
+        \begin{itemize}
+            \item So we know that they switch to higher valued alternative
+        \end{itemize}
+        \item But subjects still make mistakes
+        \begin{itemize}
+            \item Still have to ``search'' through
+        \end{itemize}
+        \item Can collect choice process data
+    \end{enumerate}
+\end{itemize}    
+\end{frame}
+
+\begin{frame}{Choice Objects}
+\begin{itemize}
+    \item Subjects choose between `sums' \\
+    four plus eight minus four
+    \item Value of option is the value of the sum
+    \item ``Full information'' ranking is obvious, but uncovering value takes effort
+    \item 6 treatments
+    \begin{itemize}
+        \item 2 x complexity (3 and 7 operations)
+        \item 3 x choice set size (10, 20, and 40 options)
+    \end{itemize}
+    \item No time limit
+\end{itemize}    
+\end{frame}
+
+\begin{frame}{Size 10, Complexity 3}
+\begin{center}
+    \includegraphics[width=\textwidth]{figures/s10c3.png}
+\end{center}    
+\end{frame}
+
+\begin{frame}{Size 20, Complexity 7}
+\begin{center}
+    \includegraphics[width=\textwidth]{figures/s20c7.png}
+\end{center}    
+\end{frame}
+
+\begin{frame}{Results}
+Failure to choose optimal:
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{ccc} \hline \hline 
+         & \multicolumn{2}{c}{Complexity} \\ Size & 3 & 7 \\ \hline
+         10 & 7\% & 24\% \\
+         20 & 22\% & 56\% \\
+         40 & 29\% & 65\% \\ \hline \hline 
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Results}
+Average loss (\$):
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{ccc} \hline \hline 
+         & \multicolumn{2}{c}{Complexity} \\ Size & 3 & 7 \\ \hline
+         10 & 0.41 & 1.69 \\
+         20 & 1.10 & 4.00 \\
+         40 & 2.30 & 7.12 \\ \hline \hline 
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Results}
+\begin{itemize}
+    \item People frequently did not choose the best option, and left money on the table
+    \item Presumably they do not prefer less money as things get bigger/more complex...
+    \item Can satisficing explain it?
+\end{itemize}    
+\end{frame}
+
+\begin{frame}{Eliciting Choice Process Data}
+\begin{enumerate}
+    \item Allow subjects to select any alternative at any time
+    \begin{itemize}
+        \item Can change as often as they like
+    \end{itemize}
+    \item One random time between 0 and 120 seconds will be selected, unknown to subjects
+    \begin{itemize}
+        \item Subjects will be paid whatever they had selected at this random time
+        \item Incentivizes subject to keep current best alternative selected 
+        \item Treat sequence of selections as choice process data
+    \end{itemize}
+    \item Round ends in two ways
+    \begin{itemize}
+        \item After 120 seconds
+        \item When subject presses the finish button
+        \item Discard the former
+    \end{itemize}
+\end{enumerate}    
+\end{frame}
+
+\begin{frame}{Benefit of Process Data}
+\begin{center}
+    \includegraphics[width=\textwidth]{figures/cdm1.png}
+\end{center}    
+\end{frame}
+
+\begin{frame}{Condition 1}
+\begin{itemize}
+    \item Satisficing condition 1: Must always switch to higher-valued objects
+    \item Graph the fraction of switches that satisfy this condition
+    \item Compare to the fraction of choices that satisfy optimality
+\end{itemize}    
+\end{frame}
+
+\begin{frame}{Condition 1}
+\begin{center}
+    \includegraphics[width=\textwidth]{figures/cdm2.png}
+\end{center}    
+\end{frame}
+
+\begin{frame}{Satisficing}
+\begin{itemize}
+    \item Does seem to be that subjects are searching sequentially
+    \item Switch when they find a better option
+    \pause
+    \item But are they satisficing?
+    \item Do they stop searching after encountering some value, $u^*$?
+\end{itemize}    
+\end{frame}
+
+\begin{frame}{Condition 1}
+\begin{center}
+    \includegraphics[width=\textwidth]{figures/cdm3.png}
+\end{center}    
+\end{frame}
+%First, as we would expect from the preceding section, aggregate behavior is in line with sequential search: in all but one case, the average value of selections is increasing. Second, we can find reservation values for each treatment such that aggregate behavior is in line with satisficing according to these reservations. The horizontal lines drawn on each graph show candidate reservation levels, estimated using a technique we describe below.
+
+\begin{frame}{Estimating Reservation Levels}
+\begin{table}
+    \centering
+    \begin{tabular}{ccc} \hline \hline 
+         & \multicolumn{2}{c}{Complexity} \\ Size & 3 & 7 \\ \hline
+         10 & 9.54 & 6.36 \\
+         20 & 11.18 & 9.95 \\
+         40 & 15.54 & 10.84 \\ \hline \hline
+    \end{tabular}
+\end{table}    
+\end{frame}
+
+\begin{frame}{Estimating Reservation Levels}
+\begin{itemize}
+    \item Reservation levels decrease with complexity
+    \begin{itemize}
+        \item Predicted by theory
+        \item Increasing $k$
+    \end{itemize}
+    \item Reservation levels increase with choice set size
+    \begin{itemize}
+        \item Not predicted by theory
+    \end{itemize}
+\end{itemize}    
+\end{frame}
+
+\begin{frame}{Awareness}
+\large 
+    \begin{itemize}
+        \item It looks ``as if'' individual are satisficing... do they know they are? How would we elicit this?
+        \item Does it matter?
+    \end{itemize}
+\end{frame}
+
+
+\end{document}

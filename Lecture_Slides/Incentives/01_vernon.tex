@@ -1,0 +1,194 @@
+\include{Lecture_Slides/metropolis_preamble}
+
+\begin{document}
+
+% Title page info
+\title[Incentives: History]{ExpEcon Methods:\\Vernon's Precepts}
+\author[ECON 8877]{ECON 8877\\P.J. Healy} \color{metrop}
+\institute[OSU]{}
+\date[]{\vfill {\tiny Updated \today\ at\ \DTMcurrenttime}}
+
+\frame{\maketitle}
+
+\begin{frame}{Vernon Smith}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+    \begin{center}
+        \includegraphics[height=2in]{graphics/history/SmithMug.png} 
+    \end{center}
+\end{column}
+\begin{column}{0.5\textwidth}  %%<--- here
+    \begin{center}
+    \vspace{0.7in}
+     Vernon Smith\\
+     2002 Nobel Prize
+     \end{center}
+\end{column}
+\end{columns}
+\br
+\vfill
+Other early pioneers: Plott, Kagel, Battalio, Williams... many
+\end{frame}
+
+\begin{frame}{Why Vernon?}
+The 2002 Nobel Prize
+\begin{itemize}
+    \item Vernon Smith \& Charlie Plott: pioneered market experiments
+    \begin{itemize}
+        \item $\rightarrow$ ``experimental economics''
+    \end{itemize}
+    \item Kahneman \& Tversky: Prospect Theory 
+    \begin{itemize}
+        \item $\rightarrow$ ``behavioral economics''
+        \item Tversky passed away in 1996
+    \end{itemize}
+\end{itemize}
+\br
+\begin{itemize}
+    \item Smith elucidated the theory of incentivized experiments
+    \begin{itemize}
+        \item ``Experimental Economics: Induced Value Theory'' (1976)
+        \item ``Microeconomic Systems as an Experimental Science'' (1982)
+    \end{itemize}
+\end{itemize}    
+\end{frame}
+
+\begin{frame}{Induced Value Theory (1976)}
+    Experiments are important because
+    \begin{enumerate}
+        \item They are a \textit{pretest} of economic theory
+        \begin{itemize}
+            \item \emph{Prior} to the use of field data
+            \item Using field data to modify models is flawed since it's in-sample. ``Any test of significance now becomes hopelessly confused''
+            \begin{itemize}
+                \item Discuss: Do you agree?
+            \end{itemize}
+            \item Model $\rightarrow$ expm'nt $\rightarrow$ new model $\rightarrow$ expm'nt $\rightarrow$ new model $\rightarrow$ ...
+        \end{itemize}
+        \item (Presumed) parallelism between lab and field
+        \begin{itemize}
+            \item Physics: ``As far as we can tell, the same physical laws prevail everywhere.''
+            \item Smith: ``The laboratory becomes a place where real people earn real money for making real decisions about abstract claims that are just as ``real'' as a share of General Motors.
+            \begin{itemize}
+                \item Discuss: Do you agree?
+            \end{itemize}
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Micro Systems as Experimental Science (1982)}
+    The precepts of induced value theory:
+    \begin{enumerate}
+        \item ``Non-satiation'' (monotonically increasing utility)
+        \begin{itemize}
+            \item Monetary reward: $M(a)$ for action $a$
+            \item Utility for money: $u(M)$, $u'>0$
+            \item $\arg\max_a u(M(a)) = \arg\max_a M(a)$
+            \item If multiple actions (eg, $a=(x,y)$), MRS is the same:
+            $$
+            \frac{\pd u(M(x,y))/\pd x}{\pd u(M(x,y))/\pd y} = \frac{u'}{u'} \frac{\pd M/\pd x}{\pd M/\pd y} = \frac{\pd M/\pd x}{\pd M/\pd y}
+            $$
+            \item Assumes choice is costless
+            \item Assumes selfish money maximization
+            \begin{itemize}
+                \item Vernon was really just focused on market expmnts
+                \item Vernon is a libertarian...
+            \end{itemize}
+        \end{itemize}
+        \seti
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Micro Systems as Experimental Science (1982)}
+    The precepts of induced value theory:
+    \begin{enumerate}
+        \conti
+        \item ``Saliency'' (actions map to rewards)
+        \begin{itemize}
+            \item Action profiles $a$ map into rewards $M(a)$
+            \item This mapping is known and understood
+            \item Example: If you win an auction, you earn $v_i$
+            \item Example: Show-up fee is not salient
+            \begin{itemize}
+                \item Warning: Not the same as Shliefer \textit{et al.} notion of salience
+            \end{itemize}
+        \end{itemize}
+        \seti
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Micro Systems as Experimental Science (1982)}
+    The precepts of induced value theory:
+    \begin{enumerate}
+        \conti
+        \item ``Dominance'' (sufficiently large rewards)
+        \begin{itemize}
+            \item The reward structure dominates any subjective costs or values
+            \item Example: Cognitive costs, effort
+            \item Example: Paying a commission for each transaction\\
+            to offset effort costs
+            \item Discussion: Do we want to rule out other-regarding preferences?
+        \end{itemize}
+        \seti
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Micro Systems as Experimental Science (1982)}
+    The precepts of induced value theory:
+    \begin{enumerate}
+        \conti
+        \item ``Privacy'' (only know your own payoff)
+        \begin{itemize}
+            \item Subjects can only see their own payoffs
+            \item Goal: own-reward maximizers
+            \item Removes social preferences
+            \item Removes ``tournament incentives'' (desire to come in first)
+            \item Discussion: social preferences?
+        \end{itemize}
+        \seti
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Micro Systems as Experimental Science (1982)}
+    The precepts of induced value theory:
+    \begin{enumerate}
+        \conti
+        \item ``Parallelism'' (aka ``external validity'')
+        \begin{itemize}
+            \item Lab results apply to non-lab settings
+            \item Not required if only testing theories in the abstract
+            \item ``the same physical laws prevail everywhere'' (Harlow Shapley 1964)
+            \item How to test parallelism? Comparison studies
+            \item Who has the burden of proof?
+            \item My view (following Roth):
+            \begin{itemize}
+                \item Experiments provide provocative examples
+                \item We can't guarantee parallelism, but our results are at least worth considering in the field
+            \end{itemize}
+        \end{itemize}
+        \seti
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Micro Systems as Experimental Science (1982)}
+    What else this paper does:
+    \begin{itemize}
+        \item Experiments as game forms $\Rightarrow$ mechanism design
+        \begin{itemize}
+            \item Mount-Reiter diagram (Fig. 1)
+        \end{itemize}
+        \item Classifications of experiments
+        \begin{itemize}
+            \item Vary environment vs. vary institution
+            \item Methodological:
+            \begin{enumerate}
+                \item Establishing laws of behavior
+                \item Heuristic/exploratory experiments
+                \item Boundary/extreme experiments
+            \end{enumerate}
+        \end{itemize}
+        \item List of ``stylized facts'' (robust results)
+    \end{itemize}
+\end{frame}
+
+\end{document}

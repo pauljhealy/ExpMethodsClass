@@ -1,0 +1,305 @@
+\include{Lecture_Slides/metropolis_preamble}
+
+\begin{document}
+
+% Title page info
+\title[MLE]{ExpEcon Methods:\\
+MLE, Finite Mixture Models, \& Model Selection}
+\author[ECON 8877]{ECON 8877\\P.J. Healy\\First version thanks to Hyoeun Park} \color{metrop}
+\institute[OSU]{}
+\date[]{\vfill {\tiny Updated \today}}
+
+\frame{\maketitle}
+
+\begin{frame}{Contents}
+\begin{enumerate}
+\item Model estimation via MLE: how to code it Finite mixture models
+\item Model selection: Cross-validation vs. BIC vs. AIC
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Maximum Likelihood Estimation}
+Likelihood function\\
+\begin{itemize}
+    \item $y$: random variable, $\pmb{\theta}$: set of parameters
+    \item $f(\pmb{y}|\pmb{\theta})$: pdf, $\theta$ identifies possible DGPs (true models)
+    \item The joint density of $n$ i.i.d. observations from this process
+    \begin{equation*}
+    f(y_1 \dots y_n|\pmb{\theta})=\prod_{i=1}^n f(y_i|\pmb{\theta})\onslide<2->{=L(\pmb{\theta}|\pmb{y})}
+    \end{equation*}
+    \item \onslide<2->{$L(\pmb{\theta}|\pmb{y})$: function of the unknown parameter vector, $\pmb{\theta}$, \\
+    \hspace{1.2cm}given observed data $\pmb{y}$}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Maximum Likelihood Estimation}
+Example: Behavioral game theory models
+\begin{itemize}
+    \item 2-player, 3$\times$3 game
+    \item $S_i$ set of strategies, $s_i \in S_i$
+    \item $\sigma_i(s_i)$: $i$'s probability of playing $s_i$ in mixed strategy $\sigma_i(\cdot)$
+    \item $u_i(\sigma_1, \sigma_2)=\sum_{(s_1,s_2)}\sigma_1(s_1)\sigma_2(s_2)u_i(s_1,s_2)$
+    \item Some models use deterministic best response:
+    $$BR_i(\sigma_j)=\arg\max_{s_i}u_i(s_i,\sigma_j)$$
+    (assume unique for simplicity here)
+    \item Others assume noisy behavior, like logistic response:
+    \[
+    LR_i(\sigma_j|\lambda_i)(s_i) = \frac{\exp(\lambda u_i(s_i,\sigma_j))}{\sum_{s_i' \in S_i}\exp(\lambda u_i(s_i',\sigma_j))}
+    \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Maximum Likelihood Estimation}
+Model 1: Level-$k$ with logistic trembles
+\begin{itemize}
+    \item Observed data: a played strategy
+    \item 3 parameters:\\ $k$ (hierarchy level), $\epsilon$ (prob. tremble), $\lambda$ (precision parameter)
+    \item Base model ($k$): $\sigma_i^{LK}(\cdot|k=0)=U[S_i]$ is uniform, then $\forall k > 0$
+    $$\sigma_i^{LK}(s_i|k)=1 \text{ iff } s_i = BR_i\left(\sigma_j^{LK}(\cdot|k-1)\right)$$
+    \item Problem: deterministic model. Zero likelihood possible.
+    \item Solution ($\epsilon,\lambda$): modify the model with logistic trembles:
+        \begin{equation*}
+        f^{LK}(s_i|\epsilon,\lambda,k)=
+        (1-\epsilon)\,\mathbbm{1}_{\left\{s_i = BR_i\left(\sigma_j^{LK}(\cdot|k-1)\right)\right\}} + \epsilon \cdot LR_i(\sigma_j^{LK}(\cdot|(k-1))|\lambda)(s_i)
+        \end{equation*}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Maximum Likelihood Estimation}
+Example\\
+QRE
+\begin{itemize}
+    \item One parameter: $\lambda$
+    \item Model: defined by fixed point. For each $i$,
+        \begin{align*}
+        \sigma_i^{QRE}(s_i|\lambda) &=
+        LR_i(\sigma_j^{QRE}(\cdot|\lambda)|\lambda,S_i)(s_i)\\
+        f^{QRE}(s_i|\lambda) &= \sigma_i^{QRE}(s_i|\lambda)
+        \end{align*}
+\end{itemize}
+
+\bigskip
+Data: $s_i^g$ for games $g\in \mathbf{G}=\{1,2,3 \dots ,G\}$. 
+\begin{equation*}
+f^{LK}(\pmb{s}|\epsilon,\lambda,k)=\prod_{g\in \mathbf{G}}f^{LK}(s_i^g|\epsilon,\lambda,k) = L^{LK}(\epsilon,\lambda,k|\pmb {s})
+\end{equation*}
+and
+\begin{equation*}
+f^{QRE}(\pmb{s}|\lambda)=\prod_{g\in \mathbf{G}}f^{QRE}(s_i^g|\lambda) =L^{QRE}(\lambda|\pmb {s})
+\end{equation*}
+\end{frame}
+
+
+
+
+\begin{frame}{Maximum Likelihood Estimation}
+Maximum Likelihood Estimation of a single model (eg, noisy LK)
+\begin{enumerate}
+    \item Let's allow different parameters for each subject. So, fix $i$
+    \item Set a 3D grid of $(\epsilon,\lambda,k)$ values
+    \item For each point on that grid calculate
+    \begin{align*}
+        f^{LK}(\mathbf{s}|\epsilon,\lambda,k) &= \prod_{g\in \mathbf{G}}f^{LK}(s_i^g|\epsilon,\lambda,k) \\
+        &= \sum_{g\in \mathbf{G}}log(f^{LK}(s_i^g|\epsilon,\lambda,k))
+    \end{align*}
+    \item MLE estimate: $(\epsilon^*,\lambda^*,k^*)$ with highest value
+\end{enumerate}
+Model Selection:
+\begin{itemize}
+    \item Which model has higher likelihood at its MLE parameter?
+    \item Problem: unfair advantage having more parameters
+    \item Solutions: penalize MLE by subtracting param. penalty
+    \begin{itemize}
+        \item Akaike Info Criterion (AIC) vs. Bayesian Info Criterion (BIC)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Maximum Likelihood Estimation}
+Example
+\begin{figure}
+    \centering
+\includegraphics[width=0.9\linewidth]{graphics/mle/games.png}
+\end{figure}
+\small{
+\begin{itemize}
+    \item Suppose that a subject plays M, T, B
+    \item Let $\lambda \in \{0.01,0.05,1 \}$
+    \item $log(L^{QRE}(0.01|(M,T,B)))=log(0.3628)+log(0.3914)+log(0.3311)$
+    \item $log(L^{QRE}(0.05|(M,T,B)))=log(0.5391)+log(0.5355)+log(0.3518)$
+    \item $log(L^{QRE}(1|(M,T,B)))=log(1)+log(0.7024)+log(0.9999)$
+    \item Thus, in this example $\hat \lambda =1$
+\end{itemize}
+    }
+\end{frame}
+
+
+\begin{frame}{Finite Mixture Model}
+\begin{itemize}
+    \item So far, only one model for one likelihood function \pause
+    \item Is it a valid approach?
+    \begin{itemize}
+    \pause
+        \item For example, Georganas et al., (2015) show that a cognitive hierarchy is not persistent across classes of games
+        \item Suggests that estimating with \textit{one} hierarchy cannot be valid.
+        \pause
+        \item Another example at the population level, people might have different risk preferences, etc.,
+    \end{itemize}
+\end{itemize}
+
+
+\end{frame}
+
+
+\begin{frame}{Finite Mixture Model}
+``Mix" models
+\begin{itemize}
+    \item $m=1,2, \dots, M$ denotes model
+    \item $f(\pmb{y}|\pmb{\psi})=\sum_{m=1}^M \pi_m f_m(\pmb{y}|\pmb{\theta_m})$, where $\pmb{\psi}=(\{\pmb{\theta_m}\}_{m=1}^M,\pi_1,\pi_2,\dots,\pi_m)$
+    \item Usually, $f_m(\pmb{y},\pmb{\theta_m})$ (called component density) are taken to belong to the same parametric family.
+    \begin{itemize}
+        \item There are special cases where component densities are taken to be different (nonstandard mixture)
+    \end{itemize}
+    \item posterior probability that data is drawn from model $m$, given observed data $\pmb{y}$ is \hspace{0.2cm}$\pi_m \cdot \frac{f_m(\pmb{y}|\pmb{\theta}_m)}{f(\pmb{y}|\pmb{\psi})}$
+    \item A parametric family of densities is primitive. Each component has distinct values
+    \item Using MLE to fitting mixture distributions $\pi$ (Most commonly used way)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Model Selection}
+Going back to Level-$k$ and QRE Example
+
+\begin{itemize}
+    \item Suppose that an experimenter wants to compare which model better explains data
+    \item They can horse-race models
+    \item Using MLE?
+    \begin{itemize}
+        \item For level-$k$, find the ML estimates $(\hat{\epsilon}, \hat{\lambda}, \hat{k})$\\
+        plug in those values to the level-$k$ model's likelihood function
+        \item For QRE, find the ML estimate $\hat{\lambda}$\\plug in $\hat\lambda$ to the QRE's likelihood function
+        \item Compare the likelihood values of two models and pick the model that gives the higher value
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Model Selection}
+    What is the problem with ML approach?
+   \begin{itemize}
+       \item level-$k$ has three parameters, while QRE has only one parameter
+       \item level-$k$ has more ``flexibility"
+       \item Consider a weird model with $\infty$ numbers of parameters
+       \begin{itemize}
+           \item $\infty$ flexibility
+           \item Can explain any behavior in the data
+           \item Then, this model ``wins" just because it has more flexibility, not because it is true DGP.
+       \end{itemize}
+       \item Need for fixing the problem of over-fitting due to large \# of parameters
+   \end{itemize}
+\end{frame}
+
+\begin{frame}{Model Selection}
+    How to penalize over-fitting due to large numbers of parameters?
+    \begin{itemize}
+        \item AIC (Akaike information criterion)
+        \item BIC (Bayesian information criterion)
+        \item Cross-Validation
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Model Selection: AIC, BIC}
+\begin{itemize}
+    \item AIC =$2k\ln(n)-2\ln({\widehat {L}})$
+    \item BIC=$k\ln(n)-2\ln({\widehat {L}})$
+\end{itemize}
+where
+\begin{itemize}
+    \item $\widehat{L}$=the maximized value of the likelihood function of the model
+    \begin{itemize}
+        \item From observed data, get ML estimates, and plug into the ML function
+    \end{itemize}
+    \item $n$= number of observed data point
+    \begin{itemize}
+        \item In our example, the number of games subjects played
+    \end{itemize}
+    \item $k$ = number of parameters
+    \begin{itemize}
+        \item In level-$k$ model, $k$=3 \\ In QRE, $k=1$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Model Selection: AIC, BIC}
+\begin{itemize}
+    \item AIC =$2k\ln(n)-2\ln({\widehat {L}})$
+    \item BIC=$k\ln(n)-2\ln({\widehat {L}})$
+\end{itemize}
+
+\bigskip
+\begin{itemize}
+    \item The preferred model is the one with the minimum AIC/BIC value
+    \item The second term gives benefits to the model with goodness-of-fit
+    \item The first term gives a penalty to the number of parameters
+    \item Those can be only used for linear-models
+    \item Can be used only when $n>>k$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Model Selection: Cross-Validation}
+\begin{itemize}
+    \item $k$-fold cross-validations
+    \item Divide data into $k$ sub-samples
+    \begin{itemize}
+        \item For example, 12 data points, 4 sub-samples that include 3 data points each
+    \end{itemize}
+    \item $k-1$ sub-samples = training data
+    \begin{itemize}
+        \item Fit the data to a model (MLE, MSE ...)
+    \end{itemize}
+    \item one sub-sample = testing data
+    \begin{itemize}
+        \item Using the fitted parameters from training data, test the model i.e., Plug in the estimated parameter to the goodness-of-fit function used for training (MLE, MSE, ...)
+    \end{itemize}
+    \item Repeat this for $K$ times
+    \item Extreme case of $K$o fold cross-validation is leave-one-out cross-validation that $K=n$, where $n$= number of data points
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Model Selection: Cross-Validation}
+    How does Cross-Validation penalize the number of parameters?
+
+    \bigskip
+    Consider the following example..
+    \begin{itemize}
+        \item Suppose that subjects played four games
+        \item For three games, a subject's choices coincide with the level-$k$ level-1's predictions
+        \item Then $\hat \epsilon = 0$ and log-likelihood function value is 0.
+        \item Suppose that the subject did not play level-1's predicted strategy.
+        \item Then for the testing data (fourth game), $\hat \epsilon=0$ results in $-\infty$
+        \item For QRE, less likely to over-fit (since it has only one parameter). Less likely to have $-\infty$ for testing data
+    \end{itemize}
+\end{frame}
+\begin{frame}{Model Selection: Cross-Validation}
+    \begin{itemize}
+        \item Cross-Validation penalizes the number of parameters internally.
+        \item Over-fitting due to a higher number of parameters penalizes deviation from the prediction a lot in the testing data
+        \item No restriction for models being tested; does not have to be linear
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Model Selection}
+    \begin{itemize}
+        \item SO, is Cross-Validation a perfect solution for model selection?
+        \pause
+        \item NO! \pause
+        \item The penalization can be ``too" severe \pause
+        \item See Healy \& Park (2023) for suggestions :)
+    \end{itemize}
+\end{frame}
+
+
+
+\end{document}

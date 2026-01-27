@@ -1,0 +1,1084 @@
+\include{Lecture_Slides/metropolis_preamble}
+
+% \documentclass[11pt,aspectratio=169]{beamer}
+
+% % Packages
+% \usepackage[utf8]{inputenc}
+% \usepackage{amsmath, amsfonts, amssymb, amsthm}
+% \usepackage[T1]{fontenc}
+% \usepackage{xcolor}
+% \usepackage{setspace}
+% \usepackage{graphicx}
+% \usepackage{natbib}
+% \usepackage{appendixnumberbeamer}
+% \usepackage{tikz}
+% \usepackage{bm}
+% \usepackage{booktabs}
+
+% % Theme
+% \usetheme{Boadilla}
+% \usecolortheme{default}
+% \usefonttheme[onlymath]{serif}
+
+% % Customize template
+% \setbeamertemplate{itemize item}[circle]
+% \setbeamertemplate{itemize subitem}{$\circ$}
+% \setbeamertemplate{itemize subsubitem}{--}
+% \setbeamercolor{itemize item}{fg=black}
+% \setbeamercolor{itemize subitem}{fg=black}
+% \setbeamercolor{itemize subsubitem}{fg=black}
+% \setbeamercolor{item projected}{bg=darkgray,fg=white}
+% \definecolor{blue}{rgb}{0.2, 0.2, 0.7}
+% \definecolor{red}{rgb}{0.9, 0.1, 0.1}
+% \setbeamercolor{alerted text}{fg=blue}
+% \setbeamertemplate{enumerate items}[circle]
+% \setbeamertemplate{headline}{}
+% \let\olditemize=\itemize
+% \let\endolditemize=\enditemize
+% \renewenvironment{itemize}{\olditemize \itemsep0em}{\endolditemize}
+% \let\oldenumerate=\enumerate
+% \let\endoldenumerate=\endenumerate
+% \renewenvironment{enumerate}{\oldenumerate \itemsep0em}{ \endoldenumerate}
+
+
+% % Math formatting
+% \theoremstyle{definition}
+% \newtheorem{defn}{Definition}
+% \theoremstyle{plain}
+% \newtheorem{prop}{Proposition}
+% \newtheorem{thm}{Theorem}
+% \newtheorem{lem}{Lemma}
+% \newtheorem{corol}{Corollary}
+ \newtheorem{per}{Perspective}
+% \DeclareMathOperator*{\argmax}{\arg\!\max}
+% \DeclareMathOperator*{\E}{\mathbb{E}}
+% \DeclareMathOperator*{\R}{\mathbb{R}}
+% \DeclareMathOperator*{\var}{\rm Var}
+% \DeclareMathOperator*{\cov}{\rm Cov}
+% \DeclareMathOperator*{\supp}{\rm Supp}
+
+% % Custom commands
+ \newcommand{\leftcol}{}
+ \newcommand{\maincol}{}
+ \newcommand{\margin}{}
+ \newcommand{\myspacing}{}	
+ \newcommand{\thus}{$\Rightarrow$ }
+
+% % Other hacks
+% \pdfstringdefDisableCommands{\def\translate#1{#1}}
+% \vfuzz=100pt
+% \hfuzz=100pt
+% \setbeamercovered{transparent}
+
+% Title info
+\title[Hypothesis Test Perspectives]{ExpEcon Methods:\\
+Intro to Hypothesis Testing and\\Fay \& Proschan's (2010) ``Perspectives''}
+  \author[ECON 8877]{ECON 8877\\P.J. Healy\\First version thanks to Sungmin Park}
+  \institute[OSU]{}
+\date[]{\vfill {\tiny Updated \today}}
+%\setbeamertemplate{navigation symbols}{}
+
+\begin{document}
+%\setstretch{1.25}
+
+\begin{frame}
+    \maketitle
+\end{frame}
+
+\begin{frame}{A Primer/Reminder on Hypothesis Tests}
+\begin{itemize}
+    \item Assumed model/DGP (``population''): $F(X;\theta)$, $\theta\in \Theta$
+    \item Sample (r.v.): $X$. Often $X=(X_1,\ldots,X_n)$. Realization: $x$
+    \item Sample statistic: $W(X)$
+    \begin{itemize}
+        \item Ex: 2 groups. $X_i=(Y_i^0,Y_i^1)$, $W(X)=\sum_i Y_i^0/n-\sum_iY_i^1/n$
+    \end{itemize}
+    \item Hypotheses: $H_0:\theta\in\Theta_0$, $H_1:\theta\in\Theta_1$
+    \begin{itemize}
+        \item Here: Assume $\Theta_1=\Theta\setminus\Theta_0$
+    \end{itemize}
+    \item Do not reject $H_0$ if $W(x)\in W_0\subseteq \Bbb{R}$
+    \item Reject if $W(x)\in W_0^C$. Let $R=\{x:W(x)\in W_0^C\}$
+    \begin{itemize}
+        \item Decision rule: $\delta(x;W_0^C)=1$ if $W(x)\in W_0^C$
+        \item Decision rule: $\delta(x;W_0^C)=0$ if $W(x)\not\in W_0^C$
+    \end{itemize}
+    \item Rejection region (in sample space): reject $H_0$ if $x\in R$
+    \begin{itemize}
+        \item Pr(Type I Error at $\theta\in\Theta_0$) = $P_\theta(X\in R)$
+        \item Pr(Type II Error at $\theta\in\Theta_0^C$) = $P_\theta(X\not\in R)=1-P_\theta(X\in R)$
+    \end{itemize}
+    \item Power function: $\beta(\theta)=P_\theta(X\in R)$
+    \begin{itemize}
+        \item Ideal: $\beta(\theta)=0\ \forall \theta\in\Theta_0$, $\beta(\theta)=1\ \forall\theta\in\Theta_0^C$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Primer: One-Sided Test}
+    Example: $X=(X_1,\ldots,X_n)\in\Bbb{R}^n$, iid $N(\theta,\sigma^2)$, $\sigma^2$ known.
+    \begin{itemize}
+        \item Question: $H_0:\theta\leq\theta_0$ for some $\theta_0$ (given by research question)
+        \item Test statistic: $W(X)=\frac{\bar{X}-\theta_0}{\sigma/\sqrt{n}}$ (average ``$z$-score'')
+        \item Reject if $W(X)>c$ for some $c$ (that you choose)
+        \begin{itemize}
+            \item Why? Equivalent to LRT $sup_{\theta\in\Theta_0}L(\theta|x)/sup_\theta L(\theta|x)<\lambda$
+            \item Parametric distribution $\Rightarrow$ $L(\theta|x)$ known
+        \end{itemize} 
+        \item How to pick $c$? Want $\beta(\theta)\leq 0.05$ for all $\theta\leq\theta_0$. So
+        \begin{align*}
+            \beta(\theta) &= P_\theta\left(\frac{\bar{X}-\theta_0}{\sigma/\sqrt{n}}> c\right)\\
+            &= P_\theta\left(\frac{\bar{X}-\theta}{\sigma/\sqrt{n}}> c+\frac{\theta_0-\theta}{\sigma/\sqrt{n}}\right)\\
+            &= P_\theta\left(Z>c+\frac{\theta_0-\theta}{\sigma/\sqrt{n}}\right)=1-\Phi\left(c+\frac{\theta_0-\theta}{\sigma/\sqrt{n}}\right)
+        \end{align*}
+        \item Increasing in $\theta$ $\Rightarrow$ Want $\beta(\theta_0)=1-\Phi(c)=0.05$ $\Rightarrow$ Set $c=1.645$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Primer: One-Sided Test}
+    Example: $X=(X_1,\ldots,X_n)\in\Bbb{R}^n$, iid $N(\theta,\sigma^2)$, $\sigma^2$ known.\\
+    Test: Reject if $W(X)=\frac{\bar{X}-\theta_0}{\sigma/\sqrt{n}} > c=1.645$\\
+    Graph: $\beta(\theta)$ for $\theta_0=0$, $n=10$\\
+    \begin{center}
+        \includegraphics[height=1.5in]{graphics/PowerFunctionNormalEx.png}
+    \end{center}
+    Maximum type-I error (among $\theta\leq \theta_0=0$) is 0.05 (by design)\\
+    Size of test: $\alpha:=\sup_{\theta\in\Theta_0}\beta(\theta)$\\
+    ``I want 80\% power.'' OK but... at which $\theta$???
+\end{frame}
+
+\begin{frame}{Primer: $p$-Values}
+So, what's a $p$-value?
+\begin{itemize}
+    \item In general, just another statistic $p(X)$
+    \item But it's an alternative (equivalent) way to run the same test
+    \item But most commonly, rejection rule is $R=\{x:p(x)< \alpha\}$ where
+    \begin{align*}
+        p(x)=\sup_{\theta\in\Theta_0} P_\theta(W(X)\geq W(x))
+    \end{align*}
+    \item ``Under $H_0$, what the probability of a more-extreme $W(X)$?''
+    \item Reject iff $p(x)<\alpha$
+    \begin{itemize}
+        \item Decision rule: $\delta(x;\alpha)=1$ if $p(x)<\alpha$, $\delta(x;\alpha)=0$ if $p(x)\geq \alpha$
+        \item Previously you chose $c$, reject if $W(X)> c$
+        \item Now you choose $\alpha$, reject if $p(X)<\alpha$
+    \end{itemize}
+    \item This will generate a valid test for any $\alpha$
+    \item One-sided test: reject if $W(X)>w^{**}$
+    \item Two-sided test: reject if $W(x)\not\in (w^*,w^{**})$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The Example}
+Again, $X_i\sim N(\theta,\sigma^2)$, $H_0:\theta\leq \theta_0(=0)$.
+\begin{align*}
+    p(x) &= sup_{\theta\in\Theta_0} P_\theta(W(X)\geq W(x)) \\
+    &= sup_{\theta\in\Theta_0} P_\theta\left( \frac{\bar{X}-\theta_0}{\sigma/\sqrt{n}} \geq \frac{\bar{x}-\theta_0}{\sigma/\sqrt{n}}\right)\\
+    &= P_{\theta_0}\left( \frac{\bar{X}-\theta_0}{\sigma/\sqrt{n}} \geq \frac{\bar{x}-\theta_0}{\sigma/\sqrt{n}}\right) \\
+    &= P_{\theta_0}\left( Z \geq W(x)\right)
+\end{align*}
+\begin{itemize}
+    \item Usual rule: reject $H_0$ iff $p(x)<0.05$
+    \item Note: $p(x)< 0.05$ iff $W(x)> 1.645$
+    \item So, reject if $W(x)>1.645$. Same rule as before!!! $c=1.645$
+    \item Has same meaning regardless of $W(\cdot)$ and $W_0$
+    \item $p$-value gives a useful measure of ``how close you were'' to rejecting/not rejecting
+\end{itemize}
+\end{frame}
+
+\begin{frame}{How To Simulate It}
+    \begin{itemize}
+        \item In the normal example, $\beta(\theta)$ has analytic solution
+        \item In general might not exist/too hard to solve
+        \item We can simulate it! Steps:
+        \begin{enumerate}
+            \item Set a grid of $\theta$ values
+            \item Choose a sample size $n$ and number of ``runs'' $R$
+            \item At each ``true'' $\theta$ generate $R$ iid samples of size $n$
+            \begin{itemize}
+                \item $r^\text{th}$ sample is $x_r^\theta=(x_{1,r}^\theta,\ldots,x_{n,r}^\theta)$ where $x_{i,r}^\theta\overset{iid}{\sim}F(\cdot,\theta)$
+            \end{itemize}
+            \item For each $x_r^\theta$ determine $\delta(x_r^\theta;\alpha)$
+            \item Estimated power function: $\hat{\beta}(\theta)=\sum_{r=1}^R\frac{1}{R}\delta(x_r^\theta;\alpha)$
+            \item Redo this for various $n$, $\alpha$, $W(x)$, whatever...\\
+            Plot them all and check:
+            \begin{enumerate}
+                \item Is $\hat{\beta}(\theta)\leq 0.05$ when $\theta\in\Theta_0$?
+                \item Which has the greatest $\hat{\beta}(\theta)$ when $\theta\not\in\Theta_0$?            
+            \end{enumerate}
+        \end{enumerate}
+        \item Very useful for picking your actual sample size!
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Example MATLAB Code}
+    \begin{lstlisting}[title={Part 1: Setting Parameters}]
+%% Set parameters
+tnot = 0; % the cutoff theta_0
+tgrid = [-2.5 -1 -0.5 -0.1 0 0.1 0.5 1 1.5 2 2.5 5 10]; %true means (theta)
+n = 100;
+c = 1.645;
+sig = 10; %true std deviation
+runs = 5000; %how many samples to generate for each t and n
+    \end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+    \frametitle{Example MATLAB Code}
+    \begin{lstlisting}[title={Part 2: Running the Simulation}]
+%% Now run the simulation
+for ti=1:length(tgrid)
+    t = tgrid(ti); % current "true" theta
+    fdist = makedist('Normal','mu',t,'sigma',sig); %true dist'n
+    for r = 1:runs
+        xr = random(fdist,n,1); %rth sample, an nx1 vector
+        W(ti,r) = (mean(xr)-tnot)/(sig/sqrt(n)); %sample statistic
+        rej(ti,r) = W(ti,r) > c; %reject or not
+        pval(ti,r) = 1-normcdf(W(ti,r),tnot,1); %our p-value
+    end
+    rejavg(ti) = mean(rej(ti,:));
+    pvalavg(ti) = mean(pval(ti,:));
+end
+    \end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+    \frametitle{Example MATLAB Code}
+    \begin{lstlisting}[title={Part 3: Plotting Output}]
+%% Now plot the output
+figure; %open new figure
+plot(tgrid,rejavg,"LineWidth",1.5,"Color","blue"); %plot rejavg (power)
+title("n="+n+" c="+c+" \sigma="+sig);
+xticks(tgrid);
+ylim([0 1]);
+hold on; %allows multiple plots
+plot(tgrid,pvalavg,"LineWidth",1.5,"Color","red"); %plot pvalavg
+plot(tgrid,0.05*ones(length(tgrid)),"LineStyle","--","Color","k"); %plot y=0.05 as black dashed line
+plot([tnot tnot],[0 1],"LineStyle",":","Color","k"); %plot x=0
+hold off;
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Example MATLAB Simulation}
+    \centering
+    \includegraphics[width=4in]{graphics/simplehypsim.png}
+\end{frame}
+
+\begin{frame}{Example MATLAB Simulation}
+    \centering
+    \includegraphics[width=4in]{graphics/simplehypsim2.png}
+\end{frame}
+
+
+\begin{frame}{Primer: Two-Sided $t$-Test}
+    Example: $X=(X_1,\ldots,X_n)\in\Bbb{R}^n$, iid $N(\theta,\sigma^2)$, $\sigma^2$ \textbf{NOT} known.
+    \begin{itemize}
+        \item Question: $H_0:\theta=\theta_0$, $H_1:\theta\neq \theta_0$
+        \item Test statistic: $W(X)=\frac{\bar{X}-\theta_0}{\hat{\sigma}/\sqrt{n}}$ where $\hat{\sigma}=\sqrt{\sum_i \frac{1}{n-1}(X_i-\bar{X})^2}$
+        \item Reject if $W(X)\not\in[-c,c]$ for some $c$. How to pick $c$?
+        \item Want $\beta(\theta)\leq 0.05$ for all $\theta\in\Theta_0=\{\theta_0\}$. So
+        \begin{align*}
+            \beta(\theta_0) &= 2\cdot P_{\theta_0}\left(\frac{\bar{X}-\theta_0}{\hat{\sigma}/\sqrt{n}}> c\right)\\
+             &= 2\cdot P_{\theta_0}\left(\frac{\frac{\bar{X}-\theta_0}{\sigma/\sqrt{n}}}{\sqrt{\frac{\sum_i (X_i-\bar{X})^2}{\sigma^2}\frac{1}{n-1}}}> c\right)\\
+            &= 2\cdot P_{\theta_0}\left(\frac{Z}{\sqrt{\chi^2/(n-1)}}>c\right)=2\cdot(1-T_{n-1}(c))
+        \end{align*}
+        \item Want $\beta(\theta_0)=0.05$ $\Rightarrow$ Set $c=T^{-1}_{n-1}(0.975)$. Note: depends on $n$
+        \item Does a closed-form solution exist for $\beta(\theta)$? Let's just simulate!!
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Primer: Two-Sided Test}
+\centering
+\includegraphics[width=4in]{graphics/PowerFunctionTwoSidedTTest.png}\\
+$x$-axis: True mean. Blue: Power function. Red: Average $p$-value.
+\end{frame}
+
+\begin{frame}{Primer: Two-Sided Test}
+\centering
+\includegraphics[width=4in]{graphics/PowerFunctionTwoSidedTTestHighVar.png}\\
+Double the variance
+\end{frame}
+
+\begin{frame}{Primer}
+Comparing tests
+\begin{itemize}
+    \item Suppose you have a class of tests $\mathcal{C}$ for a fixed $H_0$
+    \item Fix $n$. Test w/ power function $\beta\in\mathcal{C}$ is \alert{uniformly most powerful (UMP)} if $\forall \beta'\in\mathcal{C},\ \forall \theta\in\Theta_0^C$, $\beta(\theta)\geq\beta(\theta')$
+    \begin{itemize}
+        \item May not exist
+    \end{itemize}
+    \item Test with $\beta$ is asymptotically (uniformly) most powerful if it becomes UMP as $n\rightarrow \infty$
+    \item A test is \alert{valid} for size $\alpha$ if $\sup_{\theta\in\Theta_0}\beta(\theta)\leq \alpha$
+    \item It is \alert{asymptotically valid} if it's valid as $n\rightarrow\infty$
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Now We're Ready}
+    OK, now onto Fay \& Proschan (2010)...
+\end{frame}
+
+\begin{frame}{Two Popular Statistical Tests}
+Two samples: $Y^0=(Y_1^0,\ldots,Y_n^0)$ and $Y^1=(Y_1^1,\ldots,Y_m^1)$\\
+Assume $Y_i^0 \overset{iid}{\sim} F$ and $Y_i^1\overset{iid}{\sim}G$. Is $G$ ``bigger'' than $F$?\\
+In what sense? Mean? Median? FOSD? What does a given test measure?
+\begin{itemize}
+    \item \textbf{Student's $t$-test}: reject if
+        	\vspace{1em}
+        	\begin{columns}[]
+        		\column{0.2\linewidth}
+        		\column{0.4\linewidth}
+        		\vspace{-1em}
+        		\begin{equation*}
+        			\left| \frac{\hat\mu_1-\hat\mu_0}{\hat\sigma\sqrt{\frac{1}{n}+\frac{1}{m}}}
+        			\right| > t^{-1}_{n+m-2}(1-\alpha/2),
+        		\end{equation*}
+        		\column{0.4\linewidth}\scriptsize
+        	 \setstretch{1}where $\hat\sigma^2$ is the pooled sample variance and $t_d(\cdot)$ is the CDF of Student $t$ distribution with degree of freedom $d$.
+        	\end{columns}
+         \begin{itemize}
+             \item Parametric. Test of means? Assumes normality?
+         \end{itemize}
+    \item \textbf{Wilcoxon/Mann-Whitney rank-sum test}: reject if \vspace{-1em}
+\begin{equation*}\vspace{-0.5em}\setstretch{0.8}
+		\sum_{i=1}^n \sum_{j=1}^m S(Y^0_i, Y^1_j) < U_{n_0,n_1}^{-1}(1-\alpha/2)
+		\text{\quad where }
+		S(x, y)=
+		\begin{cases}
+			1, & \text{ if } $x > y$,\\
+			\frac{1}{2}, & \text{ if } $x = y$,\\
+			0, & \text{ if } $x < y$.
+		\end{cases}
+\end{equation*}
+    \begin{itemize}
+        \item Non-parametric. Test of medians??? Assumes what???
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\citet{FayProschan2010}}
+  \vspace{1em}
+\begin{columns}[t]
+	\column{0.1\linewidth}
+	\column{0.2\linewidth}
+	  \textbf{Question}
+	 \column{0.6\linewidth}
+     When is it appropriate to use \alert{Wilcoxon-Mann-Whitney (WMW) test}
+     or \alert{$t$-test} to compare two samples?
+     %\pause
+     \begin{itemize}\footnotesize
+         \item When is it \alert{valid} \& \alert{consistent}? When is it \alert{optimal}?
+     \end{itemize}
+	 \column{0.1\linewidth}
+\end{columns}
+%\pause
+\vspace{1.5em}
+\begin{columns}[t]
+    \column{0.1\linewidth}
+	\column{0.2\linewidth}
+	\textbf{Answer}
+	\column{0.6\linewidth}
+    They are appropriate for different pairs of \alert{null} and \alert{alternative}
+    hypotheses (\alert{``perspectives''})
+\column{0.1\linewidth}
+\end{columns}
+\vspace{2em}
+\begin{columns}
+    \column{0.3\linewidth}
+    \centering
+    \includegraphics[width=1\linewidth]{graphics/dist.pdf}
+\end{columns}
+\end{frame}
+
+
+% -------------------------------------------
+% \setbeamertemplate{headline} {
+% 	\setbeamercolor{section in head/foot}{fg=black, bg=white} \vskip0.5em \scriptsize
+% 	\insertsectionnavigationhorizontal{1\paperwidth}{\hspace{0.5\paperwidth}}{}
+% }
+\section{Illustration}
+%------------------------------------------
+\begin{frame}[t]\frametitle{Illustration: 9th Grade Math Ability of Boys \& Girls}
+\vspace{-2em}
+\begin{columns}[T]
+		\column{0.55\linewidth}
+        \begin{figure}
+            \caption{Histograms of math ability}
+        \includegraphics[width=1\linewidth]{graphics/score.pdf}
+        \end{figure}
+		\column{0.45\linewidth}
+%\pause
+\begin{table}[]
+    \footnotesize
+    \caption{Summary statistics of math ability}
+    \begin{tabular}{llccc}
+    \toprule
+                 &                & \multicolumn{2}{c}{Sample ($j$)}  \\ \cmidrule(ll){3-4}
+    Statistic    &                & Male ($0$)& Female ($1$)   \\ \midrule
+    Obs. & $n_j$            & 10,887    & 10,557         \\
+    Mean         & $\hat\mu_j$      & 40.17     & 40.20          \\
+    Median       &                  & 40.44     & 40.36          \\
+    Variance     & $\hat\sigma^2_j$ & 152.00    & 134.74         \\ \bottomrule
+    \end{tabular}
+\end{table}
+\end{columns}
+\parbox{1\linewidth}{\vspace{-0.5em}
+\scriptsize Source: High School Longitudinal Study (HSLS) of 2009}
+%\pause
+
+\vspace{0em}
+\begin{itemize}
+	\item Assuming each obs is \alert{independent}, should we use $t$-test? WMW test? To test what?
+        %\pause
+	\item Fay and Proschan (2010) say that the answer depends on your perspective(s).
+        %\pause
+	\item A \alert{perspective} is a pair of null ($H$) and alternative ($K$) hypotheses.
+\end{itemize}
+
+\end{frame}
+
+
+%------------------------------------------
+\begin{frame}\frametitle{One perspective you know from Stats 101}
+	\begin{columns}
+		\column{0.95\linewidth}
+        \\
+	\begin{per}[Shift in normal distribution]
+	Let $Y$ denote a random variable. The \textbf{shift-in-normal perspective} is
+	\vspace{-1em}
+	\begin{equation*}\vspace{-1em}
+		H:\mathbb{E}_F(Y)=\mathbb{E}_G(Y) \text{\quad versus \quad} K:\mathbb{E}_F(Y) \neq \mathbb{E}_G(Y),
+	\end{equation*}
+	where $F$ and $G$ are two \alert{normal} distributions with the \alert{same variance}. (Difference must be in means.)
+	\end{per}
+    %\pause
+        \begin{itemize}
+
+        	\item \textbf{Student's $t$-test} {\scriptsize (decision rule)}: Given data $X$ and significance level $\alpha$, reject $H$ if
+        	\vspace{1em}
+        	\begin{columns}[]
+        		\column{0.2\linewidth}
+        		\column{0.4\linewidth}
+        		\vspace{-1em}
+        		\begin{equation*}
+        			\left| \frac{\hat\mu_1-\hat\mu_0}{\hat\sigma\sqrt{\frac{1}{n_1}+\frac{1}{n_0}}}
+        			\right| > t^{-1}_{n-2}(1-\alpha/2),
+        		\end{equation*}
+        		\column{0.4\linewidth}\scriptsize
+        	 \setstretch{1}where $\hat\sigma^2$ is the pooled sample variance,
+	         $n=n_1+n_0$,
+	         and $t_d(\cdot)$ is the CDF of Student $t$ distribution with degree of freedom $d$.
+        	\end{columns}
+        	\vspace{1em}
+            %\pause
+            \item Under the above, Student's $t$-test is not only \alert{valid} {\scriptsize ($\alpha$ works as intended)} but also \alert{uniformly most powerful (UMP) unbiased}. It's also \alert{asymptotically most powerful (AMP)}.
+        \end{itemize}
+        \vspace{1em}
+
+	\end{columns}
+\end{frame}
+
+
+
+%------------------------------------------
+\begin{frame}\frametitle{A relaxed perspective, also from Stats 101}
+	\begin{columns}
+		\column{0.95\linewidth}
+		\vspace{-0.5em}
+		\begin{per}[Behrens-Fisher]
+The \textbf{Behrens-Fisher perspective} is
+	\vspace{-1em}
+	\begin{equation*}\vspace{-1em}
+		H:\mathbb{E}_F(Y)=\mathbb{E}_G(Y) \text{\quad versus \quad} K:\mathbb{E}_F(Y) \neq \mathbb{E}_G(Y),
+	\end{equation*}
+	where $F$ and $G$ are two \alert{normal} distributions with possibly \alert{different variances}. 
+	\end{per}
+    %\pause
+	\begin{itemize}\vspace{-0.5em}
+		\item Under this relaxed perspective, Student's $t$-test is no longer valid because it pools the variances.
+		\item \textbf{Welch's $t$-test} uses separate variance estimates, thus is \alert{asymptotically valid} and \alert{asymptotically most powerful}:
+		\vspace{-1.5em}
+		\begin{equation*}
+			\left| \frac{\hat\mu_1 - \hat\mu_0}{\sqrt{\frac{\hat\sigma^2_1}{n_1} + \frac{\hat\sigma^2_0}{n_0}}} \right|
+			> t_{d_W}^{-1}(1-\alpha/2),
+			\text{\quad\quad where }
+			{\scriptsize
+			d_W = \frac{\left(
+				\frac{\hat\sigma^2_1}{n_1} + \frac{\hat\sigma^2_0}{n_0}
+			\right)^2}{\frac{(\hat\sigma^2_1/n_1)^2}{n_1-1} + \frac{(\hat\sigma^2_0/n_0)^2}{n_0-1}}
+		}
+		\end{equation*}
+\end{itemize}
+\vspace{-1em}
+\thus Each statistical test can have multiple valid perspectives. The authors call this idea the \alert{Multiple perspective decision rules (MPDR) framework}
+	\end{columns}
+\end{frame}
+
+
+%------------------------------------------
+\begin{frame}\frametitle{Even more relaxed perspective}
+	\begin{columns}
+		\column{0.95\linewidth}
+		\begin{per}[Distributions equal or not]
+	\begin{equation*}\vspace{-0.5em}
+	H:F=G \text{\quad versus \quad} K:F \neq G,
+\end{equation*}
+where $F$ and $G$ are any two distributions.
+		\end{per}
+\begin{itemize}
+	\item Under this perspective, the $t$-tests are \alert{asymptotically valid} and the WMW test is \alert{valid}. But neither are \alert{consistent}! {\scriptsize (power approaches 1 as $n\rightarrow \infty$)}
+	\item The WMW test {\scriptsize (or Mann-Whitney U test or Wilcoxon rank-sum test)} is to reject if \vspace{-1em}
+\begin{equation*}\vspace{-0.5em}\setstretch{0.8}
+		\sum_{i=1}^n \sum_{j=1}^m S(Y^0_i, Y^1_j) < U_{n_0,n_1}^{-1}(1-\alpha/2)
+		\text{\quad where }
+		S(x, y)=
+		\begin{cases}
+			1, & \text{ if } $x > y$,\\
+			\frac{1}{2}, & \text{ if } $x = y$,\\
+			0, & \text{ if } $x < y$.
+		\end{cases}
+\end{equation*}
+\item Neither t-tests nor WMW test reject the null hypothesis for the 9th-graders' data
+%\item \alert{Kolmogorov–Smirnov test} seems to work, although it's not mentioned in the paper
+\end{itemize}
+	\end{columns}
+\end{frame}
+
+
+%------------------------------------------
+\begin{frame}\frametitle{Philosophy behind the MPDR framework}
+	\framesubtitle{Assumptions in scientific research}
+	\begin{columns}
+		\column{0.95\linewidth}
+\begin{itemize}\itemsep1em
+\item The \alert{Multiple perspective decision rules (MPDR) framework} has practical value because it suits the nature of scientific theories.\\
+
+\item A \alert{scientific theory} is often a \alert{vague idea} or a \alert{qualitative result} that can be described by more than one statistical model.
+\begin{itemize}
+	\item In biological sciences, for example, the Physicians' Health Study (PHS) aims to test a theory that says \alert{prolonged low-dose aspirin} decreases \alert{cardiovascular mortality}.
+	\item Researchers testing this theory assume a particular statistical model to formulate the null hypothesis, but that model is \alert{just one way} of representing the data's randomness.
+\end{itemize}
+
+\item So we should consider the \alert{set of possible statistical assumptions} behind a scientific theory to assess which statistical tests (decision rules) are the most useful.
+\end{itemize}
+\end{columns}
+\end{frame}
+
+
+
+%------------------------------------------
+% \begin{frame}\frametitle{}
+% 	\begin{columns}
+% 		\column{0.95\linewidth}
+% 		\begin{center}
+% 			\Large
+% 			\alert{Framework for assessing decision rules}
+% 		\end{center}
+% 	\end{columns}
+% \end{frame}
+
+
+\newcommand{\lw}{0.25}
+\newcommand{\rw}{0.65}
+\newcommand{\mar}{0.05}
+\newcommand{\vs}{\vspace{1.5em}}
+
+\renewcommand{\leftcol}{0.25\linewidth}
+\renewcommand{\maincol}{0.65\linewidth}
+\renewcommand{\margin}{0.05\linewidth}
+\renewcommand{\myspacing}{\vspace{1.5em}}
+
+\section{Framework}
+%------------------------------------------
+\begin{frame}\frametitle{Terminology}
+	\setstretch{1}
+	\begin{columns}[t]
+		\column{\margin}
+		\column{\leftcol}
+\textbf{Data}
+		\column{\maincol}
+		$X \in \mathcal{X}$, where $\mathcal{X}$ is the sample space. Write $X_n$ to denote number of observations $n$
+		\column{\margin}
+	\end{columns}
+\myspacing
+\begin{columns}[t]
+	\column{\margin}
+	\column{\leftcol}
+	\textbf{``Probability model''}
+	\column{\maincol}
+	A distribution
+	$P \in \mathcal{P}$ on $\mathcal{X}$, where $\mathcal{P} = \{P_\theta | \theta \in \Theta\}$ with a given parameter space $\Theta$
+	\column{\margin}
+\end{columns}
+\myspacing\begin{columns}[t]
+	\column{\margin}
+	\column{\leftcol}
+	\textbf{Null hypothesis}
+	\column{\maincol}
+	$H = \{P_\theta | \theta \in \Theta_H\}$
+	\column{\margin}
+\end{columns}
+\myspacing\begin{columns}[t]
+	\column{\margin}
+	\column{\leftcol}
+	\textbf{\small Alternative hypothesis}
+	\column{0.3\linewidth}
+	$K = \{P_\theta | \theta \in \Theta_K\}$
+	\column{0.4\linewidth}
+	\small
+	($\Theta_H$ and $\Theta_K$ are \alert{disjoint subsets} of $\Theta$)
+\end{columns}
+\myspacing\begin{columns}[t]
+	\column{\margin}
+	\column{\leftcol}
+	\textbf{``Assumption''}
+	\column{\maincol}
+	$A = (\mathcal{X}, H, K)$
+	\column{\margin}
+\end{columns}
+\myspacing\begin{columns}[t]
+	\column{\margin}
+	\column{\leftcol}
+	\textbf{Decision rule {\footnotesize (test)}}
+	\column{\maincol}
+	$\delta(X, \alpha) \in \{0 \text{\scriptsize\,(not reject)},1 \text{\scriptsize\,(reject)}\}$, for all data $X \in \mathcal{X}$ and \alert{significance level} $\alpha \in (0,0.5)$
+	\column{\margin}
+\end{columns}
+\end{frame}
+
+
+\renewcommand{\leftcol}{0.15\linewidth}
+\renewcommand{\maincol}{0.75\linewidth}
+\renewcommand{\margin}{0.05\linewidth}
+\renewcommand{\myspacing}{\vspace{1.25em}}
+%------------------------------------------
+\begin{frame}\frametitle{Terminology about decision rule {\normalsize (test)} $\delta$}
+\framesubtitle{for a significance level $\alpha \in (0,0.5)$}
+\begin{columns}[t]
+	\column{\margin}
+	\column{\leftcol}
+	\textbf{``Power''}
+	\column{0.55\linewidth}
+	$ Pow[\delta(X_n,\alpha);\theta] = \Pr[ \delta(X_n,\alpha) = 1; \theta] $
+	\column{0.25\linewidth}\raggedleft
+{\footnotesize (Probability of rejecting)}
+\end{columns}
+\myspacing\begin{columns}[t]
+	\column{\margin}
+	\column{\leftcol}
+	\textbf{``Size''}
+	\column{0.45\linewidth}
+	$\displaystyle \alpha_n^* = \sup_{\theta \in \Theta_H} Pow[\delta(X_n,\alpha);\theta].$
+	\column{0.35\linewidth}\raggedleft
+{\footnotesize \vspace{1em}(Max. prob. of rejecting given null)}
+\end{columns}
+\myspacing\begin{columns}[t]
+	\column{\margin}
+	\column{\leftcol}
+	\textbf{Validity}
+	\column{\maincol}
+	A test $\delta$ is \alert{valid} if $\alpha^*_n \leq \alpha$ for all $n$.\\
+		A test $\delta$ is \alert{uniformly asymptotically valid (UAV)} if
+		$\displaystyle \limsup_{n \rightarrow \infty} \alpha_n^* \leq \alpha.$\\
+	A test $\delta$ is \alert{pointwise asymptotically valid (PAV)} if, for all $\theta \in \Theta_H$,
+	\vspace{-1em}
+\begin{equation*}
+	\limsup_{n \rightarrow \infty} Pow[\delta(X_n,\alpha);\theta] \leq \alpha.
+\end{equation*}
+	\column{\margin}
+\end{columns}
+\myspacing\begin{columns}[t]
+	\column{\margin}
+	\column{\leftcol}
+	\textbf{p-value}
+	\column{0.45\linewidth}
+	$p(X) = \inf\{ \alpha' : \delta(X,\alpha')=1\}$
+	\column{0.35\linewidth}\raggedleft
+	{\footnotesize (the strictest $\alpha'$ that rejects)}
+\end{columns}
+\end{frame}
+
+\renewcommand{\leftcol}{0.15\linewidth}
+\renewcommand{\maincol}{0.75\linewidth}
+\renewcommand{\margin}{0.05\linewidth}
+\renewcommand{\myspacing}{\vspace{1em}}
+%------------------------------------------
+\begin{frame}\frametitle{Terminology about optimal decision rules}
+\framesubtitle{for a significance level $\alpha \in (0,0.5)$}
+
+
+\begin{columns}[t]
+	\column{\margin}
+	\column{\leftcol}
+	\textbf{Bias}
+	\column{\maincol}
+	A test $\delta$ is \alert{unbiased} if, for all $\theta \in \Theta_K$, power $\geq$ size.
+	\column{\margin}
+\end{columns}
+\myspacing
+\begin{columns}[t]
+    \column{0.05\linewidth}
+	\column{0.15\linewidth}
+	\textbf{Consistency}
+	\column{0.8\linewidth}
+    A test $\delta$ is \alert{consistent} if, for all $\theta \in
+    \Theta_K$, the power approaches 1 as $n \rightarrow \infty$.
+\end{columns}
+\myspacing
+\begin{columns}[t]
+	\column{\margin}
+	\column{\leftcol}
+	\textbf{Optimality}
+	\column{\maincol}
+	\setstretch{1.15}A test $\delta$ is \alert{uniformly most powerful (UMP)} if, $\forall \delta'$ and $\forall \theta \in \Theta_K$,
+	\vspace{-0.5em}
+	\begin{equation*}
+		Pow[\delta(X,\alpha);\theta] \geq Pow[\delta'(X,\alpha);\theta].
+	\end{equation*}
+	A test is \alert{UMP unbiased} if it is UMP among all unbiased tests.\\
+	\vspace{0.5em}
+	
+	A test is \alert{asymptotically most powerful (AMP)} if, as $\theta_n$ approaches $\theta_0$,
+		\vspace{-1em}
+	\begin{equation*}\vspace{-1em}
+		\limsup_{n\rightarrow \infty} \;	Pow[\delta(X_n,\alpha);\theta_n] - Pow[\delta'(X_n,\alpha);\theta_n] \geq 0
+	\end{equation*}
+	as $\theta_n \in \Theta_K$ approaches $\theta_0 \in \Theta_H$.
+	\column{\margin}
+\end{columns}
+\end{frame}
+
+
+
+\section{Perspectives}
+%------------------------------------------
+% \begin{frame}\frametitle{}
+% 	\begin{columns}
+% 		\column{0.95\linewidth}
+% 		\begin{center}
+% 			\Large
+% \alert{Perspectives in the MPDR Framework}
+% 		\end{center}
+% 	\end{columns}
+% \end{frame}
+
+
+\renewcommand{\myspacing}{\vspace{1em}}
+%------------------------------------------
+\begin{frame}\frametitle{Perspective 1}
+\framesubtitle{Following the original notation}
+	\begin{columns}
+		\column{0.95\linewidth}
+\begin{per}[Difference in means; same null distribution]
+\vspace{-1.5em}
+\begin{align*}
+    H &= \{F, G: F=G\}\\
+    K &= \{F, G: \mathbb{E}_F(Y) \neq \mathbb{E}_G(Y)\}
+\end{align*}
+\end{per}
+\begin{itemize}
+\item Weird (``\alert{focusing}'') perspective because it leaves out many pairs of distributions
+\item Still, the alternative hypotheses $K$ is a pretty large set
+\item The WMW test is \alert{valid but inconsistent}
+\item The paper doesn't mention how the t-tests fare, but they are likely inconsistent, too.
+\item So, don't take this perspective.
+\end{itemize}
+\end{columns}
+\end{frame}
+
+
+
+\renewcommand{\myspacing}{\vspace{1em}}
+%------------------------------------------
+\begin{frame}\frametitle{Perspective 2}
+\framesubtitle{A more restrictive one}
+	\begin{columns}
+		\column{0.95\linewidth}
+		\begin{per}[Stochastic ordering]
+			Let $\Psi_C$ denote the set of continuous distributions. Write $F <_{st} G$ if $G$ has \alert{first-order stochastic dominance} over $F$ {\scriptsize (i.e. $F(y)\geq G(y)$ for all $y$ and $F(y)> G(y)$ for some $y$)}.
+			\vspace{-1em}
+			\begin{align*}
+				H &= \{F, G: F=G; F \in \Psi_C\}\\
+				K &= \{F, G: F<_{st}G \text{ or } G<_{st}F; F,G \in \Psi_C \}
+			\end{align*}
+		\end{per}
+		\begin{itemize}
+			\item Under this perspective, the WMW test is \alert{valid} and \alert{consistent} {\scriptsize (Mann and Whitney, 1947)}. It's also \alert{unbiased} {\scriptsize (Lehmann, 1951)}
+			\item The t-tests {\scriptsize (both Student's and Welch's)} are \alert{asymptotically valid} and \alert{consistent}
+			\item So, both the WMW test and t-tests work under this perspective!
+		\end{itemize}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------
+\begin{frame}\frametitle{Perspective 3}
+	\begin{columns}
+		\column{0.95\linewidth}		\begin{per}[Mann-Whitney Functional]
+			Let $Y_F \sim F$ and $Y_G \sim G$.
+			Define the \alert{Mann-Whitney functional} $\phi$ as
+			\vspace{-1em}
+			\begin{equation*}\vspace{-1em}
+				\phi(F,G) = \Pr[Y_F > Y_G] + \frac{1}{2}\Pr[Y_F=Y_G]
+			\end{equation*}
+		The \alert{Mann-Whitney functional perspective} is
+		\vspace{-1em}
+			\begin{align*}\vspace{-1em}
+				H &= \{F, G: F=G; F \in \Psi_C\},\\
+				K &= \{F, G: \phi(F,G)\neq\frac{1}{2}; F,G \in \Psi_C \}.
+			\end{align*}
+		\end{per}
+		\begin{itemize}
+			\item A natural perspective by construction. Especially appropriate for ordinal data
+			\item The WMW test is valid and consistent, whereas the t-tests are inconsistent
+			\item So don't use t-tests under this perspective. Use the WMW test
+		\end{itemize}
+	\end{columns}
+\end{frame}
+
+
+
+
+%------------------------------------------
+\begin{frame}\frametitle{Perspective 4}
+	\framesubtitle{You've seen this before}
+	\begin{columns}
+		\column{0.95\linewidth}
+		\begin{per}[Distribution equal or not]
+			\vspace{-1.5em}
+		\begin{align*}
+			H=\{F,G:F=G\}\\
+			K=\{F,G:F\neq G\}
+		\end{align*}
+		\end{per}
+		\begin{itemize}
+			\item The WMW test is valid but inconsistent. The t-tests are asymptotically valid but iconsistent.
+			\item If you take this perspective, find a different test like Kolmogorov-Smirnov
+		\end{itemize}
+	\end{columns}
+\end{frame}
+
+%------------------------------------------
+\begin{frame}\frametitle{Perspectives 5--8: Shifts \& scale in distributions}
+	\small
+	Let $\Psi_L$, $\Psi_C$, and $\Psi_{LG}$ denote the sets of \alert{logistic}, \alert{continuous}, and \alert{log-gamma} distributions. \\
+	Let $\Psi_{D_k}$ denote the set of discrete distributions with sample space $\{1,2,\dots,k\}$
+	\begin{columns}
+		\column{0.475\linewidth}
+		\begin{per}[\small Shift in logistic distribution]
+	\vspace{-1.5em}
+	\small
+	\begin{align*}
+		H&=\{F,G: F=G; F \in \Psi_L \}\\
+		K&=\{F,G: G(y)=F(y+\Delta); \Delta\neq0; F \in \Psi_L\}
+	\end{align*}
+\end{per}
+		\column{0.475\linewidth}
+\begin{per}[\small Shift in continuous distribution]
+	\vspace{-1.5em}
+	\small
+	\begin{align*}
+		H&=\{F,G: F=G; F \in \Psi_C \}\\
+		K&=\{F,G: G(y)=F(y+\Delta); \Delta\neq0; F \in \Psi_C\}
+	\end{align*}
+\end{per}
+	\end{columns}
+		\begin{columns}[t]
+		\column{0.475\linewidth}
+		\begin{per}[\small Shift in log-gamma distribution]
+			\vspace{-1.5em}
+			\small
+			\begin{align*}
+				H&=\{F,G: F=G; F \in \Psi_{LG} \}\\
+				K&=\{F,G: G(y)=F(y+\Delta); \Delta\neq0; F \in \Psi_{LG}\}
+			\end{align*}
+		\end{per}
+		\column{0.475\linewidth}
+		\begin{per}[\small Proportional odds]
+			\vspace{0.5em}
+			\small
+			$H=\{F,G: F=G; F \in \Psi_{D_k} \}$\\
+			\footnotesize
+			$K=\{F,G: \frac{F(y)}{1-F(y)}=\frac{G(y)}{1-G(y)}\Delta;\Delta\neq1; F \in \Psi_{D_k}\}$
+		\end{per}
+	\end{columns}
+\begin{itemize}
+\item WMW: valid and consistent. t-tests: asymp. valid and consistent.
+\end{itemize}
+\end{frame}
+
+
+%------------------------------------------
+\begin{frame}\frametitle{Perspective 11: Differences in means assuming normality with same variance}
+\framesubtitle{I skip Perspectives 9--10 because they are weird and neither WMW test nor t-tests work}
+	\begin{columns}
+		\column{0.95\linewidth}
+		\begin{per}[Shift in normal distribution]
+	\vspace{-1.5em}
+	\begin{align*}\vspace{-1.5em}
+		H &=\{F,G:F=G; F \in \Psi_N\}\\
+		K &=\{F,G:G(y) = F(y+\Delta); \Delta \neq 0; F \in \Psi_N \}
+	\end{align*}
+	where $\Psi_N$ is the set of normal distributions.
+\end{per}
+\begin{itemize}
+	\item The first perspective you've seen at the beginning.
+	\item The WMW test and the Student's t-test are \alert{valid and consistent}. The Student's t-test is \alert{optimal}, because it is \alert{UMP unbiased} and \alert{asymptotically most powerful}. The Welch's t-test is \alert{asymptotically valid and consistent}.
+\end{itemize}
+	\end{columns}
+\end{frame}
+
+
+%------------------------------------------
+\begin{frame}\frametitle{Perspective 14: \large  Differences in means assuming normality with different variance}
+	\framesubtitle{Another one you've seen at the beginning}
+	\begin{columns}
+		\column{0.95\linewidth}
+		\begin{per}[Behrens-Fisher: Diference in normal means, different variances]
+			\vspace{-1.5em}
+			\begin{align*}\vspace{-1.5em}
+				H &=\{F,G:\mathbb{E}_F(Y)=\mathbb{E}_G(Y); F,G \in \Psi_N\}\\
+				K &=\{F,G:\mathbb{E}_F(Y)\neq\mathbb{E}_G(Y); F,G \in \Psi_N\}
+			\end{align*}
+			where $\Psi_N$ is the set of normal distributions.
+		\end{per}
+		\begin{itemize}
+			\item Both the WMW test and the Student's t-test are \alert{invalid and inconsistent}
+			\item Welch's t-test is \alert{uniformly asymptotically valid} and \alert{consistent}
+			\item So, use Welch's t-test if you take this perspective... but better ones exist:
+		\end{itemize}
+	\end{columns}
+\end{frame}
+
+
+
+%------------------------------------------
+\begin{frame}\frametitle{Perspectives 12--13: Differences in means without assuming normality}
+	\begin{columns}
+		\small
+	\column{0.475\linewidth}
+	\begin{per}[Finite variances]
+		\vspace{-1.5em}
+		\begin{align*}\vspace{-1.5em}
+H &=\{F,G:F=G; F \in \Psi_{fv}\}\\
+K &=\{F,G:\mathbb{E}_F(Y)\neq\mathbb{E}_G(Y); F,G \in \Psi_{fv}\}
+		\end{align*}
+		where $\Psi_{fv}$ is the set of distributions with finite variances.
+	\end{per}
+	\begin{itemize}
+		\item The WMW test is \alert{valid but inconsistent}
+		\item The t-tests are \alert{pointwise asymptotically valid} and \alert{consistent}
+	\end{itemize}
+	\column{0.475\linewidth}
+\begin{per}[Finite 4th moments]
+	\vspace{-1.5em}
+	\begin{align*}\vspace{-1.5em}
+H &=\{F,G:F=G; F \in \Psi_{B_\epsilon}\}\\
+K &=\{F,G:\mathbb{E}_F(Y)\neq\mathbb{E}_G(Y); F,G \in \Psi_{B_\epsilon}\}
+	\end{align*}
+	where $\Psi_{B_\epsilon}$ is the set of distributions with $Var(Y)\geq \epsilon >0$ and $\mathbb{E}(Y^4)\leq B<\infty$.
+\end{per}
+	\begin{itemize}
+	\item The WMW test is \alert{valid but inconsistent}
+	\item The t-tests are \alert{uniformly asymptotically valid} and \alert{consistent}
+\end{itemize}
+\end{columns}
+\vspace{0.5em}
+\thus t-tests are clearly preferable in large samples
+\end{frame}
+
+
+
+%------------------------------------------
+\begin{frame}\frametitle{Perspective 15: Seemingly natural but invalid perspective}
+	\begin{columns}
+		\column{0.95\linewidth}
+	\begin{per}[Difference in means; any distributions]
+	\vspace{-1.5em}
+	\begin{align*}\vspace{-1.5em}
+		H &=\{F,G:\mathbb{E}_F(Y) =  \mathbb{E}_G(Y)\}\\
+		K &=\{F,G:\mathbb{E}_F(Y)\neq\mathbb{E}_G(Y)\}
+	\end{align*}
+\end{per}
+\begin{itemize}
+\item There \alert{exists no valid decision rule} with some power greater than its significant level
+\item If you take this loose perspective, nothing works!
+\item Your perspective needs more structure
+\end{itemize}
+	\end{columns}
+\end{frame}
+
+
+%------------------------------------------
+\begin{frame}\frametitle{If you want to see the full picture...}
+\framesubtitle{The paper has the logical relationship between all perspectives 1--15 along with their validity \& consistency}
+	\begin{columns}
+		\column{0.95\linewidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{graphics/perspectives}
+			\label{fig:perspectives}
+		\end{figure}
+	\end{columns}
+\end{frame}
+
+
+\section{Discussion}
+%------------------------------------------
+\begin{frame}\frametitle{Takeaways}
+	\begin{columns}
+		\column{1\linewidth}
+		\textbf{So... WMW test or t-test?}
+		\begin{itemize}
+                \item It's important to identify your perspective first! Be \alert{precise}!
+                \item $t$-test is usually only asymptotically valid...
+			\item In the math ability example, maybe use \alert{Welch's t-test} since $n,m\geq 10,000$
+			\item But depending on the application, the \alert{WMW test} may be more appropriate
+			\begin{itemize}
+			\item For example, if the variable is \alert{ordinal}. Also, the authors argue that the WMW test is often more powerful than the t-tests in \alert{small samples}
+			\end{itemize}
+			\item In any case, the decision should not depend on whether the data look normally distributed or not, because there are valid perspectives without the normality assumption
+            \item But, stay tuned for the permutation test!
+		\end{itemize}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+    \frametitle{References:}
+    \small
+    \bibliographystyle{plainnat}
+    %\bibliographystyle{elsarticle-harv}
+    \bibliography{pjbib}
+\end{frame}
+
+
+  % -------------------------------------------
+%   \setbeamertemplate{headline}
+%   {
+% 	  \setbeamercolor{section in head/foot}{fg=black, bg=white}
+% 	  \vskip1em \tiny \insertsectionnavigationhorizontal{1\paperwidth}{\hspace{1\paperwidth}}{}
+%   }
+%   \setbeamertemplate{footline}{}
+% \appendix
+%   \section{}
+%------------------------------------------
+\begin{frame}\frametitle{}
+	\vspace{5em}
+	\begin{columns}
+		\column{1\linewidth}
+		\centering
+		{\Large \alert{The End!}}
+	\end{columns}
+	\vspace{3em}
+	    \begin{columns}
+		\column{0.3\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{graphics/dist.pdf}
+	\end{columns}
+\end{frame}
+
+\end{document}
+

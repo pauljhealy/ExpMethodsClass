@@ -1,0 +1,191 @@
+\documentclass[11pt]{article}
+\newif\ifshowsolutions
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Choose to show solutions (\showsolutionstrue) or not (\showsolutionsfalse).
+% (Commenting this out entirely should hide the solutions).
+\showsolutionsfalse %true or false
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[normalem]{ulem}
+\usepackage{amsfonts,amsmath,amssymb}
+\usepackage{rotating}
+\usepackage{color,graphicx}
+\usepackage{fullpage,setspace}
+\usepackage[colorlinks=false,urlcolor=darkgray,bookmarks=false,pdfborder={0 0 0}]{hyperref}
+\usepackage{sgame,multirow,pstricks,egameps}
+\usepackage{verbatim}
+\usepackage{natbib}
+\newcounter{question}
+\newtheorem{problem}{Problem}[question]
+\newcommand{\newquestion}[1][]{\stepcounter{question}\bigskip{\large \textbf{\underline{Problem \arabic{question}{#1}}}}\bigskip}
+
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+\newenvironment{solution}[1][Solution]{\doublespacing\noindent\textbf{#1 \theproblem}\ \ }{\hfill\rule{0.5em}{0.5em} %don't delete these 2 line breaks:
+
+\bigskip}
+
+\ifshowsolutions
+    % do nothing... solutions will be shown.
+\else
+    % hide the solutions as comments.
+    \let\solution=\comment \let\endsolution=\endcomment\bigskip
+\fi
+
+\newtheorem{theorem}{Theorem}[question]
+\renewcommand{\thetheorem}{\arabic{question}.\Alph{theorem}}
+\newtheorem{axiom}[theorem]{Axiom}
+\renewcommand{\theaxiom}{\arabic{question}.\Alph{axiom}}
+\newtheorem{assumption}[theorem]{Assumption}
+\renewcommand{\theassumption}{\arabic{question}.\Alph{assumption}}
+\newtheorem{claim}[theorem]{Claim}
+\renewcommand{\theclaim}{\arabic{question}.\Alph{claim}}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\renewcommand{\theconjecture}{\arabic{question}.\Alph{conjecture}}
+\newtheorem{definition}[theorem]{Definition}
+\renewcommand{\thedefinition}{\arabic{question}.\Alph{definition}}
+\newtheorem{example}[theorem]{Example}
+\renewcommand{\theexample}{\arabic{question}.\Alph{example}}
+\newtheorem{proposition}[theorem]{Proposition}
+\renewcommand{\theproposition}{\arabic{question}.\Alph{proposition}}
+\newtheorem{remark}[theorem]{Remark}
+\renewcommand{\theremark}{\arabic{question}.\Alph{remark}}
+\newtheorem{corollary}[theorem]{Corollary}
+\renewcommand{\thecorollary}{\arabic{question}.\Alph{corollary}}
+\newtheorem{lemma}[theorem]{Lemma}
+\renewcommand{\thelemma}{\arabic{question}.\Alph{lemma}}
+
+\newtheorem{case}{Case}[theorem]
+\renewcommand{\thelemma}{\arabic{question}.\Alph{theorem}.\alph{case}}
+
+\numberwithin{figure}{question}
+\setlength{\parindent}{0mm}
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist
+\definecolor{scarlet}{cmyk}{0,1.00,0.65,0.15}
+\definecolor{gray}{cmyk}{0.06,0,0,0.34}
+\definecolor{darkgray}{cmyk}{0.07,0,0,0.90}
+
+\begin{document}
+\vspace*{-20mm}
+\begin{changemargin}{-0.5in}{0.5in}
+\footnotesize{
+\begin{tabular}{lr}
+\multirow{1}{*}{\includegraphics
+[height=0.66in,width=0.66in]{graphics/osu_logo.pdf}} & \vspace{-5pt}\textbf{\small{Department of Economics}}\\
+                &\color{scarlet}{\rule{6.375in}{0.4pt}}\hspace*{1pt}\\
+                & 410 Arps Hall\\
+                & 1945 North High Street\\
+                & Columbus, OH 43210-1172\\
+                & \\
+\textbf{ECON 8877} & \textbf{Prof. Paul J. Healy}\\
+Fall 2025           & Email: \href{mailto:healy.52@osu.edu}{healy.52@osu.edu}\\
+\end{tabular}
+}
+\end{changemargin}
+
+\begin{center}
+\bigskip
+
+{\Large Hypothesis Test Simulation Assignment
+\ifshowsolutions
+    - Solutions
+\fi }
+
+%\textbf{Due by Monday, November 6}$^{\textbf{th}}$\textbf{ 2023 at 4:00 PM}
+
+\smallskip
+
+\end{center}
+
+Please create a PDF showing all your estimated power curves, along with your analyses. Be prepared to present them to the class.
+
+\newquestion[: When is the $t$-test Valid?]
+
+We'll focus on the one-sample, two-sided $t$-test.
+
+Using whatever software you want, you're going to simulate $R$ runs of an experiment (or dataset) with $n$ observations, so $X^r=(X_1^r,\ldots,X_n^r)$ where each $X_i^r\overset{iid}{\sim} F$ for some ``true'' distribution $F_\theta$ (which has parameter vector $\theta$). Our hypotheses are going to be of the form:
+$$
+    H_0:E_{F_\theta}[X_i]=\mu_0 \hspace{1in} H_1:E_{F_\theta}[X_i]\neq \mu_0,
+$$
+where $F_\theta$ is the distribution that generates $X_i$. Normally we'd make assumptions about $F_\theta$---like, $F_\theta$ is normal with $\theta=(\mu,\sigma)$---but here we're going to ask ``under what types of $F_\theta$ does the $t$-test have good properties?'' To do so, you'll pick some $F_\theta$ with parameter vector $\theta$, run the simulation, and plot your estimated power curve $\hat{\beta}(\theta)$. Remember that the test is \textit{valid} if $\hat{\beta}(\theta)=0.05$ when $E_{F_\theta}[X_i]=\mu_0$ and \textit{consistent} if $\lim_{n\rightarrow\infty} \hat{\beta}(\theta)=1$ when $E_{F_\theta}[X_i]\neq 0$.
+
+\begin{problem}
+    First let's verify the $t$-test works when it should work. Generate the data with $F_\theta$ being Normal with mean $\mu$ and whatever variance you want. Let's start with $n$ somewhat modest, somewhere between 30 and 100; whatever you want. Plot the power curve. Verify the test is valid (at $\mu=\mu_0$).
+\end{problem}
+
+\begin{problem}
+    Increase $n$ quite a lot and see if it looks like the test is consistent.
+\end{problem}
+
+\begin{problem}
+    Back to small $n$, increase or decrease the variance. How much is power affected?
+\end{problem}
+
+\begin{problem}
+    Now let's test the limits of the central limit theorem. Pick some non-Normal distribution for $F_\theta$ and let $\theta_0$ be a (or the) parameter vector where $E_{F_{\theta_0}}[X_i]=\mu_0$. For the power curve, show $\hat{\beta}$ for different values of $E_{F_\theta}[X_i]$ (if the mean isn't an explicit parameter then the $x$-axis of your graph should not be a parameter value, but instead be the mean at that parameter vector). Again, start with modest $n$ and check if the test is valid.
+\end{problem}
+
+\begin{problem}
+    Slowly ramp up $n$. Does it look to be asymptotically valid? Asymptotically consistent? Is $n\geq 30$ the magic threshold?
+\end{problem}
+
+\begin{problem}
+    Now try to construct a really bimodal distribution and repeat the above exercise. What kind of $n$ do we need to trust the $t$-test?
+\end{problem}
+
+Now try the two-sample $t$-test. So you'll generate two samples, $Y^1$ with $n$ observations and $Y^2$ with $m$ observations. The sample $Y^1$ is generated from $F$ and $Y^2$ is generated from $G$. The hypotheses are:
+$$
+    H_0:E_F[Y_i^1]=E_G[Y_i^2] \hspace{1in} H_1:E_F[Y_i^1]\neq E_G[Y_i^2].
+$$
+When plotting power curves, the $x$-axis should be the (true) difference in means.
+
+\begin{problem}
+    Start with $F$ and $G$ both being Normal with the same variance, and differing only in their mean. Let $\theta=\mu_G-\mu_F$. Verify the test works as advertised.
+\end{problem}
+
+\begin{problem}
+    Now let $F$ and $G$ be Normal but with different variances. Use the Welch's version of the $t$-test that assumes unequal variances. Does it work as advertised?
+\end{problem}
+
+\begin{problem}
+    Suppose again $F$ and $G$ are Normal with the same variance, but you run Welch's version of the test. Is it still valid? Do you lose a lot of power by using this test (as opposed to the version that assumes equal variances)?
+\end{problem}
+
+\newquestion[: Which Test is Best?]
+
+Consider the same two-sample (with potentially different sample sizes), two-sided testing situation as the the previous question. Now we're going to compare:
+\begin{enumerate}
+    \item Original (pooled-variance) $t$-test
+    \item Welch's $t$-test
+    \item Wilcoxon ranksum test
+    \item Permutation test for difference in means
+    \item Variance-corrected permutation test for difference in means \citep{ChungRomano2013}
+\end{enumerate}
+
+\begin{problem}
+    Start with the nicest world: both distributions are Normal with the same variance. Plot power curves for all five tests. Are they all valid? Which gives the greatest power?
+\end{problem}
+
+\begin{problem}
+    Now try Normal distributions but with unequal variances. Are all tests still valid? Which gives the greatest power?
+\end{problem}
+
+\begin{problem}
+    Now try some very non-Normal distributions (\textit{e.g.}, bimodal distributions). Which test wins now?
+\end{problem}
+
+\newquestion[: Using Real Data]
+
+\begin{problem}
+    Find a real dataset with two samples where we're interested in differences in means. Do NOT plot histograms of the data yet. Just run the five tests above and report the results.
+\end{problem}
+
+\begin{problem}
+    Now plot histograms of the two samples. Do they look Normal? Based on what you learned from your simulations, can you predict which test is actually best to use here?
+\end{problem}
+
+\bibliographystyle{elsarticle-harv}
+\bibliography{pjbib}
+
+\end{document}

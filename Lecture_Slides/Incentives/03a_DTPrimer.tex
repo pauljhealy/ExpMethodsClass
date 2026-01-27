@@ -1,0 +1,1359 @@
+\include{Lecture_Slides/metropolis_preamble}
+
+\begin{document}
+
+% Title page info
+\title[Incentives in Experiments: Theory]{ExpEcon Methods:\\A Decision Theory Primer}
+\author[ECON 8877]{ECON 8877\\P.J. Healy} \color{metrop}
+\institute[OSU]{}
+\date[]{\vfill {\tiny Updated \today\ at\ \DTMcurrenttime}}
+
+\frame{\maketitle}
+
+\begin{frame}{Differing Frameworks}
+\begin{itemize}
+    \item The theory of incentives is built on classic decision theory frameworks
+    \item Each models uncertainty in a different way
+    \item Difference: which probabilities are ``common knowledge''?
+    \item Each has different axioms
+    \begin{itemize}
+        \item So, sufficient conditions for an IC experiment will differ
+    \end{itemize}
+    \item Historical confusion among experimentalists due to using different/unclear frameworks
+\end{itemize}
+\end{frame}
+
+\begin{frame}{An Example}
+\begin{center}
+    \includegraphics[width=2.5in]{graphics/ach/trees_marblefirst.png}\\
+
+    \only<1>{How to model this gamble?}
+    \only<2>{von Neumann-Morgenstern (vNM): All probabilities are known\\
+    Objective Lottery: $L=(\$1,0.5;\$2,0.25;\$3,0.25)$}
+    \only<3>{Savage: No probabilities are known\\
+    State space: $\Omega=\{RH,RT,BH,BT\}$. Outcomes: $X=\{\$1,\$2,\$3\}$\\
+    Act: $f(RH)=\$1$, $f(RT)=\$2$, $f(BH)=\$1$, $f(BT)=\$3$}
+    \only<4>{Anscombe-Aumann (AA): Probabilities known \textit{only} in the 2nd stage\\
+    State space: $\Omega=\{R,B\}$. Outcomes: $X=\{\$1,\$2,\$3\}$\\
+    AA-act: $f(R)=(\$1,0.5;\$2,0.5)$, $f(B)=(\$1,0.5;\$3,0.5)$}
+\end{center}
+
+    
+\end{frame}
+
+
+\begin{transitionframe}[c]
+  \begin{center}{ \Huge \textcolor{white}{The vNM Framework:\\Objective Lotteries}}\end{center}
+\end{transitionframe}
+
+\begin{frame}{vNM (1944)}
+\begin{itemize}
+    \item Outcomes: $x\in X = \{x_1,\ldots,x_n\}$
+    \item Simple lotteries: $p\in L_1=\Delta(X)$, $p=(x_1,p_1;\ldots;x_n,p_n)$
+    \item Mixture operation: 
+    $$\alpha p + (1-\alpha) q = (x_1,\alpha p_1 + (1-\alpha) q_1;\ldots;x_n,\alpha p_1 + (1-\alpha)q_1) \in L_1 $$
+    \item $\succeq$ over $L_1$ (complete, transitive, \& continuous, so $\exists \ U(p)$)
+    \item vNM's Mixture Independence Axiom (IND):
+    $$
+     p\succeq q \iff \alpha p + (1-\alpha) r \succeq \alpha q + (1-\alpha) r
+    $$
+\end{itemize}
+\br
+vNM EU Theorem: $\succeq$ satisfies Mixture Independnece if and only if
+$$
+   \exists u(\cdot) : U(p) = \sum_x p(x)u(x)
+$$
+We just need to learn your risk aversion ($u(x)$ ``utility index'')
+\end{frame}
+
+\begin{frame}{Segal (1990): Compound Lotteries}
+\begin{itemize}
+    \item Two-stage lottery: $P=(q^1,P_1;\ldots;q^m;P_m)\in L_2$
+    \item $\succeq$ now over $L_2$
+    \item $\delta^1_q = (q,1)\in L_2$ and $\delta^2_q = ((x_1,1),q_1;\ldots;(x_n,1),q_n)\in L_2$
+    \item Time Neutrality Axiom: $\delta^1_q \sim \delta^2_q$
+    \item ``$p\succeq q$'' means $\delta^1_p \succeq \delta^1_q$
+    \item ``$x\succeq y$'' means $\delta^1_{(x,1)}\succeq \delta^1_{(y,1)}$
+    \item Reduced Lottery: given $P=(q^1,P_1;\ldots;q^m;P_m)$, let
+    $$
+        r(P) = \left( x_1,\sum_{j=1}^m P_jq^j_1;\ldots;x_n,\sum_{j=1}^m P_jq^j_n \right) \in L_1
+    $$
+    \item ROCL Axiom: $P \sim r(P)$\ \ \  (technically, $P\sim \delta^1_{r(P)}$)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Segal (1990): Compound Lotteries}
+\begin{itemize}
+    \item Recall Mixture operation for simple lotteries:
+    $$
+        \alpha p + (1-\alpha) q = (x_1,\alpha p_1 + (1-\alpha) q_1;\ldots;x_n,\alpha p_1 + (1-\alpha)q_1) \in L_1 
+    $$
+    Mixture is ``in between'' $p$ and $q$, in the same space ($L_1$)
+    \item 1st-Stage Mixture operation: 
+    $$
+        \alpha P + (1-\alpha) Q = (q^1,\alpha P_1 + (1-\alpha) Q_1;\ldots;q^n,\alpha P_1 + (1-\alpha)Q_1) \in L_2
+    $$
+    \item Compound operation:
+    $$
+        \alpha p \oplus (1-\alpha) q = (p,\alpha;q,1-\alpha)\in L_2
+    $$
+    \item Compound Independence Axiom (1st attempt):
+    $$
+        p \succeq q \iff \alpha p\oplus (1-\alpha) r \succeq \alpha q\oplus (1-\alpha) r
+    $$
+    \item Problem: only applies to 2-element compound lotteries
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Segal (1990): Compound Loteries}
+\begin{itemize}
+    \item Replacement operation: Fix $P=(q^1,P_1;\ldots;q_n,P_n)$. Define 
+    $$
+    [P|p,i] = (q^1,P_1;\ldots;p,P_i;\ldots;q_n,P_n)
+    $$
+    ``Replace the $i$th branch with $p$''
+    \item Compound Independence Axiom (fully general):
+    $$
+        p\succeq q \iff [P|p,i] \succeq [P|q,i]
+    $$ 
+\end{itemize}
+\br
+How does this apply to experiments?
+\end{frame}
+
+\begin{frame}{Experiments as Compound Lotteries}
+Imagine two decisions, each a choice between two lotteries
+\begin{enumerate}
+    \item $D_1=\{p^1,q^1\}$
+    \item $D_2=\{p^2,q^2\}$
+\end{enumerate}
+Coin flip determines whether $D_1$ or $D_2$ is paid.\\
+True preference: $p^1\succ q^1$ and $p^2\succ q^2$
+\begin{itemize}
+    \item Would the subject want to lie in $D_1$?
+    \item Fix choice of $p^2$ in $D_2$. Compare $p^1$ vs. $q^1$
+    \item Announce $p^1$: get $\frac{1}{2}p^1 \oplus \frac{1}{2}p^2$
+    \item Announce $q^1$: get $\frac{1}{2}q^1 \oplus \frac{1}{2}p^2$
+\end{itemize}
+Incentive compatibility: If $p^1\succ q^1$ then
+$$
+    \frac{1}{2}p^1 \oplus \frac{1}{2}p^2 \succ \frac{1}{2}q^1 \oplus \frac{1}{2}p^2.
+$$
+\br
+That's exactly Compound Independence!!    
+\end{frame}
+
+\begin{frame}{Segal (1990): Compound Lotteries}
+What would EU for two-stage lotteries look like?
+$$
+    U(P) = \sum_i P_i \left(\sum_x q^i(x) u(x)\right)
+$$
+ \br
+ EU with ROCL?
+ \br
+ What axioms give EU for two-stage lotteries? EU with reduction
+\end{frame}
+
+\begin{frame}{Segal (1990): Compound Lotteries}
+When do we get EU with reduction?
+\begin{enumerate}
+    \item Mixture independence $\Rightarrow$ EU on simple lotteries
+    \begin{itemize}
+        \item But depends on which timing you use: $\delta^1$ vs $\delta^2$
+    \end{itemize}
+    \item MixIND + Time Neutrality $\Rightarrow$ 2nd stage EU regardless of $\delta^1$ or $\delta^2$
+    \begin{itemize}
+        \item But might not have EU in 1st stage
+    \end{itemize}
+    \item MixIND + Time Neutrality + CompIND $\Rightarrow$ EU w/ Reduction
+    \begin{itemize}
+        \item Compound Independence ``connects'' the two stages
+    \end{itemize}
+\end{enumerate}
+\br
+What's the role of ROCL?
+\begin{enumerate}
+    \item MixIND + TimeNeut + CompIND $\Rightarrow$ ROCL (see above)
+    \item ROCL connects the two IND axioms
+    \begin{enumerate}
+        \item ROCL + MixIND $\Rightarrow$ CompIND
+        \item ROCL + CompIND $\Rightarrow$ MixIND\\
+        So you can replace either with ROCL and still get EU w/ Reduction
+    \end{enumerate}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Allais Paradox}
+    Why we might not want to assume MixIND (thus, EU):
+    \begin{itemize}
+        \item \textbf{Option 1A}: 100\% chance of \$1M
+        \item Option 1B: 10\% \$5M, 89\% \$1, 1\% \$0
+    \end{itemize}
+    and
+    \begin{itemize}
+        \item Option 2A: 11\% \$1M, 89\% \$0
+        \item \textbf{Option 2B}: 10\% \$5M, 90\% \$0
+    \end{itemize}
+    \begin{center}
+        \includegraphics[width=3in]{graphics/ach/AllaisCurves.png}\\
+        Need ``fanning out'' indifference curves (could be nonlinear)
+    \end{center}
+\end{frame}
+
+\begin{frame}{Stochastic Dominance}
+What if we don't want to assume EU? Minimal: $\succeq$ respects dominance
+\begin{itemize}
+    \item Second-Stage (``subjective'') Stochastic Dominance: 
+    $$
+        p\sqsupset_2 q \iff \forall x\in X\ \ \sum_{y:y\succeq x} p(y) \geq \sum_{y:y\succeq x} q(y)\ \  \mathrm{(one\ strict)}
+    $$
+    \item First-Stage Stochastic Dominance:
+    $$
+        P\sqsupset_1 Q \iff \forall p\in supp(P,Q)\ \  \sum_{q:q\succeq p} P(q) \geq \sum_{q:q\succeq p} Q(q)\ \  \mathrm{(one\ strict)}
+    $$
+    \item 2nd-Stage Monotonicity: $p \sqsupseteq_2 q \Rightarrow p \succeq q$ and $p \sqsupset_2 q \Rightarrow p \succ q$
+    \item 1st-Stage Monotonicity: $P \sqsupseteq_1 Q \Rightarrow P\succeq Q$ and $P \sqsupset_1 Q \Rightarrow P\succ Q$
+    \item CompIND+TimeNeut connects the two monotonicity axioms
+    \begin{itemize}
+        \item (CompIND+TimeNeut) + 2nd-Stage MONO $\Rightarrow$ 1st-Stage MONO
+        \item (CompIND+TimeNeut) + 1st-Stage MONO $\Rightarrow$ 2nd-Stage MONO
+        \item Can replace (CompIND+TimeNeut) with ROCL
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Back to Experiments}
+If we only have dominance axioms, can we say anything about experiments?
+\br
+Recall: CompoundIND $\Rightarrow$ tell the truth
+\br
+\textbf{Lemma:} 1st-Stage Monotonicity $\Rightarrow$ CompoundIND ($\Rightarrow$ tell the truth)
+\br
+Proof
+\begin{itemize}
+    \item Suppose $p\succeq q$
+    \item Then $[P|p,i] \sqsupseteq_1 [P|q,i]$ (they only differ on the $i$th branch)
+    \item By 1st-Stage MONO, $[P|p,i]\succeq [P|q,i]$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Back to Experiments}
+So any non-EU theory satisfying CompIND (or 1st-Stage MONO) is fine...
+\br
+But recall:\\
+\begin{center}
+    CompIND + ROCL $\Rightarrow$ MixIND $\Rightarrow$ EU (for either $\delta^1$ or $\delta^2$)
+\end{center}
+or, the contrapositive:
+\begin{center}
+    non-EU theory $\Rightarrow$ $\neg$ MixIND $\Rightarrow$ ($\neg$ CompIND) or ($\neg$ ROCL)
+\end{center}
+\br
+So, if you have a non-EU theory, you either have:
+\begin{enumerate}
+    \item $\neg$ CompIND, so IC will fail (for some experiments), or
+    \item $\neg$ ROCL, in which case you can still have CompIND \& IC
+\end{enumerate}
+So we better hope ROCL fails!! (Hint: it does. More later...)
+\end{frame}
+
+
+\begin{frame}{Non-EU Theories}
+What non-EU theories are there in this framework?
+\begin{enumerate}
+    \item Probability Weighting (from original Prospect Theory 1977)
+    \begin{itemize}
+        \item $p=(x_1,p_1;\ldots;x_n,p_n)$
+        $$
+            U(p) = \sum_{i=1}^n u(x_i) w(p_i)
+        $$
+        \item Weighting function $w(\cdot)$ is concave then convex.
+        \item Problem! This can violate (2nd-Stage) MONO
+        \item Solution: Editing phase. People never pick dominated lotteries
+    \end{itemize}
+    \seti
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Non-EU Theories}
+\begin{enumerate}
+    \conti
+    \item Rank-Dependent Utility
+    \begin{itemize}
+        \item $p=(x_1,p_1;\ldots;x_n,p_n)$ where $x_1<x_2<\cdot <x_n$
+        $$
+            U(p) = \sum_{i=1}^n u(x_i) \underbrace{\left[ w(\sum_{j=1}^i p_j) - w(\sum_{j=1}^{i-1} p_j) \right]}_{\textrm{weighted ``probability'' of $x_i$}}
+        $$
+        \item Weighting function $w(\cdot)$ is concave then convex. $p^*\approx 0.4$?
+        \item Weights on \textit{cumulative} probability avoids MONO violations
+        \item Quiggen (1982), Prelec (1993) weighting function, many others
+    \end{itemize}
+    \seti
+\end{enumerate}
+\begin{center}
+    \includegraphics[width=1in]{graphics/ach/RDUCurves.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Non-EU Theories}
+\begin{enumerate}
+        \conti
+    \item Cautious Expected Utility (Cerreia-Vioglio et al. 2015)
+    \begin{itemize}
+        \item Certainty equivalent of $p$ solves $u(c_p^u)=\sum_x p(x)u(x)$, or $c_p^u = u^{-1}(\sum_x p(x)u(x))$
+        \item Agent has a set of utility indices $\mathcal{V}$ and is ``pessimistic''
+        $$
+            U(p) = \inf_{u\in\mathcal{V}} u^{-1}(\sum_x p(x)u(x)) = \inf_{u\in\mathcal{V}} c_p^u
+        $$
+        \item NCI (weakening of MixIND): $p\succeq \delta_x \Rightarrow \alpha p + (1-\alpha) r \succeq \alpha \delta_x + (1-\alpha) r$
+    \end{itemize}
+    \seti
+\end{enumerate}
+\begin{center}
+    \includegraphics[width=1.5in]{graphics/ach/CEU.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Other Non-EU Theories}
+\begin{enumerate}
+    \conti
+    \item Cumulative PT (K\&T 1992): RDU with loss aversion
+    \item Weighted EU (Chew \& McCrimmon 1979)
+    \item Decision Weighted Utility (Handa 1977), but violates MONO
+\end{enumerate}
+\br
+Today: RDU and CPT are the most popular
+\end{frame}
+
+
+\begin{transitionframe}[c]
+  \begin{center}{ \Huge \textcolor{white}{The Savage Framework:\\Entirely Subjective Beliefs}}\end{center}
+\end{transitionframe}
+
+
+\begin{frame}{Jimmy Savage}
+\includegraphics[height=0.4in]{graphics/ach/SavageMug.png} Leonard ``Jimmy'' Savage
+\begin{enumerate}
+    \item Genius from Detroit (like Eminiem??)
+    \item Wayne State $\rightarrow$ Michigan BS \& PhD in math (1941)
+    \item IAS Princeton, then Chicago. 
+    \begin{itemize}
+        \item Milton Friedman \& W. Allen Wallis were mentors
+    \end{itemize}
+    \item WWII: assistant to John von Neumann
+    \item \textit{The Foundation of Statistics} (1954)
+    \begin{itemize}
+        \item Subjective expected utility without objective lotteries
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Savage (1954)}
+\begin{itemize}
+    \item States: $\omega\in \Omega$ (need $\Omega$ to be infinite)
+    \item Events: $E\subseteq \Omega$
+    \item Outcomes: $x\in X$ (prizes, consequences...)
+    \item Acts: $f:\Omega \rightarrow X$.\ \ \ $f\in \mathcal{F} = X^\Omega$
+    \item $\succeq$ over $\mathcal{F}$
+    \item Notation: $xEy$ is binary act where $f(E)=x$ and $f(E^c)=y$
+    \item More general: $fEg$ = $\{f(\omega)$ if $\omega\in E$, $g(\omega)$ if $\omega\not\in E\}$
+\end{itemize}
+Savage's omelette example: crack next egg into separate bowl?
+\begin{itemize}
+    \item $\Omega = \{$good egg,rotten egg$\}$
+    \item $f$ = crack into same bowl. $g$ = crack into separate bowl
+    \item $f(good)$ = omelette, wash 1 bowl. $f(bad)$ = no omelette, wash 1
+    \item $g(good)$ = omelette, wash 2 bowls. $g(bad)$ = omelette, wash 2
+    \item $f\succeq g$ or $g\succeq f$?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Savage (1954)}
+What would EU look like??
+\begin{itemize}
+    \item vNM EU: assume linearity, just need to learn $u(x)$
+    \item Savage: assume more, but need to learn $u(x)$ \textbf{and} $p(\omega)$
+\end{itemize}
+\br
+The goal:
+\begin{align*}
+    U(f) &= \sum_{x\in X} p(\underbrace{\{\omega: f(\omega)=x\}}_{\text{Event ``}x\text{ is paid''}})\ u(x)\\
+         &= \sum_{x\in X} p(\, f^{-1}(x)\, )\ u(x)
+\end{align*}
+The building blocks: Savage's 6 Postulates (P1--P6) (ignore P7 here)\\
+\textbf{P1:} $\succeq$ is complete, reflexive, and transitive (``ordering'')\\
+\textbf{P5:} There are $x,y\in X$ s.t. $x\succ y$ (``non-degeneracy'')
+\br
+The hard part: How to learn $p(\omega)$ from $\succeq$??
+\end{frame}
+
+\begin{frame}{Ramsey (1926)}
+\includegraphics[height=0.6in]{graphics/ach/RamseyMug.png} Frank Plumpton Ramsey
+\begin{itemize}
+    \item Born into academic privilege, Cambridge, England
+    \item Easy-going, simple, modest, loved swimming
+    \item Translated Wittgenstein, went to Austria, became his friend
+    \item Math undergrad at Cambridge, advisor was Keynes. No PhD
+    \item Keynes (1921) \textit{A Treatise on Probability}: prob. must be objective
+    \item Ramsey (1926) ``Truth and Probability'': probability is subjective
+    \item Your beliefs are \textit{defined by} the bets you'd make. The odds.
+    \item Problem: confounded with risk aversion! Assume risk neutrality?
+    \item De Finetti (1937) independently developed same ideas
+    \item Liver problems, surgery, died at age 26. Infection from river?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Savage (1954)}
+How can we learn your beliefs?
+\begin{itemize}
+    \item Would you rather bet on event $E$ or $F$? Pick $1E0$ or $1F0$?
+    \item Leads to a ranking of all possible events: $E \trianglerighteq F$
+    \item Beliefs work like utility! $E \trianglerighteq F \Rightarrow p(E)\geq p(F)$.
+    \item $p$ is ``qualitative probability''. Ordinal, unless we add structure
+    \item Can $p(E)=0$? $E$ is ``null'' if $fEh\sim gEh$ regardless of $f,g,h$
+\end{itemize}
+\begin{enumerate}
+    \item The stakes of the bet shouldn't matter:\\
+    \textbf{P4:} If $x'\succ x$ and $y'\succ y$ then $(x'Ex \succeq x'Fx)\iff (y'Ey \succeq y'Fy)$
+    \item ``Small'' events exist:\\
+    \textbf{P6:} For any $f\succ g$ and $x$ I can find ``small enough'' events $A_1,A_2$ such that $f\succ xA_1 g$ and $xA_2 f\succ g$\\
+    (Substituting in $x$ doesn't change the ordering of $f$ and $g$)
+    \item Eventwise Monotonicity (similar to Compound Independence):\\
+    \textbf{P3:} $x\succeq y \iff xEg \succeq yEg$ (if $E$ is not null)
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Savage (1954)}
+We're almost there!!
+\begin{enumerate}
+    \item \textbf{P1: Ordering}
+    \item \textbf{P2: ???}
+    \item \textbf{P3: Eventwise Monotonicity} (compound independence)
+    \item \textbf{P4: Weak Comparative Probability} (stakes don't matter)
+    \item \textbf{P5: Nondegeneracy}
+    \item \textbf{P6: Small Event Continuity}
+\end{enumerate}
+\br
+The missing piece (P2) helps gives us linearity for EU
+\br
+{\footnotesize Hartmann (2020): P3 is implied by the others}
+\end{frame}
+
+\begin{frame}{Savage (1954)}
+\textbf{P2: The Sure-Thing Principle}
+$$
+    f'Eg \succeq fEg \Rightarrow f'Eh \succeq fEh
+$$
+``I can rank $f'$ vs $f$ conditional on $E$,\\
+and what's paid off of $E$ won't matter.''
+\br
+Has a flavor of Mixture Independence from vNM
+\br
+\textbf{Savage's Subjective Expected Utility (SEU) Theorem:}
+$$
+    \succeq \text{satisfies P1--P6} \Rightarrow \exists u,p :\ U(f) = \sum_x p(\{\omega:f(\omega)=x\})u(x)
+$$
+\end{frame}
+
+
+\begin{frame}{Which Axiom Do We Need for IC Experiments?}
+Two decisions, choice objects are abstract (acts, lotteries, \$, ...)
+\begin{enumerate}
+    \item $D_1=\{a^1,b^1\}$
+    \item $D_2=\{a^2,b^2\}$
+\end{enumerate}
+Payment act: $\omega_1 \mapsto D_1$ is paid, and $\omega_2\mapsto D_2$ is paid\\
+True preference: $a^1\succ b^1$ and $a^2\succ b^2$
+\begin{itemize}
+    \item Would the subject want to lie in $D_1$?
+    \item Fix choice of $a^2$ in $D_2$. Compare $a^1$ vs. $b^1$. Let $E=\{\omega_1\}$
+    \item Announce $a^1$: get $a^1 E a^2$
+    \item Announce $b^1$: get $b^1 E a^2$
+\end{itemize}
+Incentive compatibility: If $a^1\succ b^1$ then
+$$
+    a^1 E a^2 \succ b^1 E a^2
+$$
+\br
+That's \textbf{P3} (eventwise monotonicity)!!\ \ $x\succeq y\Rightarrow xEg\succeq yEg$
+\end{frame}
+
+\begin{frame}{Finite States?}
+Could we have a finite number of states?
+\begin{itemize}
+    \item Representation would not be unique
+    \begin{itemize}
+        \item Small changes to $p$ and $u$ wouldn't alter $\succeq$
+    \end{itemize}
+    \item Kraft, Pratt, \& Seidenberg (1959)
+    \begin{itemize}
+        \item Can construct $\trianglerighteq$ that is not represented by any probability measure $p$!
+        \item Requires $n=5$, not very intuitive (to me)
+    \end{itemize}
+    \item Gul (1992) gets SEU for finite $\Omega$
+    \begin{itemize}
+        \item Requires $\exists E$ where $E\sim_\trianglerighteq E^C$
+        \item Other, stronger axioms
+    \end{itemize}
+    \item Others have, too (Wakker, Davidson \& Suppes, Nakamura...)
+\end{itemize}
+    
+\end{frame}
+
+\begin{frame}{The Paradoxes}
+\begin{itemize}
+    \item OK, we care about P3 (eventwise montonicity)
+    \item P3 is part of EU
+    \item But we know EU is violated!
+    \item Allais paradox: indifference curves aren't parallel
+    \item Even worse: Ellsberg paradox
+    \begin{itemize}
+        \item People don't even \textit{have} well-defined probabilities!
+    \end{itemize}
+\end{itemize}
+\br
+Which axioms do these paradoxes violate??
+\br
+Is P3 (eventwise monotonicity) okay???
+    
+\end{frame}
+
+\begin{frame}{Ellsberg (1961)}
+\includegraphics[width=0.4in]{graphics/ach/EllsbergMug.png} Daniel Ellsberg
+\begin{itemize}
+    \item Detroit kid, Marine, RAND Corp
+    \item Harvard PhD student, wrote the Ellsberg paradox
+    \item Worked at the Pentagon under McNamara, went to Vietnam
+    \item Left Pentagon for RAND. Contributed to the ``Pentagon Papers'', a complete analysis of the conduct of the US military in Vietnam
+    \item Became sympathetic to war resisters
+    \item Leaked the Pentagon Papers to the NY Times
+    \item Politically embarrassing to Kennedy, Johnson, Nixon
+    \item Nixon's ``White House Plumbers'' and Watergate ensued
+    \item Tried for espionage, acquitted
+    \item Died June 16, 2023
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ellsberg (1961)}
+Urn: 30 red + (60 black or yellow)
+\begin{center}
+    \begin{tabular}{r|ccc}
+         & $\overbrace{\phantom{red}}^{\text{30 balls}}$ & \multicolumn{2}{c}{$\overbrace{\phantom{black\ yellow}}^{\text{60 balls}}$} \\
+         & red & black & yellow \\
+         \hline
+        $f_1$ (Bet R) & \$100 & \$0 & \$0 \\
+        $f_2$ (Bet B) & \$0 & \$100  & \$0 \\
+        \hline
+        $g_1$ (Bet RY) & \$100 & \$0 & \$100 \\
+        $g_2$ (Bet BY) & \$0 & \$100  & \$100 \\
+    \end{tabular}
+\end{center}
+\br
+\begin{itemize}
+    \item People avoid ambiguity: $f_1\succ f_2$ but $g_2\succ g_1$
+    \item Clearly violates P2 Sure Thing Principle
+    \item Also means you can't have a probability!
+    \begin{itemize}
+        \item $f_1\succ f_2 \Rightarrow R\triangleright B$
+        \item $g_2\succ g_1 \Rightarrow BY\triangleright RY \Rightarrow B\triangleright R$
+    \end{itemize}
+    \item Not a test of P3. Phew!
+    \item What theories can accommodate this ``ambiguity aversion''?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Frank Knight}
+\includegraphics[height=0.4in]{graphics/ach/KnightMug.png} Frank Knight
+\begin{itemize}
+    \item Another Chicago school patriarch
+    \item Born 1885. Tennessee undergrad, Cornell PhD 1916
+    \item Advisor of Milton Friedman, George Stigler
+    \item Praised by Coase, Hayek, Samuelson.
+    \item Known for \textit{Risk, Uncertainty, and Profit} (1921)
+    \begin{itemize}
+        \item Based on his PhD work at Cornell
+    \end{itemize}
+    \item Distinguished ``risk'' and ``uncertainty'' (ambiguity)
+    \item Agrued that they differ in a ``deep'' way
+    \item Claimed that uncertainty can lead to positive profits in competitive industries
+    \item Today: Ambiguity = ``Knightian uncertainty''
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{David Schmeidler}
+\includegraphics[height=0.4in]{graphics/ach/SchmeidlerMug.png} David Schmeidler
+\begin{itemize}
+    \item Born in Poland, 1939. Family evaded WWII in Russia
+    \item Studied math at Hebrew U., PhD under Robert Aumann
+    \item Full-time at Tel Aviv U. since 1971, part-time at OSU since 1987
+    \item Father of ``post-Savage'' decision theory, incorporating ambiguity/Knightian uncertainty
+    \item Died March 17, 2022
+\end{itemize}
+\br
+Machina \& Schmeidler (1992):\\
+What does it mean to ``have a probability'' if you're not EU??\\
+(Note: we're forgetting Ellsberg's paradox for now...)
+\end{frame}
+
+\begin{frame}{Machina \& Schmeidler (1992)}
+What we want:
+\begin{enumerate}
+    \item You have $\trianglerighteq$ over events that leads to $p(\omega)$ (P1,P4,P5,P6)
+    \item Acts ``become'' lotteries via $p(\omega)$
+    \item You respect FOSD over those lotteries (P3)
+\end{enumerate}
+\br
+Can we just drop P2?? Not quite!\\
+P4 is what really gives $\trianglerighteq$, but only for two outcomes ($E$ and $E^c$)\\
+Need to strengthen P4 to deal with more outcomes 
+\br
+Let $xEyFg$ be ``$x$ on $E$, $y$ on $F$, and $g$ otherwise''
+\br
+\textbf{P4*:} ($\forall E,F$ disjoint)($\forall x'\succ x, y'\succ y$) ($\forall g,h$)
+$$
+    x'ExFg \succeq xEx'Fg \Rightarrow y'EyFh\succeq yEy'Fh
+$$
+``$E\trianglerighteq F$ regardless of stakes \textit{or} what's paid outside of $E\cup F$''
+\end{frame}
+
+\begin{frame}{Machina \& Schmeidler (1992)}
+Let $r(f,p)$ be the lottery generated by $f$ using beliefs $p$
+\br
+\textbf{Theorem:}
+If $\succeq$ satisfies P1, \phantom{P2}, P3, P4*, P5, P6 then there exists
+\begin{enumerate}
+    \item a subjective probability measure $p(\omega)$ on $\Omega$
+    \item a function $V(p)$ over lotteries that respects FOSD
+\end{enumerate}
+such that
+$$
+    U(f) = V(r(f,p))
+$$
+\br
+They say $\succeq$ is \textit{probabilistically sophisticated}
+\br
+Ellsberg is a test of probabilistic sophistication?? Which axiom?
+\end{frame}
+
+\begin{frame}{Allais vs. Ellsberg}
+\begin{tabular}{c|c}
+    \textbf{ALLAIS (CC)} & \textbf{ELLSBERG} \\
+    \begin{tabular}{r|cc|c}
+         &  1\% & 10\%  & 89\% \\
+         & \#1 & \#2--11 & \#12--100 \\
+         \hline
+        \checkmark $f_1$ & \$100 & \$100 & \$100 \\
+        \phantom{\checkmark} $f_2$ & \$0 & \$500  & \$100 \\
+        \hline
+        \phantom{\checkmark} $g_1$ & \$100 & \$100 & \$0 \\
+        \checkmark $g_2$ & \$0 & \$500  & \$0 \\
+    \end{tabular} &
+    \begin{tabular}{r|cc|c}
+         &  30 & \multicolumn{2}{c}{-----60-----}\\
+         & red & black & yellow \\
+         \hline
+        \checkmark $f_1$ & \$100 & \$0 & \$0 \\
+        \phantom{\checkmark} $f_2$ & \$0 & \$100  & \$0 \\
+        \hline
+        \phantom{\checkmark} $g_1$ & \$100 & \$0 & \$100 \\
+        \checkmark $g_2$ & \$0 & \$100  & \$100 \\
+    \end{tabular} \\
+     & \\
+     \multicolumn{2}{c}{EU: \textbf{P2}: $f'Eg\succeq fEg \Rightarrow f'Eh \succeq fEh$} \\
+    Violated! $E=\{1,2$--$11\}$
+    & 
+    Violated! $E=\{$red,black$\}$\\
+     & \\
+    
+     \multicolumn{2}{c}{\textbf{P4}: $(x'Ex\succeq x'Fx)\iff (y'Ey\succeq y'Fy)$} \\
+    Not tested. No $E$ vs. $F$
+    & 
+    Not tested!\\
+     & \\
+    
+     \multicolumn{2}{c}{P.S.: \textbf{P4*}: $(x'ExFg\succeq xEx'Fg) \iff (y'EyFh\succeq yEy'Fh)$} \\
+    Also not tested.
+    & 
+     Violated! $E=\{$red$\}$, $F=\{$black$\}$
+\end{tabular} 
+\end{frame}
+
+
+\begin{frame}{Two Faces of Ellsberg}
+\begin{tabular}{c|c}
+    \textbf{ELLSBERG 2-COLOR, 2-URN} & \textbf{ELLSBERG 3-COLOR, 1-URN} \\
+    \begin{tabular}{r|cc|cc}
+         &  \multicolumn{4}{c}{Urn 1: 50R, 50B. Urn 2: ???} \\
+         & $R_1B_2$ & $B_1R_2$ & $B_1B_2$ & $R_1R_2$  \\
+         \hline
+        \checkmark $R_1$ & \$100 & \$0 & \$0 & \$100 \\
+        \phantom{\checkmark} $R_2$ & \$0  & \$100 & \$0 & \$100 \\
+        \hline
+        \phantom{\checkmark} $B_2$ & \$100 & \$0 & \$100 & \$0  \\
+        \checkmark $B_1$ & \$0  & \$100 & \$100 & \$0 \\
+    \end{tabular} &
+    \begin{tabular}{r|cc|c}
+         &  30 & \multicolumn{2}{c}{-----60-----}\\
+         & red & black & yellow \\
+         \hline
+        \checkmark $f_1$ & \$100 & \$0 & \$0 \\
+        \phantom{\checkmark} $f_2$ & \$0 & \$100  & \$0 \\
+        \hline
+        \phantom{\checkmark} $g_1$ & \$100 & \$0 & \$100 \\
+        \checkmark $g_2$ & \$0 & \$100  & \$100 \\
+    \end{tabular} \\
+     & \\
+     \multicolumn{2}{c}{EU: \textbf{P2}: $f'Eg\succeq fEg \Rightarrow f'Eh \succeq fEh$} \\
+    Violated! $E=\{R_1B_2,B_1R_2\}$
+    & 
+    Violated! $E=\{$red,black$\}$\\
+     & \\
+    
+     \multicolumn{2}{c}{\textbf{P4}: $(x'Ex\succeq x'Fx)\iff (y'Ey\succeq y'Fy)$} \\
+    Not tested. No $E$ vs. $F$
+    & 
+    Not tested!\\
+     & \\
+    
+     \multicolumn{2}{c}{P.S.: \textbf{P4*}: $(x'ExFg\succeq xEx'Fg) \iff (y'EyFh\succeq yEy'Fh)$} \\
+    Violated! $E=\{R_1B_2\}$, $F=\{B_1R_2\}$
+    & 
+     Violated! $E=\{$red$\}$, $F=\{$black$\}$
+\end{tabular} 
+\end{frame}
+
+\begin{frame}{Separating P4* From P2 via Changing the Stakes}
+\begin{tabular}{c|c}
+    \textbf{ELLSBERG 2-COLOR, 2-URN} & \textbf{ELLSBERG 3-COLOR, 1-URN} \\
+    \begin{tabular}{r|cc|cc}
+         &  \multicolumn{4}{c}{Urn 1: 50R, 50B. Urn 2: ???} \\
+         & $R_1B_2$ & $B_1R_2$ & $B_1B_2$ & $R_1R_2$  \\
+         \hline
+        \checkmark $R_1$ & \$100 & \$0 & \$0 & \$100 \\
+        \phantom{\checkmark} $R_2$ & \$0  & \$100 & \$0 & \$100 \\
+        \hline
+        \phantom{\checkmark} $B_2$ & \$500 & \$0 & \$500 & \$0  \\
+        \checkmark $B_1$ & \$0  & \$500 & \$500 & \$0 \\
+    \end{tabular} &
+    \begin{tabular}{r|cc|c}
+         &  30 & \multicolumn{2}{c}{-----60-----}\\
+         & red & black & yellow \\
+         \hline
+        \checkmark $f_1$ & \$100 & \$0 & \$0 \\
+        \phantom{\checkmark} $f_2$ & \$0 & \$100  & \$0 \\
+        \hline
+        \phantom{\checkmark} $g_1$ & \$500 & \$0 & \$500 \\
+        \checkmark $g_2$ & \$0 & \$500  & \$500 \\
+    \end{tabular} \\
+     & \\
+     \multicolumn{2}{c}{EU: \textbf{P2}: $f'Eg\succeq fEg \Rightarrow f'Eh \succeq fEh$} \\
+    Not tested! $f'$ and $f$ change
+    & 
+    Not tested!\\
+     & \\
+    
+     \multicolumn{2}{c}{\textbf{P4}: $(x'Ex\succeq x'Fx)\iff (y'Ey\succeq y'Fy)$} \\
+    Not tested. No $E$ vs. $F$
+    & 
+    Not tested!\\
+     & \\
+    
+     \multicolumn{2}{c}{P.S.: \textbf{P4*}: $(x'ExFg\succeq xEx'Fg) \iff (y'EyFh\succeq yEy'Fh)$} \\
+    Violated! $E=\{R_1B_2\}$, $F=\{B_1R_2\}$
+    & 
+     Violated! $E=\{$red$\}$, $F=\{$black$\}$
+\end{tabular} 
+\end{frame}
+
+
+\begin{frame}{Ambiguity Aversion Literature}
+\begin{itemize}
+    \item Want to explain ambiguity aversion! (``Knightian uncertainty'')
+    \item So, models that violate probabilistic sophiciation.
+    \item Specifically, violate P4*
+    \item But, for experiments, we hope P3 is maintained!
+\end{itemize}
+\br
+I'll review these... but they mostly use a simpler framework!
+\br
+A framework called...
+    
+\end{frame}
+
+
+\begin{transitionframe}[c]
+  \begin{center}{ \Huge \textcolor{white}{The\\Anscombe-Aumann\\Framework}}\end{center}
+\end{transitionframe}
+
+\begin{frame}{Aumann \& Anscombe}
+\includegraphics[height=0.4in]{graphics/ach/AumannMug.png} Robert Aumann
+\begin{itemize}
+    \item Born in Germany 1938, family fled to NYC before Kristallnacht
+    \item City College of NY, math PhD at MIT 1955
+    \item Knot theory. Loved puzzles. ``Absolutely useless.'' But, DNA...
+    \item Learned game theory at Princeton, postdoc \& sabbatical
+    \item Hebrew U. Jerusalem since 1956, Stony Brook visitor
+    \item Hugely important papers in many areas
+    \begin{itemize}
+        \item Correlated equilibrium, common knowledge, division problems, continuum economies, epistemics, repeated games, cooperative game theory, integrals of correspondences...
+    \end{itemize}
+    \item Aumann $\rightarrow$ Ehud Lehrer $\rightarrow$ Yaron Azrieli
+\end{itemize}
+\includegraphics[height=0.3in]{graphics/ach/AnscombeMug.png} Frank Anscombe
+\begin{itemize}
+    \item English statistician, 20yrs older than Aumann. Princeton
+    \item Gave a lecture on Savage, which Aumann attended...
+\end{itemize}
+    
+\end{frame}
+
+\begin{frame}{Anscombe-Aumann (1963)}
+    \begin{itemize}
+        \item The Savage framework is..
+        \begin{enumerate}
+            \item great because it gives us subjective $p(\omega)$ from $\succeq$
+            \item too intractible to work with!
+        \end{enumerate}
+        \item Insight: vNM theorem works for \textit{any} convex space
+    \end{itemize}
+Theorem: Let $K$ be a convex space, and $p,q\in K$ (not necessarily lotteries). Under vNM axioms (ordering, continuity, MixIND) $\exists U$:
+$$
+    U(\alpha p + (1-\alpha)r) = \alpha U(p) + (1-\alpha) U(r)\ \ \ \text{(}U\text{ is affine)}
+$$
+\br
+Let $K$ be a space of ``acts that pay lotteries''\\
+``Horse races (subjective) and roulette wheels (objective)''
+\br
+$\Omega = \{\omega_1,\ldots,\omega_n\}$, $f=(p^1,\ldots,p^n)$\\
+$f\in \mathcal{F} = \Delta(X)^\Omega$ is a convex space!
+\end{frame}
+
+\begin{frame}{AA (1963)}
+$$
+U(\alpha f + (1-\alpha)g) = \alpha U(f) + (1-\alpha) U(g)
+$$
+How does this mixture operation work?
+\begin{itemize}
+    \item At each $\omega$, $f(\omega)$ and $g(\omega)$ are lotteries.
+    \item $(\alpha f+ (1-\alpha)g)(\omega) = \alpha f(\omega) + (1-\alpha) g(\omega)$
+    \item Mixture lottery state-by-state
+\end{itemize}
+What does affine $U$ imply? There exists \textit{state-dependent} $u(x|\omega)$\\
+vNM's \textbf{A1--A3} applied to $\Delta(X)^\Omega$ $\Rightarrow$
+$$
+    U(f) = \sum_\omega \sum_x \underbrace{f(\omega)(x)}_{Pr(x)\text{ at }\omega} u(x|\omega)
+$$
+The ``weight'' on state $\omega$ is embedded in $u(x|\omega)$. No $p(\omega)$.
+\br
+Want state-independent utility index for EU, thus a separate $p(\omega)$
+\end{frame}
+
+\begin{frame}{AA (1963)}
+\textbf{A1--A3} give:
+$$
+    U(f) = \sum_\omega \sum_x \underbrace{f(\omega)(x)}_{Pr(x)\text{ at }\omega} u(x|\omega)
+$$
+\textbf{A4:} Monotonicity: $(\forall\ \omega)\ f(\omega)\succeq g(\omega) \Rightarrow f\succeq g$\\
+\textbf{A4:} CompIND: $p \succeq q \Rightarrow [f|p,i] \succeq [f|q,i]$ (HW: CompInd=MONO)\\
+\textbf{A5:} Non-degeneracy: $(\exists\, f,g)\ :\ f\succ g$
+\br
+MONO (aka ``State independence'') gives $u(x|\omega)=\alpha(\omega) u(x)$\\
+$u(x)$ captures the curvature of $u(x|\omega)$, $\alpha(\omega)$ captures its ``height''
+\br
+Normalize these $\alpha(\omega)$'s to sum to one. Now it's a belief over $\Omega$!!\\
+\textbf{AA EU Theorem:} If $\succeq$ satisfies Ordering, Continuity, MixIND in Objective Lotteries, Monotonicity, and Non-Degeneracy then $\exists p,u$:
+$$
+U(f) = \sum_\omega \frac{\alpha(\omega)}{\sum_{\omega'}\alpha(\omega')} \sum_x f(\omega)(x)u(x) = \sum_\omega \underbrace{p(\omega)}_{\text{Subj. belief}} \sum_x \underbrace{f(\omega)(x)}_{Pr(x)\text{ at }\omega}\ u(x)
+$$
+\end{frame}
+
+\begin{frame}{Back to Machina-Schmeidler}
+What if we want to relax EU? But maintain dominance and $\exists p$
+\begin{itemize}
+    \item Machina Schmeidler (1995): Prob. Sophistication in AA world
+    \begin{enumerate}
+        \item Replace A3 (MixIND) with FOSD Monotonicity
+        \item Replace A4 with an axiom that only applies to two-outcome bets
+        \begin{itemize}
+            \item Thus, affects $p(\omega)$ but doesn't restrict risk prefs.
+        \end{itemize}
+    \end{enumerate}
+    \textbf{A4*:} for disjoint $E$ and $F$,
+    $$
+        1E0F0 \sim (1,\alpha)E(1,\alpha)F0 \Rightarrow pEqFr \sim (\alpha p+(1-\alpha)q)E(\alpha p+(1-\alpha)q)Fr
+    $$
+    \br
+    Indifferent between bet on $E$ and lower-stakes bet on $E\cup F$\\
+    $\Rightarrow$ same indiff when payoffs are replaced by lotteries
+    \br
+    Allows for $p(E)=\alpha p(E\cup F)$, regardless of ``stakes''
+    \br
+    A1,A2,FOSD-MONO,A4* $\Rightarrow$ $\exists p,V: f\succeq g \iff V(r(f,p))\geq V(r(g,p))$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Non-EU Theories}
+What are the famous non-EU theories to explain Ellsberg, etc?
+\begin{enumerate}
+    \item Schmeidler: Choquet Expected Utility 
+    \item Gilboa-Schmeidler: Maxmin Expected Utility
+    \item KMM: Smooth Ambiguity Preference
+    \item Seo: Two-Stage EU
+    \item $\vdots$
+\end{enumerate}
+\br
+But first, what exactly \textit{is} ambiguity aversion??
+\br
+More than just violating P4*. There's a direction to it...
+\end{frame}
+
+\begin{frame}{Schmeidler's Definition of Ambiguity Aversion}
+An ambiguity averse person should recognize ``hedging'' opportunities
+\begin{itemize}
+    \item AA setting. Set $\Omega = \{\omega_1,\omega_2\}$
+    \item $f=((\$100,1),(\$0,1))$ (a bet on $\omega_1$)
+    \item $g=((\$0,1),(\$100,1))$ (a bet on $\omega_2$)
+    \item Let $h=g$ (for use later)
+    \item Suppose $f\sim g$, meaning $\{\omega_1\} \sim_\trianglerighteq \{\omega_2\}$
+    \item $\frac{1}{2}f+\frac{1}{2}h = ((\$100,\frac{1}{2};\$0,\frac{1}{2}),(\$100,\frac{1}{2};\$0,\frac{1}{2}))$ pays same lottery in both states
+    \item $\frac{1}{2}g+\frac{1}{2}h = g$, payoff still depends on the state
+    \item First mixture ``hedges away'' ambiguity!
+    \item $g\succeq f$ but $\frac{1}{2}f+\frac{1}{2}h \succ \frac{1}{2}g+\frac{1}{2}h$
+    \item Violate AA's MixIND (thus, EU). Specifically, prefs are convex
+    \item Convex preferences = ``hedging incentive''
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Schmeidler's Definition of Ambiguity Aversion}
+\begin{center}
+    \includegraphics[width=3.75in]{graphics/ach/ConvexAmbiguityPrefs.png}
+\end{center}
+\phantom{Kinked-linear indifference curves best capture hedging incentives}
+\end{frame}
+
+\begin{frame}{Schmeidler's Definition of Ambiguity Aversion}
+\begin{center}
+    \includegraphics[width=3.75in]{graphics/ach/ConvexAmbiguityPrefs2.png}
+\end{center}
+Kinked-linear indifference curves best capture hedging incentives
+\end{frame}
+
+
+
+\begin{frame}{Choquet EU (Schmeidler 1989)}
+    \begin{itemize}
+        \item Sort of like probability weighting...
+        \item AA setting. $f=(p^1,p^2,\ldots,p^n)$, each $p^i\in \Delta(X)$
+        \item Goal:
+        $$
+        U(f) = \sum_\omega v(\omega) \sum_x f(\omega)(x)\ u(x)
+        $$
+        \item But here $v(\cdot)$ can be non-additive: $v(A)+v(B)\neq v(A\cup B)$
+        \begin{enumerate}
+            \item $v(\emptyset)=0$, 
+            \item $v(\Omega)=1$
+            \item $A\subset B \Rightarrow v(A)\leq v(B)$
+        \end{enumerate}
+        \item Ambiguity aversion: ``subadditive'' $v(\cdot)$\\
+        Technically, \textit{convex}: $v(A)+v(B)-v(A\cap B) \leq v(A\cup B)$
+        \item Example: Bent coin. $v(H)=0.4$ and $v(T)=0.4$
+        \begin{itemize}
+            \item Normalize $u(1)=1$, $u(0)=0$
+            \item Bet on heads: $U(f)=0.4\cdot 1\cdot u(1) + 0.4\cdot 1\cdot u(0) = 0.4$
+            \item Bet on tails: $U(g)=0.4\cdot 1\cdot u(1) + 0.4\cdot 1\cdot u(0) = 0.4$
+            \item Bet on a fair coin: $U(h) = 1\cdot \left(0.5\ u(1) + 0.5\ u(0)\right) = 0.5$\\
+            (Recall $v(H\cup T)=1$)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Choquet EU (Schmeidler 1989)}
+The problem with standard (Reimann) integration:
+\begin{itemize}
+    \item Suppose $v$ is non-additive (eg, convex)
+    \item $(1,E_1;1,E_2;0,E_3) = (1,E_1\cup E_2; 0,E_3)$ are identical
+    \item Weight on winning event: $v(E_1)+v(E_2) \neq v(E_1\cup E_2)$. Different!
+\end{itemize}
+\br
+Schmeidler's solution: use the Choquet (1955) integral!
+\begin{itemize}
+    \item Suppose $f=(x_1,E_1;\ldots,x_n,E_n)$, where $x_1 \geq x_2 \geq \cdots \geq x_n \geq 0$
+    \item Reimann: $\sum_i x_i\ v(E_i)$
+    \item Choquet: $\sum_i x_i \left[v(\cup_{j=1}^i E_j) - v(\cup_{j=1}^{i-1} E_j) \right]$
+    \item Similar to RDU! Also avoids dominance violations
+\end{itemize}
+\br
+Above example: 
+$1\,[{\color{red}v(E_1)}] + 1\, [{\color{blue}v(E_1\cup E_2)}{\color{red}- v(E_1)}] + {\color{red}0}\,[ v(E_1\cup E_2 \cup E_3)-v(E_1\cup E_2) ]$\\
+$=1\,[{\color{blue}v(E_1\cup E_2)}] + {\color{red}0}\,[v(E_1\cup E_2 \cup E_3) - v(E_1\cup E_2)]$
+
+\end{frame}
+
+
+\begin{frame}{Choquet EU (Schmeidler 1989)}
+\begin{center}
+    \includegraphics[width=2in]{graphics/ach/ConvexAmbiguityPrefs2.png}
+\end{center}
+Choquet calculation implies linear between two blue dots:
+\begin{align*}
+    U(a) &= 0.95\, [v(\omega_2)] + 0.55\, [v(\Omega)-v(\omega_2)]\\
+    U(b) &= 0.75\, [v(\omega_2)] + 0.60\, [v(\Omega)-v(\omega_2)]\\
+    U(\frac{1}{2}a+\frac{1}{2}b) &= 0.85\, [v(\omega_2)] + 0.575\, [v(\Omega)-v(\omega_2)] = \frac{1}{2}U(a)+\frac{1}{2}U(b)
+\end{align*}
+Linear on either side of the 45-degree line!    
+\end{frame}
+
+\begin{frame}{Choquet EU (Schmeidler 1989)}
+    Points on the same side of the 45-degree line are ``comonotonic''
+    \begin{center}
+        $f(\omega)\geq f(\omega') \Rightarrow g(\omega)\geq g(\omega')$
+    \end{center}
+    Change MixIND to \textbf{A3*:} Comonotonic Independence.\\
+    MixIND but only for comonotonic acts $f$ and $g$\\
+    (Constant acts are comonotonic, so we do get EU over lotteries)
+    \br
+    \textbf{Theorem:} \textbf{A1}, \textbf{A2}, \textbf{ComonotonicIND}, \textbf{A4}, \textbf{A5} $\Rightarrow$\\
+    $\exists$ non-additive $v(\cdot)$ and $\exists\ u(\cdot)$ unique up to p.a.t. s.t.
+    $$
+        U(f) = \sum_i \underbrace{\left( v(\cup_{j=1}^i \omega_j) - v(\cup_{j=1}^{i-1} \omega_j) \right)}_{\text{Non-additive ``belief'' of }\omega_i} \underbrace{\sum_x f(\omega_i)(x)\ u(x)}_{\text{EU over lottery }f(\omega_i)} 
+    $$
+    Can have ambiguity-loving if $v(\cdot)$ is ``superadditive''\\
+    Still satisfies Mono/CompIND (\textbf{A4})! Good news for experiments\\
+    His student Itzhak Gilboa extended this to the Savage framework
+\end{frame}
+
+\begin{frame}{Choquet EU becomes Maxmin EU}
+An alternative representation
+\begin{itemize}
+    \item Suppose you have Choquet EU with ambiguity aversion
+    \item Ambiguity aversion $\Rightarrow$ $v(\cdot)$ is convex
+    \begin{itemize}
+        \item $v(A)+v(B) - v(A\cap B) \leq v(A\cup B)$
+    \end{itemize}
+    \item Convex $v(\cdot)$ has a ``core'' of additive distributions...
+    \begin{itemize}
+        \item $C_v = \{p\in \Delta(\Omega)\, :\, (\forall E\subseteq \Omega)\ p(E)\geq v(E)\}$
+        \item Ex: if $v(H)=v(T)=0.4$ then $C_v=\{p\in \Delta(\{H,T\}): p(H)\in [0.4,0.6]\}$
+    \end{itemize}
+    \item ... the Choquet expectation can equivalently be written as
+    \begin{align*}
+        \sum_i \left[v(\cup_{j=1}^i \omega_j) - v(\cup_{j=1}^{i-1} \omega_j) \right] \left(\sum_x f(\omega_i)(x)\ u(x)\right)\\
+        = \min_{p\in C_v} \sum_\omega p(\omega) \left( \sum_x f(\omega)(x)\ u(x) \right)
+    \end{align*}
+    \item Convex $v(\cdot)$ $\Rightarrow$ ``Maxmin expected utility (MEU)''
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Gilboa \& Schmeidler (1989) Maxmin Expected Utility (MEU)}
+    \begin{itemize}
+        \item \textbf{A1}: Ordering (complete \& transitive)
+        \item \textbf{A2}: Continuity
+        \item \textbf{A3.1}: Certainty Independence: Let $h_c=(q,q,\ldots,q)$ be any constant act
+        $$
+            f\succ g \iff \alpha f + (1-\alpha) h_c \succ \alpha g + (1-\alpha) h_c
+        $$
+        (This gives kinked-linear indifference curves)
+        \item \textbf{A3.2}: Uncertainty Aversion: $f\sim g \Rightarrow \alpha f + (1-\alpha) g \succeq f$\\
+        (Convex indifference curves)
+        \item \textbf{A4}: Monotonicity / Compound Independence
+        \item \textbf{A5}: Non-degeneracy
+    \end{itemize}
+    $\Rightarrow \exists$ closed, convex set of beliefs $C$ and $u$ s.t.
+    $$
+        U(f) = \min_{p\in C} \sum_\omega p(\omega) \left( \sum_x f(\omega)(x)\ u(x) \right)
+    $$
+\end{frame}
+
+\begin{frame}{Choquet EU vs. MEU?}
+Choquet EU ($v(\cdot)$) to MEU ($C$)?
+\begin{itemize}
+    \item If $v(\cdot)$ is convex (ambiguity averse) then $C$ is core of $v(\cdot)$ \checkmark
+    \item If $v(\cdot)$ is additive then core is just $v(\cdot)$, so CEU=MEU=EU
+    \item If $v(\cdot)$ is amb. loving then $\not\exists$ MEU representation
+    \begin{itemize}
+        \item Max-EU representation??
+    \end{itemize}
+    \item Aribtrary $v(\cdot)$??
+\end{itemize}
+\br
+MEU ($C$) to Choquet EU ($v(\cdot)$)?
+\begin{itemize}
+    \item Given $C$, you can define $v(E)=\min_{p\in C}p(E)$, but...
+    \begin{enumerate}
+        \item $v(\cdot)$ may not be convex, and even if it is...
+        \item its core $C_v$ may be different from the $C$ you started with
+    \end{enumerate}
+\end{itemize}
+\br
+I don't fully understand the differences :)
+\end{frame}
+
+\begin{frame}{$\alpha$-Maxmin}
+$\alpha$-Maxmin EU is a generalization:
+\begin{align*}
+U(f) &= \alpha \min_{p\in C} \sum_\omega p(\omega) \left( \sum_x f(\omega)(x)\ u(x) \right)\\
+    &+ (1-\alpha) \max_{p\in C} \sum_\omega p(\omega) \left( \sum_x f(\omega)(x)\ u(x) \right)
+\end{align*}
+\br
+Things I haven't figured out yet:
+\begin{itemize}
+    \item Who invented this model?
+    \item What do indifference curves look like?
+    \item Does an axiomatization exist?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Seo (2009) and Order Reversal}
+\begin{center}
+    \includegraphics[width=1.5in]{graphics/ach/trees_marblefirst.png} \hspace{0.in} \includegraphics[width=1.5in]{graphics/ach/trees_coinfirst.png}
+\end{center}
+What if we flipped the order? Would it matter?
+\br
+Modeling problem: How to put these in the same framework?
+\br
+Solution: Lotteries over acts over lotteries!\\
+Actually used in the original AA paper
+\end{frame}
+
+\begin{frame}{Seo (2009) and Order Reversal}
+    Let $P=(f^1,P_1;\ldots,f^n,P_n)$ be a (first-stage) lottery over acts.
+    \br
+    First-stage mixture operation (``in between'' $P$ and $Q$):
+    \begin{align*}
+    \alpha P \oplus (1-\alpha) Q &= (f^1,\alpha P_1 + (1-\alpha)Q_1;\ldots,f^n,\alpha P_n + (1-\alpha)Q_n)
+    \end{align*}
+    If first stage is degenerate, acts like a compounding mixture:
+    \begin{align*}
+    \alpha \delta_f \oplus (1-\alpha) \delta_g &= (f,\alpha;g,1-\alpha)
+    \end{align*}
+    First-Stage IND:
+    $$
+        P\succeq Q \Rightarrow \alpha P \oplus (1-\alpha) R \succeq \alpha Q \oplus (1-\alpha) R
+    $$
+    
+\end{frame}
+
+\begin{frame}{Seo (2009) and Order Reversal}
+    Let $f=(p^1,\omega_1;\ldots;p^n,\omega_n)$ and $g=(q^1,\omega_1;\ldots;q^n,\omega_n)$
+    \br
+    Second-stage mixture operation (MixIND at each $\omega$):
+    \begin{align*}
+        \alpha \delta_f + (1-\alpha) \delta_g = (\alpha p^1 + (1-\alpha)q^1,\omega_1;\ldots;\alpha p^n + (1-\alpha) q^n)
+    \end{align*}
+    \br
+    Apply to degenerate $f$,$g$ to get Third-Stage IND (vNM):
+    $$
+        p\succeq q \Rightarrow \alpha p + (1-\alpha) r \succeq \alpha q + (1-\alpha) r
+    $$
+    (technically, should write $\delta_{\delta_p}$, $\delta_{\delta_q}$, and $\delta_{\delta_r}$ for $p$, $q$, and $r$)
+\end{frame}
+
+\begin{frame}{Seo (2009) and Order Reversal}
+    Order Reversal Example:\\
+    Bet on red:\ \ \ $f(\text{red})=(\$1,1)$, $f(\text{blue})=(\$0,1)$\\
+    Bet on blue: $g(\text{red})=(\$0,1)$, $g(\text{blue})=(\$1,1)$
+\begin{center}
+    \begin{tabular}{ccc}
+    \includegraphics[height=2in]{graphics/ach/threestage_coinfirst.png}     &  & \includegraphics[height=2in]{graphics/ach/threestage_coinsecond.png} \\
+        $\alpha \delta_f \oplus (1-\alpha) \delta_g$ & $\sim$ & $\alpha \delta_f + (1-\alpha) \delta_g$
+    \end{tabular}
+     \hspace{0.25in} 
+\end{center}
+\end{frame}
+
+\begin{frame}{Seo (2009) and Order Reversal}
+    Order Reversal: mixing $f$ and $g$ ``up'' or ``down'' doesn't matter.
+    \br
+    Recall first-stage mixing for degenerate first stage (coin before):
+    \begin{align*}
+    \alpha \delta_f \oplus (1-\alpha) \delta_g &= (f,\alpha;g,1-\alpha)
+    \end{align*}
+    And second-stage mixing for degenerate first stage (coin after):
+    \begin{align*}
+        \alpha \delta_f + (1-\alpha) \delta_g = (\alpha p^1 + (1-\alpha)q^1,\omega_1;\ldots;\alpha p^n + (1-\alpha) q^n)
+    \end{align*}
+    \br
+    Order Reversal:
+    $$
+        \alpha \delta_f \oplus (1-\alpha) \delta_g \sim \alpha \delta_f + (1-\alpha) \delta_g
+    $$
+    (AA 1963 actually had Order Reversal, but it's since been simplified)
+\end{frame}
+
+\begin{frame}{Seo (2009) and Order Reversal}
+The AA Axioms in this 3-stage framework:
+\begin{itemize}
+    \item \textbf{A1:} Ordering
+    \item \textbf{A2:} Continuity
+    \item \textbf{A3.1:} First-Stage Independence
+    \item \textbf{A3.2:} Order Reversal
+    \item \textbf{A3.3:} Third-Stage Independence
+    \item \textbf{A4:} Second-Stage Monotonicity
+    $$
+        p\succeq q \Rightarrow [f|p,i] \succeq [f|q,i]
+    $$
+\end{itemize}
+\textbf{Theorem:} A1--A4 imply $\exists$ additive belief $p$ and utility index $u$ s.t
+$$
+    U(P) = \sum_i P_i \sum_\omega p(\omega) \sum_x f^i(\omega)(x)\ u(x)
+$$
+\end{frame}
+
+\begin{frame}{Seo (2009) and Order Reversal}
+Which axiom is important for experiments that pay one randomly?\\
+\begin{itemize}
+    \item Monotonicity is in second stage (acts), so no.
+    \item We need 1st-Stage IND for degenerate acts!
+    \begin{itemize}
+        \item $\alpha \delta_f \oplus (1-\alpha) \delta_g = (f,\alpha;g,1-\alpha)$
+    \end{itemize}
+\end{itemize}
+\br
+Fact: Order Reversal ``connects'' the two lottery stages:
+\begin{itemize}
+    \item O.R. + 1st-Stage IND $\Rightarrow$ 3rd-Stage IND
+    \item O.R. + 3rd-Stage IND $\Rightarrow$ 1st-Stage IND
+\end{itemize}
+    
+\end{frame}
+
+\begin{frame}{Order Reversal and Incentive Compatibility}
+But that can be a problem!\\
+Remember for 2-stage lotteries we had:
+\begin{center}
+    CompIND + ROCL $\Rightarrow$ MixIND $\Rightarrow$ EU\\
+    or\\
+    non-EU theory $\Rightarrow$ $\neg$ MixIND $\Rightarrow$ ($\neg$ CompIND) or ($\neg$ ROCL)\\
+    non-EU theory $\Rightarrow$ $\neg$ MixIND $\Rightarrow$ ($\neg$ I.C.) or ($\neg$ ROCL)\\
+\end{center}
+\br
+In this AA framework we have:
+\begin{center}
+    1stStageIND + OR $\Rightarrow$ 3rdStageIND $\Rightarrow$ EU\\
+    or\\
+    non-EU theory $\Rightarrow$ $\neg$ 3rdStageIND $\Rightarrow$ ($\neg$ 1stStageIND) or ($\neg$ OR)\\
+    non-EU theory $\Rightarrow$ $\neg$ 3rdStageIND $\Rightarrow$ ($\neg$ I.C.) or ($\neg$ OR)\\
+\end{center}
+\br
+If you want to allow for non-EU preferences, we better hope that ROCL or OR are not satisfied!
+\end{frame}
+
+\begin{frame}{Seo (2009) and Second-Order SEU}
+Seo (2009): What if we get rid of OR but keep both IND axioms?
+\br
+Needs to modify Monotonicity to apply to first stage instead.\\
+(AA didn't need this because they had O.R. to do it for them)
+\br
+Let $r(P,q)$ be the reduced (two-stage) ``objective'' lottery generated by applying belief $q(\omega)$ over $\Omega$. So, combine stages 2 and 3.\\
+Note: $\succeq$ ranks 2-stage lotteries via degenerate 2nd stage (acts)
+\br
+1st-Stage Dominance: $P\sqsupseteq Q$ iff $r(P,q)\succeq r(Q,q)$ for \textit{every} $q\in\Delta(\Omega)$
+\br
+\textbf{A4*:} If $P\sqsupseteq Q$ then $P\succeq Q$ 
+\br
+Question: How does this compare to 1st-Stage IND?
+\end{frame}
+
+\begin{frame}{Seo (2009) and SOSEU}
+Seo's axioms:
+\begin{itemize}
+    \item \textbf{A1:} Ordering
+    \item \textbf{A2:} Continuity
+    \item \textbf{A3.1:} First-Stage Independence
+    \item \sout{\textbf{A3.2:} Order Reversal}
+    \item \textbf{A3.3:} Third-Stage Independence
+    \item \textbf{A4*:} First-Stage Monotonicity
+\end{itemize}
+\textbf{Theorem:} A1--A4* imply $\exists$ a \textit{belief over beliefs} $\pi\in\Delta(\Delta(\Omega))$, utility $u$, and a bounded, increasing function $\phi$:
+$$
+    U(P) = \sum_i P_i \sum_{q\in \Delta(S)} \underbrace{\pi(q)}_{\text{Pr(belief}=q\text{)}}\ \phi ( \underbrace{\sum_\omega q(\omega) \sum_x f^i(\omega)(x)\ u(x)}_{\text{SEU of }f\text{ w/ belief }q} )
+$$
+Ambiguity averse $\iff$ $\phi$ is concave
+\end{frame}
+
+\begin{frame}{Seo (2009) SOSEU \& Hedging}
+\hspace{1in}\begin{tabular}{cc|cc}
+      & 30 marbles & \multicolumn{2}{c}{60 marbles}  \\
+      & R & B & Y \\
+      \hline
+      $f$ & 0 & 100 & 0 \\
+      $g$ & 0 & 0 & 100\\
+      \hline
+\end{tabular}\\
+New state space: \# black marbles: $\Omega=\{0,1,2,\ldots,60\}$\\
+$f(\omega)= (\frac{\omega}{90},100;\frac{90-\omega}{90},0)$\ \ \ \ 
+$g(\omega)= (\frac{60-\omega}{90},100;\frac{90-(60-\omega)}{90},0)$\\
+\hspace{0.75in} $(\frac{1}{2}f+\frac{1}{2}g)(\omega) = (\frac{1}{3},100;\frac{2}{3},0)\ \ \forall \omega$\\
+Suppose $q^1(20)=1$ and $q^2(40)=1$, with $\pi(q^1)=\pi(q^2)=1/2$\\
+Normalize $u(100)=1$, $u(0)=0$\\
+\begin{tabular}{ll}
+EU of $f$ at $q^1$: 20/90 & EU of $g$ at $q^1$: 40/90\\
+EU of $f$ at $q^2$: 40/90 & EU of $g$ at $q^2$: 20/90\\
+$U(f)=\frac{1}{2}\phi(2/9)+\frac{1}{2}\phi(4/9)$ & $U(g)=\frac{1}{2}\phi(4/9)+\frac{1}{2}\phi(2/9)$
+\end{tabular}
+\begin{center}
+EU of $0.5f+0.5g$ at $q^1$ or $q^2$: $\frac{1}{2}\frac{20}{90}+\frac{1}{2}\frac{40}{90}=\frac{1}{3}$\\
+$U(0.5f+0.5g) = \frac{1}{2}\phi(1/3)+\frac{1}{2}\phi(1/3)=\phi(1/3)$\\
+Concave $\phi$ $\Rightarrow$ $\phi(1/3)>\frac{1}{2}\phi(4/9)+\frac{1}{2}\phi(2/9)$\\
+Convex preferences / preference for hedging
+\end{center}
+\end{frame}
+
+\begin{frame}{Smooth Ambiguity}
+Klibanoff, Marinacci \& Mukerji (KMM, 2005)\\
+``Smooth ambiguity'' has basically the same form, but in a framework without ``time''
+\br
+Frameworks with multiple sources but without time?
+\br
+Savage: \hspace{0.25in}
+\begin{tabular}{c|c|c|}
+     & $\psi_1$ & $\psi_2$  \\
+     \hline
+     $\xi_1$ & $\omega_1$ & $\omega_2$ \\
+     \hline
+     $\xi_2$ & $\omega_3$ & $\omega_4$ \\
+     \hline
+\end{tabular} \hspace{0.25in} 
+\br
+AA: Can have $\succeq$ over $\mathcal{F}\cup \Delta(X)$\\
+...but then you'll need different axioms for $f\succeq g$, $p\succeq q$, and $f\succeq p$
+\br
+Literature on ``source dependence''
+\end{frame}
+
+\begin{frame}{Time and Risk}
+Discounted expected utility for a stream of lotteries:
+$$
+    U(p^0,p^1,p^2,\ldots) = \sum_{t=0}^\infty \delta^t (\sum_x p^t(x)\ u(x))
+$$
+Problem: $u$ represents both risk preferences \textit{and} time preferences!
+\br
+Models that separate them:
+\begin{itemize}
+    \item Kreps-Porteus (1978)
+    \item Chew-Epstein (1989)
+    \item Epstein-Zin (1989)
+\end{itemize}
+\br
+DeJarnette et al. (2020): If payment date is uncertain (``time lottery'') then DEU predicts risk-seeking preferences! But experiment shows risk aversion. They provide new generalizations of DEU. 
+\end{frame}
+
+\begin{frame}{That's It!}
+\begin{itemize}
+    \item That's the end of this primer
+    \item The DT literature is huge, and worth exploring.
+    \item But sometimes axioms feel like framing effects
+    \begin{itemize}
+        \item Example: Order Reversal
+        \item And, can we really control which order subjects perceive?
+    \end{itemize}
+    \item ...so things get incredibly nuanced
+    \item ...which unfortunately leads to a lot of fights
+\end{itemize}
+\br
+Regardless, this lays the foundation for formulating a theory of incentives in experiments
+    
+\end{frame}
+
+\end{document}

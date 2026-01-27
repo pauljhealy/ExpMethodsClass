@@ -1,0 +1,853 @@
+\include{Lecture_Slides/metropolis_preamble}
+
+\begin{document}
+
+% Title page info
+\title[Regressions 3]{ExpEcon Methods:\\Binary Dependent Variables: Logit \& Probit}
+\author[ECON 8877]{ECON 8877\\P.J. Healy\\First version thanks to Zexin Ye} \color{metrop}
+\institute[OSU]{}
+\date[]{\vfill {\tiny Updated \today}}
+
+\frame{\maketitle}
+
+
+\begin{frame}{Discrete Choice Model: Overview}
+The Choice Set
+\begin{itemize}
+\item The set of options that are available to the decision maker.
+\end{itemize}
+
+Derivation
+\begin{itemize}
+\item Define choice probabilities and derive them from the utility-maximizing behavior.
+\item Derive logit model.
+\end{itemize}
+
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{Discrete Choice Model: The Choice Set}
+
+Discrete choice models describe decision makers’ choices among alternatives. \\
+The set of alternatives, called the choice set, needs to exhibit three characteristics.
+\begin{itemize}
+\item The alternatives must be mutually exclusive
+    \begin{itemize}
+    \item Choosing one alternative necessarily implies not choosing any of the other alternatives.
+    \end{itemize}
+\item The choice set must be exhaustive
+    \begin{itemize}
+    \item All possible alternatives are included.
+    \end{itemize}
+\item The number of alternatives must be finite
+
+\end{itemize}
+\\ \hspace*{\fill} \\
+\end{frame}
+
+
+\begin{frame}{Discrete Choice Model: The Choice Set}
+The third condition, namely, that the number of alternatives is finite, is actually restrictive.
+\\ \hspace*{\fill} \\
+Main difference from regression models.
+\\ \hspace*{\fill} \\
+With regression models, the dependent variable is continuous - an infinite number of possible outcomes.
+\end{frame}
+
+
+\begin{frame}{Discrete Choice Model: Derivation of Choice Probabilities}
+Discrete choice models are usually derived under an assumption of utility-maximizing behavior by the decision maker.
+\begin{itemize}
+\item Thurstone (1927) originally developed the concepts in terms of psychological stimuli,
+leading to a binary probit model of whether respondents can differentiate the level of stimulus.
+\item Marschak (1960) interpreted the stimuli as utility and provided a derivation from utility maximization.
+\end{itemize}
+
+Following Marschak, models that can be derived in this way are called random
+utility models (RUMs).
+\end{frame}
+
+
+
+\begin{frame}{Discrete Choice Model: RUMs}
+Random utility models (RUMs) are derived as follows.
+\begin{itemize}
+\item A decision maker, labeled $n$, faces a choice among $J$ alternatives.
+\item The decision maker would obtain a certain level of utility (or profit) from each alternative.
+\item The utility that decision maker $n$ obtains from alternative $j$ is $U_{n j}, \quad j=1, \ldots, J$.
+\item This utility is known to the decision maker but not by the researcher.
+\item The decision maker chooses the alternative that provides the greatest utility.
+\item The behavioral model is therefore: decision maker $n$ chooses alternative $i$ if and only if $U_{n i}>U_{n j}, \forall j \neq i$.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Discrete Choice Model: RUMs}
+Consider now the researcher.
+\begin{itemize}
+\item The researcher does not observe the decision maker's utility.
+\item The researcher observes
+    \begin{itemize}
+    \item some attributes of the alternatives as faced by the decision maker, labeled $x_{n j}, \forall j$,
+    \item some attributes of the decision maker, labeled $s_n$,
+    \end{itemize}
+\item The researcher can specify a function that relates these observed factors to the decision maker's utility.
+\item The function is denoted $V_{n j}=V\left(x_{n j}, s_n\right), \forall j$ and is often called representative utility.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Discrete Choice Model: RUMs}
+\begin{itemize}
+\item Since there are aspects of utility that the researcher does not or cannot observe, $V_{n j} \neq U_{n j}$.
+\item Utility is decomposed as $U_{n j}=V_{n j}+\varepsilon_{n j}$, where $\varepsilon_{n j}$ captures the factors that affect utility but are not included in $V_{n j}$.
+\item The distribution of $\varepsilon_{n j}$ depends critically on the researcher's specification of $V_{n j}$.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Discrete Choice Model: RUMs}
+\begin{itemize}
+\item The researcher does not know $\varepsilon_{n j} \ \forall j$ and therefore treats these terms as random.
+\item The joint density of the random vector $\varepsilon_n^{\prime}=\left\langle\varepsilon_{n 1}, \ldots, \varepsilon_{n J}\right\rangle$ is denoted $f\left(\varepsilon_n\right)$.
+\item With this density, the researcher can make probabilistic statements about the decision maker's choice.
+\item The probability that decision maker $n$ chooses alternative $i$ is
+$$
+\begin{aligned}
+P_{n i} & =\operatorname{Prob}\left(U_{n i}>U_{n j} \ \forall j \neq i\right) \\
+& =\operatorname{Prob}\left(V_{n i}+\varepsilon_{n i}>V_{n j}+\varepsilon_{n j} \ \forall j \neq i\right) \\
+& =\operatorname{Prob}\left(\varepsilon_{n j}-\varepsilon_{n i}<V_{n i}-V_{n j} \ \forall j \neq i\right) .
+\end{aligned}
+$$
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Discrete Choice Model: RUMs}
+
+
+Using the density $f\left(\varepsilon_n\right)$, this cumulative probability can be rewritten as
+$$
+\begin{aligned}
+P_{n i} & =\operatorname{Prob}\left(\varepsilon_{n j}-\varepsilon_{n i}<V_{n i}-V_{n j} \ \forall j \neq i\right) \\
+& =\int_{\varepsilon} I\left(\varepsilon_{n j}-\varepsilon_{n i}<V_{n i}-V_{n j} \ \forall j \neq i\right) f\left(\varepsilon_n\right) d \varepsilon_n,
+\end{aligned}
+$$
+where $I(\cdot)$ is the indicator function, equaling 1 when the expression in parentheses is true and 0 otherwise. \\
+\\ \hspace*{\fill} \\
+This is a multidimensional integral over the density of the unobserved portion of utility, $f\left(\varepsilon_n\right)$.
+\end{frame}
+
+
+
+
+\begin{frame}{Discrete Choice Model: RUMs}
+\begin{itemize}
+\item Different discrete choice models are obtained from different specifications of this density $f\left(\varepsilon_n\right)$, that is, from different assumptions about the distribution of the unobserved portion of utility.
+\item The integral takes a closed form only for certain specifications of $f(\cdot)$.
+\item Logit has closed-form expressions for this integral. They are derived under the assumption that the unobserved portion of utility is distributed iid extreme value.
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Discrete Choice Model: Identification of Choice Models}
+Only Differences in Utility Matter
+\begin{itemize}
+\item The choice probability is $P_{n i}=\operatorname{Prob}\left(U_{n i}>U_{n j} \ \forall j \neq i\right)=$ $\operatorname{Prob}\left(U_{n i}-U_{n j}>0 \  \forall j \neq i\right)$, which depends only on the difference in utility, not its absolute level.
+\item Adding a constant to the utility of all alternatives does not change the decision maker's choice.
+\end{itemize}
+\\ \hspace*{\fill} \\
+The Overall Scale of Utility Is Irrelevant
+\begin{itemize}
+\item The model $U_{n j}^0=V_{n j}+\varepsilon_{n j} \ \forall j$ is equivalent to $U_{n j}^1=\lambda V_{n j}+\lambda \varepsilon_{n j} \ \forall j$ for any $\lambda>0$.
+\item Multiplying each alternative's utility by a constant also does not change the decision maker's choice.
+\end{itemize}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% logit %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Discrete Choice Model: Logit}
+\begin{itemize}
+\item By far the easiest and most widely used discrete choice model is logit. Its popularity is due to the fact that the formula for the choice probabilities takes a closed form and is readily interpretable.
+\item Originally, the logit formula was derived by Luce (1959) from assumptions about the characteristics of choice probabilities, namely the independence from irrelevant alternatives (IIA).
+\item Marschak (1960) showed that these axioms implied that the model is consistent with utility maximization.
+\item The relation of the logit formula to the distribution of unobserved utility was developed by Marley, as cited by Luce and Suppes (1965), who showed that the extreme value distribution leads to the logit formula. \item McFadden (1974) completed the analysis by showing the converse: that the logit formula for the choice probabilities necessarily implies that unobserved utility is distributed extreme value.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Discrete Choice Model: Logit}
+\begin{itemize}
+\item A decision maker, labeled $n$, faces $J$ alternatives.
+\item The utility that the decision maker obtains from alternative $j$ is decomposed as $U_{n j}=V_{n j}+\varepsilon_{n j} \ \forall j$.
+\item The logit model is obtained by assuming that each $\varepsilon_{n j}$ is independently, identically distributed extreme value. The distribution is also called Gumbel and type I extreme value. The density for each unobserved component of utility is
+$$f\left(\varepsilon_{n j}\right)=e^{-\varepsilon_{n j}} e^{-e^{-\varepsilon_{n j}}}$$
+\item The cumulative distribution is $$\quad F\left(\varepsilon_{n j}\right)=e^{-e^{-\varepsilon_{n j}}}$$
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Discrete Choice Model: Logit}
+\begin{itemize}
+\item The variance of this distribution is $\pi^2 / 6$. By assuming the variance is $\pi^2 / 6$, we are implicitly normalizing the scale of utility.
+\item The mean of the extreme value distribution is not zero; however, the mean is immaterial, since only differences in utility matter, and the difference between two random terms that have the same mean has itself a mean of zero.
+\item The difference between two extreme value variables is distributed logistic. That is, if $\varepsilon_{n j}$ and $\varepsilon_{n i}$ are iid extreme value, then $\varepsilon_{n j i}^*=\varepsilon_{n j}-\varepsilon_{n i}$ follows the logistic distribution
+$$
+F\left(\varepsilon_{n j i}^*\right)=\frac{e^{\varepsilon_{n j i}^*}}{1+e^{\varepsilon_{n j i}^*}}
+$$
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Discrete Choice Model: Logit}
+
+We now derive the logit choice probabilities, following McFadden (1974). The probability that decision maker $n$ chooses alternative $i$ is
+$$
+\begin{aligned}
+P_{n i} & =\operatorname{Prob}\left(V_{n i}+\varepsilon_{n i}>V_{n j}+\varepsilon_{n j} \ \forall j \neq i\right) \\
+& =\operatorname{Prob}\left(\varepsilon_{n j}<\varepsilon_{n i}+V_{n i}-V_{n j} \ \forall j \neq i\right).
+\end{aligned}
+$$
+
+If $\varepsilon_{n i}$ is considered given, this expression is the cumulative distribution for each $\varepsilon_{n j}$ evaluated at $\varepsilon_{n i}+V_{n i}-V_{n j}$, which is $\exp \left(-\exp \left(-\left(\varepsilon_{n i}+V_{n i}-V_{n j}\right)\right)\right)$.
+\\ \hspace*{\fill} \\
+Since the $\varepsilon$ 's are independent, this cumulative distribution over all $j \neq i$ is the product of the individual cumulative distributions:
+$$
+P_{n i} \mid \varepsilon_{n i}=\prod_{j \neq i} e^{-e^{-\left(\varepsilon_{n i}+V_{n i}-V_{n j}\right)}}
+$$
+
+\end{frame}
+
+
+
+\begin{frame}{Discrete Choice Model: Logit}
+\label{logit}
+Of course, $\varepsilon_{n i}$ is not given, and so the choice probability is the integral of $P_{n i} \mid \varepsilon_{n i}$ over all values of $\varepsilon_{n i}$ weighted by its density:
+$$
+P_{n i}=\int\left(\prod_{j \neq i} e^{-e^{-\left(\varepsilon_{n i}+V_{n i}-V_{n j}\right)}}\right) e^{-\varepsilon_{n i}} e^{-e^{-\varepsilon_{n i}}} d \varepsilon_{n i} .
+$$
+\hyperlink{DofL}{Some algebraic manipulation}
+ of this integral results in a succinct, closed form expression:
+$$
+P_{n i}=\frac{e^{V_{n i}}}{\sum_j e^{V_{n j}}}
+$$
+
+\end{frame}
+
+
+\begin{frame}{Discrete Choice Model: Logit}
+Representative utility is usually specified to be linear in parameters: $V_{n j}=\beta^{\prime} x_{n j}$, where $x_{n j}$ is a vector of observed variables relating to alternative $j$. With this specification, the logit probabilities become
+$$
+P_{n i}=\frac{e^{\beta^{\prime} x_{n i}}}{\sum_j e^{\beta^{\prime} x_{n j}}} .
+$$
+Under fairly general conditions, any function can be approximated arbitrarily closely by one that is linear in parameters.
+\\ \hspace*{\fill} \\
+Importantly, McFadden (1974) demonstrated that the log-likelihood function with these choice probabilities is globally concave in parameters $\beta$, which helps in the numerical maximization procedures.
+\end{frame}
+
+
+
+
+\begin{frame}{Discrete Choice Model: Logit}
+The logit probabilities exhibit several desirable properties.
+\begin{itemize}
+\item First, $P_{n i}$ is necessarily between zero and one, as required for a probability.
+\item Second, the choice probabilities for all alternatives sum to one: $\sum_{i=1}^J P_{n i}=\sum_i \exp \left(V_{n i}\right) / \sum_j \exp \left(V_{n j}\right)=1$.
+\item Third, the relation of the logit probability to representative utility is sigmoid, or S-shaped, as shown in Figure below. This shape has implications for the impact of changes in explanatory variables.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\begin{figure}[H]
+\includegraphics[width=0.9\textwidth]{graphics/reg3/logit curve.png}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Discrete Choice Model: Logit}
+The logit model exhibits independence from irrelevant alternatives, or IIA.
+\begin{itemize}
+\item For any two alternatives $i$ and $k$, the ratio of the logit probabilities is
+$$
+\begin{aligned}
+\frac{P_{n i}}{P_{n k}} & =\frac{e^{V_{n i}} / \sum_j e^{V_{n j}}}{e^{V_{n k}} / \sum_j e^{V_{n j}}} \\
+& =\frac{e^{V_{n i}}}{e^{V_{n k}}}=e^{V_{n i}-V_{n k}}
+\end{aligned}
+$$
+\item This ratio does not depend on any alternatives other than $i$ and $k$. That is, the relative odds of choosing $i$ over $k$ are the same no matter what other alternatives are available or what the attributes of the other alternatives are.
+\item Since the ratio is independent from alternatives other than $i$ and $k$, it is said to be independent from irrelevant alternatives.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Logit: Estimation}
+\begin{itemize}
+\item Consider first the situation in which the sample is exogenously drawn, that is, is either random or stratified random with the strata defined on factors that are exogenous to the choice being analyzed.
+\item We also assume that the explanatory variables are exogenous to the choice situation. That is, the variables entering representative utility are independent of the unobserved component of utility.
+\item A sample of $N$ decision makers is obtained for the purpose of estimation. Since the logit probabilities take a closed form, the traditional maximum-likelihood procedures can be applied.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Logit: Estimation}
+\begin{itemize}
+\item The probability of person $n$ choosing the alternative that he was actually observed to choose can be expressed as
+$$
+\prod_i\left(P_{n i}\right)^{y_{n i}}
+$$
+where $y_{n i}=1$ if person $n$ chose $i$ and zero otherwise. Note that since $y_{n i}=0$ for all nonchosen alternatives and $P_{n i}$ raised to the power of zero is 1, this term is simply the probability of the chosen alternative.
+
+\item Assuming that each decision maker's choice is independent of that of other decision makers, the probability of each person in the sample choosing the alternative that he was observed actually to choose is
+$$
+L(\beta)=\prod_{n=1}^N \prod_i\left(P_{n i}\right)^{y_{n i}},
+$$
+where $\beta$ is a vector containing the parameters of the model.
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{Logit: Estimation}
+\begin{itemize}
+\item The loglikelihood function is then
+$$
+\mathrm{LL}(\beta)=\sum_{n=1}^N \sum_i y_{n i} \ln P_{n i}
+$$
+\item and the estimator is the value of $\beta$ that maximizes this function.
+\item McFadden (1974) shows that $\operatorname{LL}(\beta)$ is globally concave for linear-inparameters utility, and many statistical packages are available for estimation of these models.
+\item At the maximum of the likelihood function, its derivative with respect to each of the parameters is zero:
+$$
+\frac{d \mathrm{LL}(\beta)}{d \beta}=0
+$$
+The maximum likelihood estimates are therefore the values of $\beta$ that satisfy this first-order condition.
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Part 2: marginal effect %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Marginal Effect}
+
+Consider the binary logit model,
+$$
+\begin{aligned}
+p_i=\operatorname{Pr}\left(y_i=1 \mid \boldsymbol{x}\right)
+&=\frac{e^{\beta_0+\beta_1 x_{1 i}+\cdots+\beta_p x_{p i}}}{1+e^{\beta_0+\beta_1 x_{1 i}+\cdots+\beta_p x_{p i}}} \\
+&=\frac{1}{1+e^{-\left(\beta_0+\beta_1 x_{1 i}+\cdots+\beta_p x_{p i}\right)}}
+\end{aligned}
+$$
+
+With some algebraic transformations,
+$$
+\log \left(\frac{p_i}{1-p_i}\right)=\beta_0+\beta_1 x_{1 i}+\cdots+\beta_p x_{p i}
+$$
+
+
+
+The marginal effect for $x_1$ is given by the expression:
+$$
+\frac{\partial \operatorname{Pr}\left(y_i=1 \mid \boldsymbol{x}\right)}{\partial x_1}=\beta_1 \frac{e^{\beta_0+\beta_1 x_{1 i}+\cdots+\beta_p x_{p i}}}{\left(1+e^{-\left(\beta_0+\beta_1 x_{1 i}+\cdots+\beta_p x_{p i}\right)}\right)^2}
+$$
+\end{frame}
+
+
+
+\begin{frame}{Marginal Effect}
+\begin{itemize}
+\item Nonlinear - as it has to be since the outcome must be bounded between 0 and 1.
+\item The direction of the change is given by the sign of $\beta_1$.
+\item The effect of $x_1$ depends on the value of all other covariates in the model even if the underlying model does not include interactions.
+\end{itemize}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Marginal Effect: Numerical Derivative}
+One-sided derivative
+$$f^{\prime}\left(x=x_0\right) \approx \frac{f\left(x_0+h\right)-f\left(x_0\right)}{h}$$
+
+Two-sided derivative
+$$
+\begin{aligned}
+f^{\prime}\left(x=x_0\right)
+&\approx \frac{f\left(x_0+h\right)-f\left(x_0\right)-\left[f\left(x_0-h\right)-f\left(x_0\right)\right]}{2 h} \\
+&=\frac{f\left(x_0+h\right)-f\left(x_0-h\right)}{2 h}
+\end{aligned}
+$$
+\end{frame}
+
+
+
+
+\begin{frame}{Marginal Effect: Average Marginal Effect}
+\begin{itemize}
+\item Use birth weight data from Wooldridge (bcuse bwght)
+\item Create an indicator for low birth weight.
+\end{itemize}
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{graphics/reg3/sum.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Marginal Effect: Average Marginal Effect}
+$$
+\log \left(\frac{lw_i}{1-lw_i}\right)=\beta_0+\beta_1 \text {cigs}_i+\beta_2 \text {faminc}_i+\beta_3 \text {motheduc}_i
+$$
+
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{graphics/reg3/logit reg.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Marginal Effect: Average Marginal Effect}
+\begin{itemize}
+\item Estimate the logit model
+$$
+\log \left(\frac{p_i}{1-p_i}\right)=\beta_0+\beta_1 x_{1 i}+\cdots+\beta_p x_{p i}
+$$
+\item Increase the value of the variable $x_1$ by a "small" amount $h: x_1=x_1+h$.\\
+For each observation $i$, calculate predictions $\hat{y}_{1 i}$ in the probability scale \\
+keeping all other covariate values $\left(x_{2 i}, \ldots, x_{p i}\right)$ as observed.
+\item Repeat for $x_0=x_0-h$\\
+For each observation $i$, calculate predictions $\hat{y}_{0 i}$ in the probability scale \\
+\item For each observation $i$, calculate the difference of the two predictions divided by $2 h$ : $\left(\hat{y}_{i 1}-\hat{y}_{i 0}\right) / 2 h$
+\item The average of this difference is the numerical derivative: $E\left[\frac{\hat{y}_{1 i}-\hat{y}_{0 i}}{2 h}\right] \approx \frac{\partial \operatorname{Pr}\left(y_i=1 \mid x ; \beta\right)}{\partial x_1}$
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Marginal Effect: Average Marginal Effect}
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{graphics/reg3/ame_1.png}
+\end{figure}
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{graphics/reg3/ame_2.png}
+\end{figure}
+
+
+\begin{itemize}
+\item Stata uses an algorithm to ensure numerical precision
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Marginal Effect: Average Marginal Effect}
+\begin{itemize}
+\item What about 10 extra cigarettes?
+\end{itemize}
+
+\begin{figure}[H]
+\includegraphics[width=0.5\textwidth]{graphics/reg3/ame_3.png}
+\end{figure}
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{graphics/reg3/ame_4.png}
+\end{figure}
+\end{frame}
+
+
+
+
+\begin{frame}{Marginal Effect: Marginal Effect at the Mean (MEM)}
+Marginal Effect at the Mean (MEM)
+\begin{itemize}
+\item We can also calculate marginal effects at the mean (of each covariate)
+\item There is some discussion about which way is better (see Williams, 2012)
+\item The difference will be so small that it is better to spend mental resources somewhere else.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Marginal Effect: Marginal Effect at the Mean (MEM)}
+
+\begin{figure}[H]
+\includegraphics[width=0.5\textwidth]{graphics/reg3/mem_0.png}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{graphics/reg3/mem_3.png}
+\end{figure}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Marginal Effect: Marginal Effect at the Mean (MEM)}
+
+\begin{figure}[H]
+\includegraphics[width=0.8\textwidth]{graphics/reg3/mem_1.png}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=0.8\textwidth]{graphics/reg3/mem_2.png}
+\end{figure}
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Interaction %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Interaction Term: Logit}
+Logit Model
+$$
+\log \left(\frac{p}{1-p}\right)=\beta_0+\beta_1 \text{edu}+\beta_2 \text {male}+\beta_3 \text{edu} * \text{male} +\varepsilon
+$$
+
+\footnotesize{
+\begin{enumerate}
+\item Difference male - female for educated:
+    $$\log \left(\frac{p_{m e}}{1-p_{m e}}\right)-\log \left(\frac{p_{f e}}{1-p_{f e}}\right)=\beta_2+\beta_3$$
+\item Difference male - female for uneducated:
+$$\log \left(\frac{p_{m u}}{1-p_{m u}}\right)-\log \left(\frac{p_{f u}}{1-p_{f u}}\right)=\beta_2$$
+\item The difference of differences (2)-(3) is:
+$$\left[\log \left(\frac{p_{m e}}{1-p_{m e}}\right)-\log \left(\frac{p_{f e}}{1-p_{f e}}\right)\right]-\left[\log \left(\frac{p_{m u}}{1-p_{m u}}\right)-\log \left(\frac{p_{f u}}{1-p_{f u}}\right)\right]=\beta_3$$
+\end{enumerate}
+}
+\normalsize{
+Difference-in-difference in the log-odds scale.}
+
+\end{frame}
+
+
+
+\begin{frame}{Interaction Term: Marginal Effect}
+Marginal Effects
+\begin{figure}[H]
+\includegraphics[width=0.9\textwidth]{graphics/reg3/i_2.png}
+\end{figure}
+Only two effects? The model has three coefficients. Where is the interaction?
+\end{frame}
+
+
+\begin{frame}{Interaction Term: Marginal Effect}
+How Stata calculates marginal effects?
+\begin{itemize}
+\item For cigs, a continuous variable, it's using the two-sided derivative
+increasing cigs by a little bit and calculating predictions. \\
+It's increasing cigs in both the main effect and the interaction.\\
+Then it takes an average so the marginal effect of cigs is the
+numerical derivative for both inc=1 and inc=0 combined.
+\item For the marginal effect of inc, it's doing the same going from 0 to 1,
+averaging over the values of cigs
+\end{itemize}
+To get the marginal effect of cigs separately for inc=1 and inc=0, we have to be more specific.
+\end{frame}
+
+
+\begin{frame}{Interaction Term: More Specific}
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{graphics/reg3/i_4.png}
+\end{figure}
+
+\begin{itemize}
+\item A small increase in cigs increases the probability of low birth weight by 0.6 percentage
+points for low income type.
+\item While increase in cigs has no significant effect for high income type.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Interaction Term: DID in Linear}
+Regression Model
+$$
+y=\beta_0+\beta_1 \text{time}+\beta_2 \text{treated}+\beta_3 \text{time} * \text{treated}+\varepsilon
+$$
+
+\begin{figure}[H]
+\includegraphics[width=0.7\textwidth]{graphics/reg3/didregression.png}
+\end{figure}
+
+{\footnotesize Source: https://www.publichealth.columbia.edu/research/population-health-methods/difference-difference-estimation}
+\end{frame}
+
+\begin{frame}{Interaction Term: DID in Non-Linear}
+
+$\text{Let } u=F\left(\beta_1 x_1+\beta_2 x_2+\beta_{12} x_1 x_2+X \beta\right)$
+\begin{itemize}
+\item When the interacted variables are both continuous
+$$
+\begin{aligned}
+\frac{\partial^2 F(u)}{\partial x_1 \partial x_2} & =\frac{\partial\left\{\left(\beta_1+\beta_{12} x_2\right) f(u)\right\}}{\partial x_2} \\
+& =\beta_{12} f(u)+\left(\beta_1+\beta_{12} x_2\right)\left(\beta_2+\beta_{12} x_1\right) f^{\prime}(u)
+\end{aligned}
+$$
+where $f(u)=F^{\prime}(u)$ and $f^{\prime}(u)=F^{\prime \prime}(u)$.
+\\ \hspace*{\fill} \\
+\item When the interacted variables are both dummy variables
+$$
+\begin{aligned}
+\frac{\Delta^2 F(u)}{\Delta x_1 \Delta x_2}= & \frac{\Delta\left\{F\left(\beta_1+\beta_2 x_2+\beta_{12} x_2+X \beta\right)-F\left(\beta_2 x_2+X \beta\right)\right\}}{\Delta x_2} \\
+= & F\left(\beta_1+\beta_2+\beta_{12}+X \beta\right) \\
+& -F\left(\beta_1+X \beta\right)-F\left(\beta_2+X \beta\right)+F(X \beta)
+\end{aligned}
+$$
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Interaction Term: Logit Formula}
+For the logit model,
+$$
+F(u)=\frac{1}{1+e^{-\left(\beta_1 x_1+\beta_2 x_2+\beta_{12} x_1 x_2+X \beta\right)}}
+$$
+
+When the interacted variables are both dummy variables, the interaction effect is the discrete double difference:
+$$
+\begin{aligned}
+\frac{\Delta^2 F(u)}{\Delta x_1 \Delta x_2}= & \frac{1}{1+e^{-\left(\beta_1+\beta_2+\beta_{12}+X \beta\right)}} \\
+& -\frac{1}{1+e^{-\left(\beta_1+X \beta\right)}}-\frac{1}{1+e^{-\left(\beta_2+X \beta\right)}}+\frac{1}{1+e^{-X \beta}}
+\end{aligned}
+$$
+\end{frame}
+
+
+
+\begin{frame}{Interaction Term: SEs}
+Ai and Norton (2003) derive the standard errors for the interaction effect in logit and probit models, applying the Delta method.
+\\ \hspace*{\fill} \\
+For the case of two dummy variables, the asymptotic variance of the estimated interaction effect is estimated consistently by
+
+
+$$
+\frac{\partial}{\partial \beta^{\prime}}\left\{\frac{\Delta^2 F(u)}{\Delta x_1 \Delta x_2}\right\} \widehat{\Omega}_\beta \frac{\partial}{\partial \beta}\left\{\frac{\Delta^2 F(u)}{\Delta x_1 \Delta x_2}\right\}
+$$
+where $\widehat{\Omega}_\beta$ is a consistent covariance estimator of $\widehat{\beta}$.
+\\ \hspace*{\fill} \\
+For continuous variables, we replace the discrete difference operator $\Delta$ with the partial derivative operator.
+
+\end{frame}
+
+
+
+
+\begin{frame}{Interaction Term: Command in Stata}
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{graphics/reg3/i_5.png}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Interaction Term: Check}
+/* manual estimation */ \\
+logit outcome treated time did, nolog
+\\ \hspace*{\fill} \\
+replace treated = 0 \\
+replace time = 0 \\
+replace did = 0 \\
+predict double y00 if e(sample) \\
+\\ \hspace*{\fill} \\
+(repeated steps omitted)
+\\ \hspace*{\fill} \\
+gen ie = y11-y01-y10+y00 \\
+sum ie
+
+
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{graphics/reg3/i_6.png}
+\end{figure}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LPM vs Logit %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{LPM vs Logit}
+We have often used binary ("dummy") variables as explanatory variables in regressions.
+\begin{itemize}
+\item
+It's possible to use OLS:
+$$
+y=\beta_0+\beta_1 x_1+\cdots+\beta_k x_k+u
+$$
+where $y$ is the dummy variable. This is called the linear probability model (LPM).
+\item Estimating the equation:
+$$
+\hat{P}(y=1 \mid x)=\hat{y}=\hat{\beta}_0+\hat{\beta}_1 x_1+\cdots+\hat{\beta}_k x_k
+$$
+$\hat{y}$ is the predicted probability of having $y=1$ for the given values of $x_1 \ldots x_k$.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{LPM vs Logit: Problems in LPM}
+First Problems with LPM:
+\begin{itemize}
+\item Possible to get $\hat{y}<0$ or $\hat{y}>1$. This makes no sense-we can't have a probability below 0 or above 1 .
+\item This is a fundamental problem with the LPM that we can't patch up.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{LPM vs Logit: Problems in LPM}
+Second Problem with LPMd:
+SEs are not right
+\begin{itemize}
+\item Recall that in the linear model we assume $Y \sim N\left(\beta_0+\beta_1 X_1+\cdots+\beta_p X_p, \sigma^2\right)$ or equivalently, $\epsilon_i \sim N\left(0, \sigma^2\right)$
+\item That is, $Y$ distributes normal conditional on $\mathbf{X} \mathbf{s}$ or the error distributes normal with mean 0
+\item Obviously, a 1/0 variable can't distribute normal, and $\epsilon_i$ can't be normally distributed either
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{LPM vs Logit: Heteroskedasticity}
+
+\begin{itemize}
+\item The variance of a $1 / 0$ (binary) depends on the values of $X$ so there is always heteroskedasticity: $\operatorname{var}(y \mid \mathbf{x})=p(\mathbf{x})[1-p(\mathbf{x})]$
+\item We can correct SEs in LPMs using the robust option (Huber-White SEs; aka sandwich estimator)
+\item Still, we do know that SEs are not totally correct because they do not distribute normal either, even is we somehow correct for heteroskedasticity
+\end{itemize}
+But at the very least, use the robust option by default.
+\\ \hspace*{\fill} \\
+LPM is the wrong but super useful model because changes can be interpreted in the probability scale.
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{LPM vs Logit: Solution}
+Solution: Use the logit or probit model.
+\begin{itemize}
+\item These models are specifically made for binary dependent variables and always result in $0<\hat{y}<1$.
+\item This is the main feature of a logit/probit that distinguishes it from the LPM - predicted probability of $y=1$ is never below 0 or above 1.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{LPM vs Logit: Solution}
+Another feature for the logit or probit model.
+\begin{itemize}
+\item The relation of the logit probability to representative utility is sigmoid, or S-shaped.
+\item When the representative utility of an alternative is very low, a small increase in the utility of the alternative has little effect on the probability of its being chosen.
+\item The same when the representative utility of an alternative is very high.
+\\ \hspace*{\fill} \\
+\item When the probability is close to 0.5, meaning a 50-50 chance of the alternative being chosen, the increase in representative utility has the greatest effect on the probability of its being chosen.
+\item In this case, a small improvement tips the balance in people's choices, inducing a large change in probability.
+\end{itemize}
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% sum up ends %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Reference}
+\begin{itemize}
+\item Train, Kenneth E. "Discrete choice methods with simulation", 2009.
+\item Perraillon, M., R. Lindrooth, and D. Hedeker. "Health services research and program evaluation: causal inference and estimation", 2022.
+\item Karaca‐Mandic, Pinar, Edward C. Norton, and Bryan Dowd. "Interaction terms in nonlinear models." Health services research 47.1pt1 (2012): 255-274.
+\item Norton, Edward C., Hua Wang, and Chunrong Ai. "Computing interaction effects and standard errors in logit and probit models." The Stata Journal 4.2 (2004): 154-167.
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+
+
+\begin{frame}
+\begin{center}
+    \huge Thanks!
+\end{center}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}{Derivation of Logit}
+\label{DofL}
+We have
+$$
+P_{n i}=\int_{s=-\infty}^{\infty}\left(\prod_{j \neq i} e^{-e^{-\left(s+V_{n i}-V_{n j}\right)}}\right) e^{-s} e^{-e^{-s}} d s,
+$$
+where $s$ is $\varepsilon_{n i}$. Our task is to evaluate this integral. Noting that $V_{n i}-$ $V_{n i}=0$ and then collecting terms in the exponent of $e$, we have
+$$
+\begin{aligned}
+P_{n i} & =\int_{s=-\infty}^{\infty}\left(\prod_j e^{-e^{-\left(s+V_{n i}-V_{n j}\right)}}\right) e^{-s} d s \\
+& =\int_{s=-\infty}^{\infty} \exp \left(-\sum_j e^{-\left(s+V_{n i}-V_{n j}\right)}\right) e^{-s} d s \\
+& =\int_{s=-\infty}^{\infty} \exp \left(-e^{-s} \sum_j e^{-\left(V_{n i}-V_{n j}\right)}\right) e^{-s} d s .
+\end{aligned}
+$$
+
+\end{frame}
+
+
+
+\begin{frame}{Derivation of Logit}
+Define $t=\exp (-s)$ such that $-\exp (-s) d s=d t$. Note that as $s$ approaches infinity, $t$ approaches zero, and as $s$ approaches negative infinity, $t$ becomes infinitely large. Using this new term,
+$$
+\begin{aligned}
+P_{n i} & =\int_{\infty}^0 \exp \left(-t \sum_j e^{-\left(V_{n i}-V_{n j}\right)}\right)(-d t) \\
+& =\int_0^{\infty} \exp \left(-t \sum_j e^{-\left(V_{n i}-V_{n j}\right)}\right) d t \\
+& =\left.\frac{\exp \left(-t \sum_j e^{-\left(V_{n i}-V_{n j}\right)}\right)}{-\sum_j e^{-\left(V_{n i}-V_{n j}\right)}}\right|_0 ^{\infty} \\
+& =\frac{1}{\sum_j e^{-\left(V_{n i}-V_{n j}\right)}}=\frac{e^{V_{n i}}}{\sum_j e^{V_{n j}}}
+\end{aligned}
+$$
+
+\hyperlink{logit}{Go back}
+\end{frame}
+
+
+
+\end{document}
+

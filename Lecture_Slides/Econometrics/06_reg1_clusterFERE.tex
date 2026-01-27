@@ -1,0 +1,473 @@
+\include{Lecture_Slides/metropolis_preamble}
+
+\begin{document}
+
+% Title page info
+\title[Regressions 1]{ExpEcon Methods:\\Robust SEs, Clustering, Fixed \& Random Effects}
+\author[ECON 8877]{ECON 8877\\P.J. Healy\\First version thanks to Han Wang} \color{metrop}
+\institute[OSU]{}
+\date[]{\vfill {\tiny Updated \today}}
+
+\frame{\maketitle}
+
+\begin{frame}{Overview}
+\begin{itemize}
+    \item HUGE problem: the ``repeated measures problem''
+    \item Example: You run 10 sessions.\\
+    Each session: 12 subjects, 20 periods, random rematching
+    \item This is \textbf{NOT} 2,800 independent observations!!!
+    \begin{itemize}
+        \item Econometrician: ``that's panel data''
+    \end{itemize}
+    \item But at what level are there problems?
+    \begin{itemize}
+        \item Subject effects: $i$ is riskier than $j$
+        \item Session effects: this group was more cooperative
+    \end{itemize}
+    \item How to deal with these effects in a regression??
+    \begin{itemize}
+        \item Clustering? Fixed effects? Random effects?
+        \item At the session level? Individual level? Both??
+    \end{itemize}
+\end{itemize}
+    
+\end{frame}
+
+\begin{frame}
+Let's start by reviewing the asymptotic results for OLS.
+
+\begin{block}{Model}
+For $i=1,2,\ldots,n$, $$y_{i}=x_{i}^{\prime}\beta+\epsilon_{i}$$
+where $y_{i}$ and $\epsilon_{i}$ are scalar, and $x_{i}$ and $\beta$ are $k\times 1$ column vectors.\\
+Matrix version:
+$$
+    y = X\beta + \epsilon
+$$
+\end{block}
+
+\begin{block}{Assumptions}
+    \begin{enumerate}
+        \item Linear model: $y=X\beta + \epsilon$
+        \item $X$ has full rank (so $X'X$ is invertible)
+        \item Non-stochastic $X$
+        \item $\mathbb{E}[\epsilon|X]=0$
+        \item $\mathbb{E}[\epsilon_i^2|X]=\sigma^2$ $\forall i$ and $\mathbb{E}[\epsilon_i\epsilon_j|X]=0$ (\textbf{homoskedasticity})
+        \item Even stronger: $\epsilon|X \sim N(0,\sigma^2\mathbf{I})$ (Normality)
+    \end{enumerate}
+% \item[](OLS 0) $(y_{i},x_{i}^{\prime})_{i=1,\ldots,n}$ is an i.i.d. sequence.
+% \item[](OLS 1) $\mathbb{E}[x_{i}x_{i}^{\prime}]$ is finite and nonsingular.
+% \item[](OLS 2) $\mathbb{E}[x_{i}\epsilon_{i}]=0$.
+\end{block}
+
+%(Notation: $x_{i}$ is $k\times 1$, $X$ is $n\times k$ and $X^{\prime}X=\sum_{i=1}^{n} x_{i}x_{i}^{\prime}$.)
+
+
+% \begin{itemize}
+%     \item $\hat{\beta}=(X'X)^{-1}(X'y) = (X'X)^{-1}(X'(X\beta+\epsilon)) = \beta + (X'X)^{-1}X'\epsilon\overset{p}{\to} \beta$
+%     % $\hat{\beta}-\beta = (\frac{1}{n}\sum_{i} x_{i}x_{i}^{\prime})^{-1}(\frac{1}{n}\sum_{i} x_{i}\epsilon_{i})\overset{p}{\to}(\mathbb{E}[x_{i}x_{i}^{\prime}])^{-1} \mathbb{E}[x_{i}\epsilon_{i}^{\prime}]=0$
+% \end{itemize}
+\end{frame}
+
+\begin{frame}
+OLS Estimate:
+\begin{itemize}
+    \item $\hat{\beta}=(X'X)^{-1}(X'y) = (X'X)^{-1}(X'(X\beta+\epsilon)) = \beta + (X'X)^{-1}X'\epsilon$
+    \item $\mathbb{E}[\hat{\beta}] = \beta$ since $\mathbb{E}[\epsilon|X]=0$
+    \item $\mathbb{V}[\hat{\beta}] = \mathbb{E}[[(X'X)^{-1}X'\epsilon][\epsilon'X(X'X)^{-1}]]=(X'X)^{-1}X'\mathbb{E}[\epsilon\epsilon']X(X'X)^{-1}$
+\end{itemize}
+
+\textbf{Homoskedasticity}:
+$Cov(\epsilon_{i},\epsilon_{j})=0$, and $Var(\epsilon_{i}|x_{i})=\sigma^{2}$.
+
+
+\begin{itemize}
+    \item Under homoskedasticity, the middle term $\mathbb{E}[\epsilon\epsilon']=\sigma^{2} \mathbf{I}$. This simplifies our variance: $$\mathbb{V}(\hat{\beta})_{homoskedasticity}=\sigma^{2}(X'X)^{-1}$$
+  \item Unbiased estimator of $\sigma^2$:
+    $$
+        \hat{\sigma}^2 = \frac{e'e}{n-k}
+    $$
+    where $e = y - X\hat{\beta}$ are the residuals
+  %$$\hat{\mathbb{V}}(\hat{\beta})_{homoskedasticity}=\hat{\sigma}^{2}(X^{\prime}X)^{-1}$$
+
+  %where $\hat{\sigma}^{2}=(n-k-1)^{-1}\hat{\epsilon}^{\prime}\hat{\epsilon}$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\textbf{Heteroskedasticity}: $\mathbb{E}[\epsilon\epsilon'] = \sigma^2\Omega$, where $\sigma^2$ is a scalar and
+$$
+    \Omega = \begin{bmatrix}
+        \sigma_1^2 & 0 & \cdots & 0 \\
+        0 & \sigma_2^2 & \cdots & 0 \\
+        \vdots & \vdots & \vdots & \vdots \\
+        0 & 0 & \cdots & \sigma_n^2
+    \end{bmatrix}
+$$
+
+So now
+\begin{align*}
+    \mathbb{V}[\hat{\beta}] &= (X'X)^{-1}X'\mathbb{E}[\epsilon\epsilon']X(X'X)^{-1}\\
+    &= (X'X)^{-1}X'\sigma^2\Omega X(X'X)^{-1}    
+\end{align*}
+
+\begin{itemize}
+    \item For large samples our $\hat{\sigma}^2$ will actually be unbiased for $\sigma^2$
+    \item White (1980): a better (robust) estimator for finite samples is
+    $$
+        \hat{\mathbb{V}}[\hat{\beta}]_{HW} = (X'X)^{-1}\left(\sum_{i=1}^n e_i^2 x_i x_i'\right) (X'X)^{-1}
+    $$
+    %$$\hat{\mathbb{V}}(\hat{\beta})_{HW}=(X^{\prime}X)^{-1}\sum_{i} x_{i}x_{i}^{\prime}\hat{\epsilon}_{i}^{2}(X^{\prime}X)^{-1}$$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Doing this in practice}
+\begin{itemize}
+    \item But there are many options (Long \& Ervin, 2000)
+    \begin{equation}
+        \hat{\mathbb{V}}(\hat{\beta})_{HW}=(X^{\prime}X)^{-1}\left(\sum_{i} e_i^2 x_{i}x_{i}^{\prime}\right) (X^{\prime}X)^{-1} \tag{HC0}
+    \end{equation}
+    \begin{equation}
+        \hat{\mathbb{V}}(\hat{\beta})_{robust}=(X^{\prime}X)^{-1}\left(\sum_{i} \frac{n}{n-k} e_i^2 x_{i}x_{i}^{\prime}\right) (X^{\prime}X)^{-1} \tag{HC1}
+    \end{equation}
+    \begin{equation}
+        \hat{\mathbb{V}}(\hat{\beta})_{HC2}=(X^{\prime}X)^{-1}\left(\sum_{i} (1-h_{ii})^{-1}e_i^2 x_{i}x_{i}^{\prime}\right)(X^{\prime}X)^{-1} \tag{HC2}
+    \end{equation}
+     \begin{equation}
+        \hat{\mathbb{V}}(\hat{\beta})_{HC3}=(X^{\prime}X)^{-1}\left(\sum_{i} (1-h_{ii})^{-2}e_i^2 x_{i}x_{i}^{\prime}\right) (X^{\prime}X)^{-1} \tag{HC3}
+    \end{equation}
+\end{itemize}
+where $h_{ii}$ is the diagonal element of the ``hat matrix'' ($X(X^{\prime}X)^{-1}X^{\prime}$).\\
+Note: HC1 is just a d.o.f. adjustment to HC0 ($n/(n-k)$)\\
+$\hat{\mathbb{V}}$ determines our confidence intervals. Thus, our size \& power
+
+
+\end{frame}
+
+\begin{frame}{Doing this in practice}
+\begin{itemize}
+    \item Let's say $A\leq B$ if $B-A$ is PSD ($B$ is more conservative towards 0)
+    $$HC0\leq HC1\leq HC2\leq HC3$$
+    Woodridge ran simulations to show HC2-HC1 is PSD (n=200, k=3, 1,000,000 replications, always true).
+    \item Simulation studies show that HC2 and HC3 lead to better---with small n, possibly much better---confidence intervals than HC1.
+    \item The Stata default with vce(robust) uses HC1.
+    \item The R default with sandwich uses HC3. For R, see estimateR, clubSandwich and \hyperlink{https://github.com/kolesarm/Robust-Small-Sample-Standard-Errors}{Kolesar's github repo}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Related: Young (2019)}
+\begin{itemize}
+    \item A QJE paper (595 Google cites): use permutation tests instead
+    \item look at 53 experimental papers from the journals of the AEA
+    \item compare permutation tests to conventional tests
+    \begin{itemize}
+        \item individual significance results: 13-22 percent fewer
+        \item joint significance results: 33-49 percent fewer
+    \end{itemize}
+\end{itemize}
+But what if we compare the different SE estimates?
+\end{frame}
+
+\begin{frame}{Related: A post on Data Colada...}
+    \begin{itemize}
+    \item The QJE study cited used HC1 
+    \item The datacolada post shows that using HC1 and HC3 can be very different when sample sizes are not large.
+    \item But HC3 turns out to work quite well even with pretty small n.
+\end{itemize}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/reg1/fig_blog1.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Main Takeaway}
+
+For Stata users:
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{graphics/reg1/fig_blog3.png}
+    \label{fig:blog3}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Clustering and generalizing $\mathbb{E}[\epsilon\epsilon^{\prime}|X]$}
+
+ $$\Omega_{homoskedasticity}=\begin{bmatrix}
+    \sigma^{2} & & &\\
+    & \ddots & &\\
+    & & \ddots &\\
+    & & & \sigma^{2}
+\end{bmatrix}$$
+
+$$\Omega_{heteroskedasticity}=\begin{bmatrix}
+    \sigma_{1}^{2} & & &\\
+    & \ddots & &\\
+    & & \ddots &\\
+    & & & \sigma_{n}^{2}
+\end{bmatrix}$$
+\begin{itemize}
+    \item We've ignored any correlation structure in $\Omega$.
+    \item In many cases, we don't have that. Instead, $\Omega$ has clusters.
+    \begin{itemize}
+        \item units are people, and clusters are cities, states or countries
+        \item units are choices, and clusters are subjects, groups or sessions
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Clustering and generalizing $\mathbb{E}[\epsilon\epsilon^{\prime}|X]$}
+    Let $C_i$ denote unit $i$ 's cluster assignment.
+    \begin{itemize}
+        \item A simple example: $$
+\Omega_{i j}=\left\{\begin{array}{ccc}
+\sigma^2 & \text { if } & i=j \\
+\rho \sigma^2 & \text { if } & C_i=C_j ~\&~ i \neq j \\
+0 & \text { if } & C_i \neq C_j ~\&~ i \neq j
+\end{array}\right.
+$$
+$$\Omega_{cluster}=\begin{bmatrix}
+    \sigma^{2} & \rho \sigma^2  & & 0 & 0\\
+    \rho \sigma^2  &\sigma^{2} & & 0 & 0 \\
+    & & \ddots & & \\
+    0 & 0 & & \sigma^{2} & \rho \sigma^2\\
+    0 & 0 & &\rho \sigma^2 & \sigma^{2}
+\end{bmatrix}$$
+e.g., if we study individual choices, it might be ok to assume away the correlation between different subjects.
+\item A more unstructured example: $\Omega_{i j}=\sigma_{i j}$ if $C_i=C_j$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+Let the number of clusters be $G$, indexed by $g$
+    \begin{equation}
+        \hat{\mathbb{V}}(\hat{\beta})_{LZ}=(X^{\prime}X)^{-1}\left(\sum_{g} X^{\prime}_{g,n}e_{g,n}e^{\prime}_{g,n}X_{g,n}\right)(X^{\prime}X)^{-1} \tag{Liang \& Zeger, 1986}
+    \end{equation}
+\begin{itemize}
+    \item This makes us think more generally, it's about getting the structure of $\Omega$ right. (So better to err on the conservative side)
+    \item However, A recent QJE paper (Abadie, Athey, Imbens \& Wooldridge, 2023) argues that this intuition is not correct.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Related: Abadie, Athey, Imbens \& Wooldridge
+(2023)}
+A model of research design:
+\begin{itemize}
+    \item There are $m_k$ clusters (eg, states)
+    \item Potential (unobserved) outcomes: $y_{i}(0)$ and $y_{i}(1)$ (control,trt)
+    \item Goal: estimate $\tau :=\frac{1}{n}\sum_{i=1}^n (y_i(1)-y_i(0))$
+    \item True Avg Trt for cluster $m$: $\tau_m=\frac{1}{n_m}\sum_{i=1}^n \mathbf{1}_{\{m_i=m\}}(y_i(1)-y_i(0))$
+    \item So $\tau = \sum_{m}\frac{n_m}{n}\tau_m$
+    \item Sampling Process:
+    \begin{enumerate}
+        \item Each cluster is sampled with probability $q\in (0,1]$
+        \item Each person is then sampled with probability $p\in(0,1]$
+    \end{enumerate}
+    \item Treatment Assignment Process:
+    \begin{enumerate}
+        \item Cluster-$m$ assignment prob. $A_m\sim F$ with mean $\mu$, var $\sigma^2$
+        \begin{itemize}
+            \item Random assign.: $A_m=A_{m'}\ \forall m,m'$ (so $\sigma^2=0$)
+            \item Clustered assign: $A_m\in\{0,1\}$ (so $\sigma^2=\mu(1-\mu)$)
+        \end{itemize}
+        \item Each $i$ in $m$ treated iid with probability $A_m$
+    \end{enumerate}
+    \item Regress: $Y_i=\alpha+\beta W_i + \varepsilon_i$ ($Y_i$ outcome, $W_i$ treatment indicator)
+    \item True standard error of $\hat{\beta}$ is $v$. How to estimate it?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Abadie, Athey, Imbens \& Wooldridge
+(2023)}
+Different cases:
+\begin{enumerate}
+    \item Random sampling ($q=1$, $p\leq 1$) and random assign ($\sigma^2=0$)
+    \begin{itemize}
+        \item $v$ = robust SE + correction factor
+        \item Correction vanishes if
+        \begin{enumerate}
+            \item No heterogeneity in treatment effects across $i$, or
+            \item Small sample ($p\approx 0$)
+        \end{enumerate}
+        \item So, no need to cluster if you observe all clusters equally!
+    \end{itemize}
+    \item Clustered sampling ($q<1$, $p\leq 1$) and rand assign ($\sigma^2=0$)
+    \begin{itemize}
+        \item $v$ = robust SE + correction factor + across-cluster variance
+        \item New term $=0$ if avg trt effect is same across clusters
+        \begin{itemize}
+            \item If so, then no need for cluster-robust SE
+        \end{itemize}
+    \end{itemize}
+    \item Clustered sampling plus clustered assignment ($\sigma^2>0$)
+    \begin{itemize}
+        \item Two new terms added to $v$
+        \item Now cluster-robust SE is important
+    \end{itemize}
+\end{enumerate}
+Abadie et al. provide an estimator $\hat{v}$, assumes you know the \# of clusters.\\
+A bootstrapped version is also available
+\end{frame}
+
+\begin{frame}{Related: Abadie, Athey, Imbens \& Wooldridge
+(2023)}
+\textbf{Misconceptions}:
+\begin{itemize}
+\item ``The presence of within-cluster correlation implies the need for clustering.''
+\item ``Being as conservative as necessary.''
+
+\begin{itemize}
+    \item Suppose we want to use the sample average to estimate the population mean. Suppose the population can be partitioned into clusters, e.g., in geographical units. If outcomes are positively correlated in clusters, the cluster variance will be larger than the robust variance.
+
+But there's no need to cluster...
+\end{itemize}
+\item ``Researchers have only two choices: to cluster or not to cluster.''
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Related: Abadie, Athey, Imbens \& Wooldridge
+(2023)}
+\textbf{Main Takeaways}:
+\begin{itemize}
+    \item ``The decision on when and how to cluster standard errors depends on the nature of the sampling and the assignment processes only, not on the presence of within-cluster error components in the outcome variable.''
+    \item The traditional advice of being as conservative as necessary is likely misguided.
+    \item They suggest new ways to estimate variance: causal cluster variance (CCV) and two-stage cluster bootstrap (TSCB).
+    \begin{itemize}
+        \item These are designed for applications with large number of observations and substantial variation in treatment assignment within clusters.
+    \end{itemize}
+    \item Fixed effects do NOT remove need for clustering.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Doing this in practice}
+\begin{itemize}
+    \item There are ongoing debates on clustering...
+    \item If we know the appropriate cluster level, we can implement this using the cluster command in Stata:
+$$reg ~y ~x, cluster(g)$$
+\end{itemize}
+\br
+For experimentalists: Cluster by subject or by session?
+\begin{itemize}
+    \item Frechette (2012): if session-level interactions are of interest (e.g., markets, or subjects make effectively one ``choice'' per session), then cluster by \textbf{session}
+    \item Kim (2022): if subjects make repeated decisions in the same setting, cluster by \textbf{subject}. But make your sessions as similar as possible! Alternating order, etc.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Fixed Effects vs Random Effects}
+    Suppose there are subject-specific effects:
+    $$y_{it}=x^{\prime}_{it}\beta+u_{i}+e_{it}$$
+    where $y_{it}$, $u_{i}$ and $e_{it}$ are scalar, and $x_{it}$ and $\beta$ are $k\times 1$ column vectors.
+
+\textbf{Key Difference}:
+    \begin{itemize}
+        \item Random effects: $u_i$ is part of the error.\\
+        Need to assume no correlation between $u_{i}$ and $x_{it}$.\\
+        So $\mathbb{E}[u_{i}|x_{i1},\ldots,x_{iT}]=\mathbb{E}[u_{i}]$
+        \item Fixed effects: $u_i$ is part of the intercept.\\ 
+        $u_{i}$ can be arbitrarily correlated with $x_{it}$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Random effects}
+RE approach exploits the implied correlation structure of errors.
+
+Let $v_{it}=u_{i}+e_{it}$. Stacking for $T$ periods, we have $y_{i}=x_{i}\beta+v_{i}$. Define $\Omega=\mathbb{E}[v_{i}v_{i}^{\prime}|x_{i}]$.
+
+\begin{block}{Assumptions}
+    \begin{itemize}
+\item[](RE 1) $\mathbb{E}[e_{it}|x_{i1},\ldots,x_{iT}]=0$ and $\mathbb{E}[u_{i}|x_{i1},\ldots,x_{iT}]=0$.
+%\item[](RE 2) $Rank(\mathbb{E}[x_{i}^{\prime}\Omega^{-1}x_{i}])=k$.
+\item[](RE 2) $\mathbb{E}[e_{i}e^{\prime}_{i}|x_{i},u_{i}]=\sigma_{e}^{2}I_{T}$ and $\mathbb{E}[u_{i}^{2}|x_{i}]=\sigma_{u}^{2}$
+\end{itemize}
+\end{block}
+
+$$\Omega=\begin{bmatrix}
+    \sigma_{u}^{2}+\sigma_{e}^{2} &\sigma_{u}^{2}  &\cdots &\sigma_{u}^{2}\\
+    \sigma_{u}^{2}  &\sigma_{u}^{2}+\sigma_{e}^{2} & &\sigma_{u}^{2}\\
+    \sigma_{u}^{2} & & \ddots & \sigma_{u}^{2} \\
+    \sigma_{u}^{2} & \cdots & \sigma_{u}^{2} & \sigma_{u}^{2}+\sigma_{e}^{2}
+\end{bmatrix}$$
+\begin{itemize}
+    \item $\hat{\beta}_{RE}=(\sum_{i}x_{i}^{\prime}\hat{\Omega}^{-1}x_{i})^{-1}(\sum_{i}x_{i}^{\prime}\hat{\Omega}^{-1}y_{i})$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Feasible GLS estimation of RE model}
+\begin{itemize}
+    \item[Step 1.] Run a pooled OLS of $y_{it}$ on $x_{it}$ and get the residuals $\hat{v}_{it}$.
+    \item[Step 2.] Estimate $\sigma_{v}^{2}=\sigma_{u}^{2}+\sigma_{e}^{2}$ by $\hat{\sigma}_{v}^{2}=\frac{1}{nT-k}\sum_{i}\sum_{t}\hat{v}_{it}^{2}$.
+    \item[Step 3.] Estimate $\sigma_{u}^{2}$ using cross terms only: $\hat{\sigma}_{u}^{2}=\frac{1}{nT(T-1)/2-k}\sum_{i=1}^{n}\sum_{t=1}^{T-1}\sum_{s=t+1}^{T}\hat{v}_{it}\hat{v}_{is}$.
+    \item[Step 4.] Form $\hat{\Omega}$ using $\hat{\sigma}_{v}^{2}$ and $\hat{\sigma}_{u}^{2}$.
+    \item[Step 5.] Estimate $\beta$ by GLS: $\hat{\beta}_{RE}=(\sum_{i}x_{i}^{\prime}\hat{\Omega}^{-1}x_{i})^{-1}(\sum_{i}x_{i}^{\prime}\hat{\Omega}^{-1}y_{i})$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Fixed effects}
+\begin{block}{Assumptions}
+    \begin{itemize}
+\item[](FE 1) $\mathbb{E}[e_{it}|x_{i1},\ldots,x_{iT}]=0$.
+\item[](FE 2) $\mathbb{E}[e_{i}e^{\prime}_{i}|x_{i},u_{i}]=\sigma_{e}^{2}I_{T}$.
+\end{itemize}
+\end{block}
+There are several derivations of the estimator.
+\begin{itemize}
+    \item Add individual specific dummies: $y=X\beta+Du+e$. Then OLS estimation of $\beta$ proceeds by the Frisch–Waugh–Lovell theorem.
+    Define $y^* =y-D\left(D^{\prime} D\right)^{-1} D^{\prime} y$ and $X^*  =X-D\left(D^{\prime} D\right)^{-1} D^{\prime} X$.
+    $$\hat{\beta}_{FE}=(X^{*\prime}X^{*})^{-1}X^{*\prime}y^*$$
+    \item De-mean/differencing: $\hat{\beta}_{FE}=\hat{\beta}_{within}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Doing this in practice}
+\begin{itemize}
+    \item We can use the Hausman test to choose RE vs FE. (H0 is in favor of ``random effects'')
+    \item In stata, RE or FE estimation:
+    $$xtset$$
+    $$xtreg ~y~x,re$$
+    $$xtreg ~y~x,fe$$
+    Note that the default panel structure in Stata has two dimensions (individual $i$ and time $t$). There are packages for higher dimensions, e.g. in Changkuk's MPL paper, he has ``individual'', ``product'' and ``round''.
+    \item Estimating FE using dummies is very flexible when we want to control different levels of fixed effects. But the \# of regressors can be very large.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Bellemare (2023)}
+RE vs FE in experimental economics:
+    \begin{itemize}
+        \item Randomly assigning subjects to treatments $\Rightarrow$ $u_i$ is uncorrelated with treatment ($x_i$)
+        \item Thus, random effects are appropriate
+        \begin{itemize}
+            \item Unless correlated with some other $x_i$ column!
+        \end{itemize}
+        \item Random effects estimators are more efficient than fixed effects
+    \end{itemize}
+\br
+Merrett (2012): Cross-validation to test various methods. RE wins.
+\end{frame}
+
+\begin{frame}{Final thoughts}
+\begin{itemize}
+    \item Many ways of estimating variance: analytical/ bootstrap
+    \item With iid data, if we worry about heteroskedasticity, there are HC0, HC1 (HW), HC2, HC3... When sample size is small, we'd better use HC2 or HC3.
+    \item With data that is not iid, clustering can adjust the variance. We need to motivate why and how to cluster.
+    \item Random effects or fixed effects are on the model level. It's helpful, e.g., when we want to control some individual-specific effects.
+    \item Individual-specific effects are treated as part of the error in RE models, while as part of the intercept in FE models.
+
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{References}
+\begin{itemize}
+\item \textit{Econometrics} textbook by Bruce Hansen
+\item \textit{``Yale Applied Empirical Methods PhD Courses''} by Paul Goldsmith-Pinkham [\hyperlink{https://github.com/paulgp/applied-methods-phd/blob/main/lectures/05_regression_1.pdf}{link}]
+\item \textit{``[99] Hyping Fisher: The Most Cited 2019 QJE Paper Relied on an Outdated Stata Default to Conclude Regression p-values Are Inadequate''} by Uri Simonsohn, on Data Colada [\hyperlink{http://datacolada.org/99}{link}]
+\item Jeffery Wooldridge's comments on the Data Colada post [\hyperlink{https://twitter.com/jmwooldridge/status/1449778751911305219?lang=en}{link}]
+\item Alwyn Young, Channeling Fisher: Randomization Tests and the Statistical Insignificance of Seemingly Significant Experimental Results, The Quarterly Journal of Economics, Volume 134, Issue 2, May 2019, Pages 557–598, https://doi.org/10.1093/qje/qjy029
+\item Alberto Abadie and others, When Should You Adjust Standard Errors for Clustering?, The Quarterly Journal of Economics, Volume 138, Issue 1, February 2023, Pages 1–35, https://doi.org/10.1093/qje/qjac038
+
+\end{itemize}
+\end{frame}
+
+
+\end{document}

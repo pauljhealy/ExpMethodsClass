@@ -1,0 +1,831 @@
+\include{Lecture_Slides/metropolis_preamble}
+
+\begin{document}
+
+% Title page info
+\title[Incentives: History]{ExpEcon Methods:\\Incentivized Experiments: A History}
+\author[ECON 8877]{ECON 8877\\P.J. Healy} \color{metrop}
+\institute[OSU]{}
+\date[]{\vfill {\tiny Updated \today\ at\ \DTMcurrenttime}}
+
+\frame{\maketitle}
+
+\begin{frame}{Roth's History}
+Introduction to Kagel \& Roth's (1995) \textit{Handbook of Experimental Economics}
+\br
+Three threads:
+\begin{enumerate}
+    \item Individual choice, from 1931
+    \item Game theory, from 1950
+    \item Markets/IO, from 1948 \& 1960
+\end{enumerate}
+\br
+Briefly: Ledyard's Public Goods survey
+\end{frame}
+
+\begin{transitionframe}[c]
+  \begin{center}{ \Huge \textcolor{white}{Individual Choice}}\end{center}
+\end{transitionframe}
+
+\begin{frame}{Individual Choice}
+\includegraphics[width=0.3in]{graphics/history/ThurstoneMug.png} Louis Leon (L.L.) Thurstone 
+\begin{itemize}
+    \item U. Chicago psychologist
+    \item Pioneered the idea that measurements could be obtained from pairwise comparisons
+    \begin{itemize}
+        \item Example: quality of handwriting samples
+        \item Simplified by rank-orderings, under transitivity
+    \end{itemize}
+\end{itemize}
+Application to economics:\\
+``The indifference function'' (1931) \textit{J. Social Psych}
+\end{frame}
+
+% \begin{frame}{Let's Evaluate This Paper}
+%     \begin{enumerate}
+%         \item What are the treatments (if any)?
+%         \item What does this design \textit{really} test?
+%         \begin{itemize}
+%             \item Does that match the stated hypotheses?
+%         \end{itemize}
+%         \item Proper incentives?
+%         \item Subject pool?
+%         \item Proper sample size? Statistical power?
+%         \item What's the main result?
+%         \item Are the statistical tests appropriate?
+%         \item Are the results conclusive?
+%         \item Robustness?
+%         \item Extensions?
+%     \end{enumerate}
+% \end{frame}
+
+\begin{frame}{Individual Choice}
+\includegraphics[width=0.3in]{graphics/history/ThurstoneMug.png} Louis Leon (L.L.) Thurstone \\
+``The indifference function'' (1931) \textit{J. Social Psych}
+\begin{itemize}
+    \item Suggested by economist Henry Schultz
+    \item Measures ``satisfaction'' of a good ( = utility) via pairwise choice
+    \item Assumes $u(x_i) = k_i \log(x_i) + c$ for each good $i$
+    \begin{itemize}
+        \item Fechner's law! Perception is logarithmic
+    \end{itemize}
+    \item $k_1 \log(x_1) + k_2 \log(x_2) = \log(\bar{u})$ at utility level $\bar{u}$
+    \item $x_1^{k_1}\cdot x_2^{k_2} = \bar{u}$
+    \item Teaches reader about indifference curves
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Thurstone (1931)}
+\begin{itemize}
+    \item Choices: Hat-shoe combinations
+    \item Multiple Price List (MPL) against a fixed bundle!
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=2in]{graphics/history/Thurstone00.png}
+\end{center}
+
+\begin{itemize}
+    \item Single subject
+    \item Hypothetical choices
+    \item MANY choices
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Thurstone (1931)}
+\begin{center}
+    \includegraphics[width=3in]{graphics/history/Thurstone01.png}
+\end{center}
+x's: ``median'' switch point.
+\end{frame}
+
+\begin{frame}{Thurstone (1931)}
+Hats ($x_1$), shoes ($x_2$), \& overcoats ($x_3$)
+\begin{center}
+    $k_1 \log(x_1) + k_2 \log(x_2) + k_3 \log(x_3) = \log(\bar{u})$
+\end{center}
+\begin{itemize}
+\item Fix $k_1=1$
+\item Hats vs. shoes: $k_2^*=1.26$
+\item Hats vs. overcoats: $k_3^*=1.32$
+\item Now predict shoes vs overcoats
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Thurstone (1931)}
+\begin{center}
+    \includegraphics[width=3in]{graphics/history/Thurstone02.png}
+\end{center}
+Four different reference bundles
+\end{frame}
+
+\begin{frame}{Thurstone (1931)}
+\begin{center}
+    \includegraphics[width=2.5in]{graphics/history/Thurstone03.png}
+\end{center}
+``agreement is... quite satisfactory''
+\end{frame}
+
+% \begin{frame}{Let's Evaluate This Paper}
+%     \begin{enumerate}
+%         \item What are the treatments (if any)?
+%         \item What does this design \textit{really} test?
+%         \begin{itemize}
+%             \item Does that match the stated hypotheses?
+%         \end{itemize}
+%         \item Proper incentives?
+%         \item Subject pool?
+%         \item Proper sample size? Statistical power?
+%         \item What's the main result?
+%         \item Are the statistical tests appropriate?
+%         \item Are the results conclusive?
+%         \item Robustness?
+%         \item Extensions?
+%     \end{enumerate}
+% \end{frame}
+
+\begin{frame}{Wallis-Friedman Critique \#1: Incentives}
+\includegraphics[height=0.5in]{graphics/history/WallisMug.png} \includegraphics[height=0.5in]{graphics/history/FriedmanMug.png} W. Allen Wallis \& Milton Friedman (1942)
+
+\br
+
+\begin{quote}
+    It is questionable whether a subject in so artificial an experimental situation could know what choices he would make in an economic situation; not knowing, it is almost inevitable that he would, in entire good faith, systematize his answers in such a way as to produce plausible but spurious results."
+    \br
+    For a satisfactory experiment it is essential that the subject give actual reactions to actual stimuli... Questionnaires or other devices based on conjectural responses to hypothetical stimuli do not satisfy this requirement. The responses are valueless because the subject cannot know how he would react.
+\end{quote}
+\end{frame}
+
+\begin{frame}{Wallis-Friedman Critique \#2: Identifiability}
+They argue indifference curves can't be identified!
+    \begin{itemize}
+        \item Consumer choice has 3 components
+        \begin{itemize}
+            \item Physical quantities of goods
+            \item ``Taste factors'' shape preferences.
+            \item ``Opportunity factors'' shape what's available. Budgets.
+        \end{itemize}
+        \item e.g., prices may affect tastes \textit{and} opportunities
+        \item Need independent variation in one factor
+        \item They argue that's impossible!
+    \end{itemize}
+Why not study choices without opportunity factors?? Like Thurstone?
+\begin{itemize}
+    \item The resulting data would be a ``hodgepodge of psychology and economics''
+    \item Meaning: inferred utility may not generalize to constrained choice settings
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Rousseas \& Hart (1951)}
+\includegraphics[height=0.4in]{graphics/history/RousseasMug.png}\includegraphics[height=0.4in]{graphics/history/HartMug.png}
+Stephen Rousseas \& Albert Hart (Student/Prof, Columbia)
+\begin{itemize}
+    \item Wanted real incentives... \onslide<2->{plates of eggs \& bacon!!}
+\end{itemize}
+\centering
+\onslide<2->{\includegraphics[width=1.6in]{graphics/history/RousseasHart1.png}}
+\end{frame}
+
+\begin{frame}{Rousseas \& Hart (1951)}
+    \begin{itemize}
+        \item Each subject ranks 3 plates
+        \begin{itemize}
+            \item They could also state indifference between 2 plates
+            \item Intransitivity not allowed
+        \end{itemize}
+        \item Subjects actually ate their most-preferred plate!
+        \begin{itemize}
+            \item Eggs were scrambled
+            \item Quiz Question: Is this incentive compatible?
+        \end{itemize}
+        \item Subjects repeat the task 1 month later
+        \item 67 subjects
+        \begin{itemize}
+            \item Class of graduate sociology students
+            \item Recruitment issues! They wanted 72
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Rousseas \& Hart (1951)}
+    \begin{center}
+        \includegraphics[width=2in]{graphics/history/RousseasHart2.png}
+    \end{center}
+    Construct ``saturation'' vector (gradient of $u$)\\
+    Ex: $a\succ b \succ c$\\
+    Not sure how the exact slope is calculated...
+\end{frame}
+
+\begin{frame}{Rousseas \& Hart (1951)}
+  \begin{center}
+      \includegraphics[width=2.5in]{graphics/history/RousseasHart3.png}
+  \end{center}
+  Gradient vectors for low quantities of bacon \& eggs.\\
+  Hypothesized saturation point is around 2.5 units of each.
+\end{frame}
+
+
+\begin{frame}{Rousseas \& Hart (1951)}
+\begin{center}
+      \includegraphics[width=2.5in]{graphics/history/RousseasHart4.png}
+  \end{center}
+    Combined subjects w/ choices consistent with a given saturation pt\\
+    Opinion: What's the value of this particular analysis?
+\end{frame}
+
+\begin{frame}{Rousseas \& Hart (1951)}
+\begin{center}
+      \includegraphics[width=3in]{graphics/history/RousseasHart5.png}
+  \end{center}
+    Combined subjects with choices consistent with a certain saturation point
+\end{frame}
+
+
+% \begin{frame}{Let's Evaluate This Paper}
+%     \begin{enumerate}
+%         \item What are the treatments (if any)?
+%         \item What does this design \textit{really} test?
+%         \begin{itemize}
+%             \item Does that match the stated hypotheses?
+%         \end{itemize}
+%         \item Proper incentives?
+%         \item Subject pool?
+%         \item Proper sample size? Statistical power?
+%         \item What's the main result?
+%         \item Are the statistical tests appropriate?
+%         \item Are the results conclusive?
+%         \item Robustness?
+%         \item Extensions?
+%     \end{enumerate}
+% \end{frame}
+
+\begin{frame}{Expected Utility}
+\includegraphics[height=0.5in]{graphics/history/vonNeumannMug.png}\includegraphics[height=0.5in]{graphics/history/Morgenstern.png} John von Neumann \& Oskar Morgenstern
+\begin{itemize}
+    \item von Neumann (b. 1903) child of Hungarian nobility. 
+    \begin{itemize}
+        \item Age 6: divide 8-digit numbers in his head. Age 8: calculus
+        \item Major publications by 19. Math, physics, computer science, econ
+        \item Brought convex analysis to economics (instead of calculus)
+    \end{itemize}
+    \item Morgenstern: 1925 advised by Hayek (just after Mises)
+    \item 1935: Morgenstern wrote ``Perfect Foresight and Economic Equilibrium'', criticizing price-taking theories    
+    \item Colleague pointed him to von Neumann's 1928 ``Zur Theorie der Gesellschaftsspiele'' (the minmax theorem for zero-sum games)
+    \item The two meet at Princeton
+    \item 1944: they publish \textit{The Theory of Games \& Economic Behavior}
+    \begin{itemize}
+        \item The foundation of modern game theory
+        \item Opening chapters: 1st formulation of Expected Utility Theory
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Expected Utility}
+    \begin{itemize}
+        \item Choice objects: objective lotteries $\mathcal{L}$ over prizes in $X$
+        \item $\succeq$ over $\mathcal{L}$. Modern axiomatization:
+        \begin{enumerate}
+            \item Complete \& transitive
+            \item Continuous
+            \item Linear \& parallel indifference curves (``independence axiom'')
+        \end{enumerate}
+    \end{itemize}
+    Machina-Marshak triangle, with prizes $x_3>x_2>x_1$:
+    \begin{center}
+        \includegraphics[width=2in]{graphics/history/Simplex1.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Allais Paradox}
+     1953: Maurice Allais survey of colleagues \& friends (WWYD?)
+
+    \begin{columns}
+    \begin{column}{0.5\textwidth}
+        Two binary choice
+        \begin{itemize}
+            \item \textbf{A}: 100\% chance of \$1M
+            \item B: 10\% \$5M, 89\% \$1M, 1\% \$0
+        \end{itemize}
+        and
+        \begin{itemize}
+            \item C: 11\% \$1M, 89\% \$0
+            \item \textbf{D}: 10\% \$5M, 90\% \$0
+        \end{itemize}   
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \begin{center}
+            \includegraphics[width=2in]{graphics/history/Simplex2.png}
+        \end{center}
+    \end{column}
+    \end{columns}    
+    \begin{align*}
+        u(1) > 0.10\underbrace{u(5)}_{=1} + 0.89u(1) + 0.01\underbrace{u(0)}_{=0} &\Rightarrow u(1) > 10/11\\
+        0.11u(1)+0.89u(0) < 0.10u(5) + 0.90u(0) &\Rightarrow u(1) < 10/11
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Mosteller \& Nogee (1951)}
+    But first let's rewind 2 years\\
+    Mosteller \& Nogee ``An Experimental Measurement of Utility'' \textit{JPE} 
+    \begin{itemize}
+        \item 10 Harvard undergrads + 7 Mass. National Guardsmen
+        \item Gathered data on their financial situation \& aspirations
+        \item $\approx$3 1-hour sessions per week for 10 weeks
+        \begin{itemize}
+            \item 3 drop-outs
+        \end{itemize}
+        \item \$1 endowment for gambling (or psych. tests)
+        \item The gamble: poker dice
+        \begin{itemize}
+            \item 5 dice rolled to create a ``hand''
+            \item Hands are ranked
+            \item A baseline hand $H$ is shown
+            \item Wager: win \$$x$ if you roll a hand $\succ$ $H$
+            \item Wager costs 5 cents
+            \item Choice: Bet or not bet for each wager
+            \item Around 2,000 observations
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Mosteller \& Nogee (1951)}
+    \begin{itemize}
+        \item Training sessions: Probabilities not calculated
+        \item Known sessions: Probabilities given
+        \item Doublet sessions: two baseline hands w/ different rewards
+        \begin{itemize}
+            \item 20 cents if you beat 22263
+            \item 3 cents if you beat 66431 (but not 22263)
+        \end{itemize}
+        \item Goal: Estimate cardinal utility from Known sessions, predict Doublet
+        \item How to get utility estimates?
+        \begin{enumerate}
+            \item Find the high prize $A$ that gives indifference w/ not betting
+            \item Under EU, calculate $u(A)$ (given a certain normalization)
+            \begin{align*}
+                p\ \underbrace{u(A)}_{?} + (1-p)\ \underbrace{u(-5)}_{-1} &= \underbrace{u(0)}_{0} \\
+                u(A) &= \frac{1-p}{p}                
+            \end{align*}
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Mosteller \& Nogee (1951)}
+\centering
+\includegraphics[width=3in]{graphics/history/MostellerNogee1.png}\\
+Indifference defined as ``takes the bet 50\% of the time''\\
+$p=0.332 \Rightarrow U(10.6) = (1-p)/p \approx 2$\\
+Discuss: Is it a good measure of indifference?
+\end{frame}
+
+\begin{frame}{Mosteller \& Nogee (1951)}
+\centering
+\includegraphics[width=4in]{graphics/history/MostellerNogee3.png}\\
+EU prediction: bet $\iff$ $EU\geq 0$\\
+They allow some trembles/stochastic choice. Curve fitted ``by eye.''\\
+Fitted from white dots, predicting black dots.
+\end{frame}
+
+\begin{frame}{Mosteller \& Nogee (1951)}
+\centering
+\includegraphics[width=4in]{graphics/history/MostellerNogee4.png}\\
+Overall prediction accuracy: EU (left) vs. EV (right)
+\end{frame}
+
+\begin{frame}{Mosteller \& Nogee (1951)}
+Other notes
+    \begin{itemize}
+        \item Also include paired-choice tasks
+        \item Alternative analysis: probability weighting w/ risk-neutrality
+        \begin{itemize}
+            \item Follows Preston \& Barratta (Amer.J.Psych. 1948), hyp. payments
+            \begin{itemize}
+                \item Predates Prospect Theory by 31 years
+                \item Here: Probability curvature but no utility curvature
+            \end{itemize}
+            \item $w(p)\,A+(1-w(p))(-5)=0$\\
+                $w(p) = 5/(A+5)$
+            \item Students: $w(p)<p$. Guardsmen: inverse-S crossing at 0.50
+        \end{itemize}
+        \item Even look at response times! But not shown
+    \end{itemize}
+\end{frame}
+
+% \begin{frame}{Let's Evaluate This Paper}
+%     \begin{enumerate}
+%         \item What are the treatments (if any)?
+%         \item What does this design \textit{really} test?
+%         \begin{itemize}
+%             \item Does that match the stated hypotheses?
+%         \end{itemize}
+%         \item Proper incentives?
+%         \item Subject pool?
+%         \item Proper sample size? Statistical power?
+%         \item What's the main result?
+%         \item Are the statistical tests appropriate?
+%         \item Are the results conclusive?
+%         \item Robustness?
+%         \item Extensions?
+%     \end{enumerate}
+% \end{frame}
+
+\begin{transitionframe}[c]
+  \begin{center}{ \Huge \textcolor{white}{Game Theory}}\end{center}
+\end{transitionframe}
+
+\begin{frame}{The Flood-Dresher Experiment}
+    \begin{itemize}
+        \item Merrill Flood \& Melvin Dresher, RAND Corporation, 1950
+    \end{itemize}
+    \begin{center}
+        \includegraphics[width=3in]{graphics/history/FloodDresher.png}
+    \end{center}
+Albert Tucker: 1950 ``Prisoners' Dilemma''
+    \begin{itemize}
+        \item Asymmetric version
+        \item Play 100 times
+        \item Sum of payoffs
+        \item No communication, but log your thoughts
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Flood-Dresher}
+    \begin{center}
+        \includegraphics[width=4in]{graphics/history/FloodDresher2.png}
+    \end{center}
+\end{frame}
+
+
+\begin{frame}{Flood-Dresher}
+    \begin{center}
+        \includegraphics[height=3in]{graphics/history/FloodDresher3.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Flood-Dresher}
+    \begin{center}
+        \includegraphics[width=4in]{graphics/history/FloodDresher4.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Flood-Dresher}
+    \begin{center}
+        \includegraphics[width=4in]{graphics/history/FloodDresher5.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Flood-Dresher}
+Cycles:
+\begin{enumerate}
+    \item Stuck in DD
+    \item Williams breaks by playing C
+    \item Alchian responds with C
+    \item Alchian eventually switches back to D
+    \item Punishment phase
+    \item Williams breaks by playing C
+\end{enumerate}
+
+Williams's goal: ``to coax Alchian into mutually profitable actions''
+\br
+Cycles did get longer each time
+    
+\end{frame}
+
+\begin{frame}{Flood-Dresher: De Hert (2003) analysis}
+    \begin{center}
+        \includegraphics[height=2.5in]{graphics/history/FloodDresher6.png}
+    \end{center}
+FRPD SPNE: $(0,50)$. Cooperation: $(50,100)$. Actual: white dot.\\
+Reject Nash in favor of Split-the-Difference
+\end{frame}
+
+\begin{frame}{Flood-Dresher}
+Nash's response (also at RAND):
+\begin{itemize}
+    \item ``The flaw in the experiment as a test of equilibrium point theory is that the experiment really amounts to having the players play one large multi-move game. One cannot just as well think of the thing as a sequence of independent games as one can in zero-sum cases.''
+    \item Agrees that DD is only true equilibrium
+    \item But anti-reciprocal strategy is ``very near equilibrium'' is near equilibrium of finite game, and is an equilibrium of an indefinite game
+    \item They were irrational for not playing CC more often!
+    \item Random rematching would remove the interaction
+\end{itemize}
+    
+\end{frame}
+
+\begin{frame}{Further RAND Experiments}
+Kalisch, Milnor, Nash, and Nering (1952 RAND manuscript)
+\begin{itemize}
+    \item Kind of crazy experiments on group formation/cooperative GT
+    \item But, gives advice on running experiments:
+    \begin{enumerate}
+        \item Keep communication minimal and structured
+        \item Random rematching
+        \item Use asymmetric payoffs to avoid an ``obviously fair'' split
+    \end{enumerate}
+\end{itemize}
+\begin{center}
+    \includegraphics[width=1.75in]{graphics/history/NashMug.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Thomas Schelling (1957)}
+Game 1:
+\begin{itemize}
+    \item 2 players, each picks $s_i\in [0,100]$
+    \item If $s_1+s_2 \leq 100$ then keep $(s_1,s_2)$
+    \item If $s_1+s_2 > 100$ then keep $(0,0)$
+    \item What's the modal choice? \onslide<2-3>{$\mathbf{s_i=50}$ \textbf{(90\%)}}
+\end{itemize}
+\br
+Game 2:
+\begin{itemize}
+    \item 3 players, labeled A, B, and C
+    \item $s_i\in \{ABC,ACB,BAC,BCA,CAB,CBA\}$
+    \item If $s_1=s_2=s_3=s^*$ then:
+    \begin{itemize}
+        \item Player $s^*(1)$ gets \$3
+        \item Player $s^*(2)$ gets \$2
+        \item Player $s^*(3)$ gets \$1
+    \end{itemize}
+    \item Otherwise all get \$0
+    \item What's the modal choice? \onslide<3>{$\mathbf{s_i=ABC}$ \textbf{(A:75\%,B:83\%,C:88\%)}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Early Learning Theory Experiment}
+Suppes \& Atkinson (1960)
+\begin{itemize}
+    \item How do players adapt over time?
+    \item Most treatments: hypothetical payoffs
+    \item Usually little knowledge of payoffs, opponent
+    \item Lots of confounds (different games per treatment, etc)
+    \item But... incentives did change behavior
+    \item Precursor to 1990s--2000s boom in learning theories
+\end{itemize}
+    
+\end{frame}
+
+\begin{transitionframe}[c]
+  \begin{center}{ \Huge \textcolor{white}{Markets \&\\ Industrial Organization}}\end{center}
+\end{transitionframe}
+
+\begin{frame}{Edward Chamberlain}
+\includegraphics[height=0.5in]{graphics/history/ChamberlainMug.png} Edward H. Chamberlain
+\begin{itemize}
+    \item ``Father of IO'' 
+    \begin{itemize}
+        \item Monopolistic competition
+        \item Product differentiation
+        \item Patents
+    \end{itemize}
+    \item ``An Experimental Imperfect Market'' \textit{JPE} (1948)
+    \begin{itemize}
+        \item Classroom market experiments
+    \end{itemize}
+\end{itemize}
+    
+\end{frame}
+
+\begin{frame}{Edward Chamberlin}
+    ``...economics is limited by the fact that \uline{resort cannot be had to the laboratory techniques of the natural sciences}. On the one hand, the data of real life are necessarily the product of \uline{many influences other than those which it is desired to isolate}... On the other hand, the unwanted variables cannot be held constant or eliminated in an economic `laboratory' because \uline{the real world of human beings, firms, markets, and governments cannot be reproduced artificially and controlled}. The social scientist who would like to study in isolation and under known conditions the effects of particular forces is, for the most part, obliged to conduct his `experiment' by \uline{the application of general reasoning to abstract `models.'}
+    \br
+    The purpose of this article is to make a very tiny breach in this position: to describe an actual experiment with a 'market' under laboratory conditions and to set forth some of the conclusions indicated by it.''
+\end{frame}
+
+\begin{frame}{Edward Chamberlin}
+\begin{itemize}
+    \item Hypothesis: Markets will \textbf{not} equilibrate because deals can't be recontracted
+    \item Buyers \& sellers
+    \item Single-unit supply \& demand w/ induced values
+    \item No centralized order book; move about the room
+    \item Hypothetical payoffs    
+\end{itemize}
+\begin{center}
+    \includegraphics[height=1.75in]{graphics/history/Chamberlin1.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Edward Chamberlin}
+\begin{center}
+    \includegraphics[height=1.5in]{graphics/history/Chamberlin1.png}
+\end{center}
+Main result:
+\begin{itemize}
+    \item Quantity too large
+    \begin{itemize}
+        \item Makes sense: not one price, inefficient matchings
+    \end{itemize}
+    \item Price too low
+    \begin{itemize}
+        \item Mystery! Multiple conjectures
+        \begin{enumerate}
+            \item Students are used to being buyers, not sellers
+            \item Buyers have money, giving outside options. Sellers don't
+        \end{enumerate}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Smith \& Plott}
+\includegraphics[height=0.4in]{graphics/history/SmithMug.png}\includegraphics[height=0.4in]{graphics/history/PlottMug.png} Vernon Smith \& Charlie Plott
+\begin{itemize}
+    \item Smith: first experiment 1955 at Purdue
+    \item Inspired by Chamberlin
+    \item Plott joined Purdue 1965, Vernon left 1967, Charlie 1970
+    \item Charlie encouraged Vernon to formalize the theory
+    \item Extensive exploration of market equilibration
+    \begin{itemize}
+        \item Slopes of supply \& demand
+        \begin{itemize}
+            \item Affects path of convergence
+        \end{itemize}
+        \item Price floors \& ceilings
+        \item Multiple simultaneous markets
+        \item Demand, supply, policy shocks
+        \begin{itemize}
+            \item Rate of re-equilibration
+        \end{itemize}
+        \item $\vdots$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Siegel \& Fouraker (1960)}
+\includegraphics[height=0.4in]{graphics/history/SiegelMug.png} Sidney Siegel \& Lawrence Fouraker
+\begin{itemize}
+    \item Siegel: Non-parametric stats, lots of econ-related experiments
+    \begin{itemize}
+        \item Siegel-Tukey test: Wilcoxon but ranks=extremeness
+    \end{itemize}
+\end{itemize}
+Siegel \& Fouraker (1960) \textit{Bargaining and group decision making: Experiments in bilateral monopoly} (book)
+\begin{itemize}
+    \item Bilateral bargaining (1 seller, 1 buyer) on price \& quantity
+    \item Payoff table for \textit{own} profits at each $(p,q)$
+    \item Payoff information treatments:
+    \begin{itemize}
+        \item (1) Private, (2) one public, (3) both public
+        \item $\uparrow$ information $\Rightarrow$ $\uparrow$ PO \& equal split
+    \end{itemize}
+    \item Anonymous interactions
+    \item Varied the size of surplus at non-PO allocations
+    \begin{itemize}
+        \item $\downarrow$ surplus at non-PO $\Rightarrow$ $\uparrow$ PO contracts
+    \end{itemize}
+    \item Theory: Level of aspiration, affected by info.
+\end{itemize}
+\end{frame}
+
+
+\begin{transitionframe}[c]
+  \begin{center}{ \Huge \textcolor{white}{Public Goods\\(Ledyard 1995)}}\end{center}
+\end{transitionframe}
+
+\begin{frame}{Ledyard's Survey}
+\includegraphics[width=0.4in]{graphics/history/LedyardMug.png} John Ledyard
+
+\begin{itemize}
+    \item 1967 Purdue PhD under Reiter, Plott, Smith. Overlap w/ Kagel '70
+    \item Early days of mathematical economics
+    \item Mechanism design theorist: Groves-Ledyard mechanism
+    \item Largely focused on PG problems
+\end{itemize}
+\br
+The Survey: Ledyard's Summary
+\begin{enumerate}
+    \item One-shot: about halfway between PO \& self-interest
+    \item \textit{Declines over time}
+    \item Face-to-face communication increases cooperation
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Early Public Goods Experiments}
+\begin{itemize}
+    \item Robyn Dawes \& John Orbell (social psychology)
+    \begin{itemize}
+        \item ``Social Dilemma'' games
+        \item $x_i\in\{X,O\}$. $X$ pays more, but hurts everyone
+        \item 31\% $O$ w/out communication, 72\% with
+    \end{itemize}
+    \item Gerald Marwell \& Ruth Ames (sociology)
+    \begin{itemize}
+        \item Classic PG setup: tokens in private vs. public account
+        \item Private account pays more, public account benefits everyone
+        \item Result: 51--57\% of tokens put in public account
+        \item Problem 1: discontinuous payoff function $\Rightarrow$ multiple NE
+        \item Problem 2: deception about group size (80 vs 4)
+        \item ``Economists Free Ride, Does Anybody Else?'' \textit{J.Pub.Econ} (1981)
+        \begin{itemize}
+            \item 12 experiments
+            \item Baseline: $\approx$ 50\% contribution
+            \item High stakes: $\approx$ 30\%
+            \item Econ PhD students: 20\%
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Economists React}
+Mark Isaac (Caltech PhD, Arizona, FSU)\\
+Jimmy Walker (Texas A\&M PhD under Kagel, Arizona, Indiana)
+\begin{itemize}
+    \item Isaac, McCue \& Plott (1985), Kim \& Walker (1984)
+    \begin{itemize}
+        \item Indefinitely repeated (PJ: explain)
+        \item No communication
+        \item Linear public good (single-period dom strat)
+        \item Result:
+        \begin{itemize}
+            \item First period: 50\% of max payoffs
+            \item By 5th period: 9\% of max payoffs
+        \end{itemize}
+    \end{itemize}
+    \item Isaac, Walker \& Thomas (1984) \& the MPCR
+    \begin{itemize}
+        \item Computerized (``PLATO'') for true anonymity, control
+        \item Discovered the MPCR confound:
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The MPCR}
+Marginal Per-Capita Return (MPCR) and Group Size:
+\begin{itemize}
+    \item Endowment $\omega_i$, Contribution $c_i$, PG $\sum_j c_j$ (shared equally)
+    \item  Price $p$, Benefit $a$, with $a > p > a/n$
+\end{itemize}
+Individual incentive: $\pi_i= p\cdot (\omega_i-c_i) + a \cdot (\sum_j c_j)/n$
+    \begin{align*}
+      \frac{\partial \pi_i}{\partial c_i} = -p + a/n &< 0 \\
+                                        \frac{a/n}{p} &< 1 \\
+                                        MPCR &< 1 \Rightarrow c_i^*=0
+    \end{align*}
+Social benefit (altruism/PO): $\sum_j \pi_j p\cdot \sum_j(\omega_j-c_j) + a \cdot n(\sum_j c_j)/n$
+\begin{align*}
+      \frac{\partial \sum_j \pi_j}{\partial c_i} = -p + a &> 0 \\
+                                        a/p &> 1 \Rightarrow c_i^o = \omega_i
+    \end{align*}
+\end{frame}
+
+\begin{frame}{The MPCR and Group Size}
+What's the effect of increasing $n$?
+\begin{enumerate}
+    \item Change in incentives:
+    \begin{itemize}
+        \item Individual incentive: $MPCR = (a/n)/p$: $\uparrow n \Rightarrow \downarrow MPCR \Rightarrow \downarrow c_i$
+        \item Social benefit (altruism): $a/p$ $\Rightarrow$ no change
+    \end{itemize}
+    \item What if we increase $a$ along with $n$?
+    \begin{itemize}
+        \item Individual incentive: $MPCR = (a/n)/p$: $\Rightarrow$ no change
+        \item Social benefit (altruism): $a/p$ $\Rightarrow \uparrow c_i$
+    \end{itemize}
+\end{enumerate}
+Solution: \only<1>{???}\only<2>{Vary $n$ and $MPCR$ independently. $2\times 2$ design.}
+\end{frame}
+
+\begin{frame}{General Patterns of Results} 
+\begin{enumerate}
+    \item Initial round: 51\%, clear decline
+    \item Session-level variance
+    \item Higher $MPCR$ (0.3 to 0.75) $\Rightarrow$ much higher $c_i$ at either $n$
+    \item Experience reduces contributions
+    \item At low $M=0.3$:
+    \begin{itemize}
+        \item Repetition reduces contributions
+        \item Larger group size increases contributions
+    \end{itemize}
+    \item At high $M=075$:
+    \begin{itemize}
+        \item Repetition and group size have little effect
+    \end{itemize}
+\br
+Later work:
+\begin{itemize}
+    \item Thresholds, provision points, other mechanisms
+    \item Deeper explorations of repetition, group size, communication...
+    \item HUGE literature
+\end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Elinor Ostrom}
+\includegraphics[height=0.4in]{graphics/history/OstromMug.png} Elinor ``Lin'' Ostrom
+\begin{itemize}
+    \item Beverly Hills High School, but poor. Mother discouraged college.
+    \item Rejected at UCLA Econ PhD for lack of math. Got into PoliSci
+    \item PhD work on water basins in SoCal: Tragedy of the Commons
+    \item Community found ways to self-enforce responsible management
+    \item Career at Indiana U. Lots of field work
+    \item Irrigation systems in Spain, Nepal
+    \item 8 design principles for effective self-governance
+    \begin{itemize}
+        \item Defining group boundaries, inclusive decision-making, effective monitoring, scaled sanctions, dispute resolution protocols, respect from authority
+    \end{itemize}
+    \item ``Ostrom's Law:'' A resource arrangement that works in practice can work in theory
+    \item 2009 Nobel prize. Passed away 2012
+\end{itemize}
+    
+\end{frame}
+
+
+\end{document}

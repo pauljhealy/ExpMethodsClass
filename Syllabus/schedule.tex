@@ -1,0 +1,99 @@
+\documentclass[11pt]{article}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage[colorlinks=true,urlcolor=darkgray,bookmarks=false]{hyperref}
+\usepackage{multirow}
+\usepackage{setspace}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newcounter{question}
+\newtheorem{problem}{Problem}[question]
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+\setlength{\parindent}{0mm}
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist
+\definecolor{scarlet}{cmyk}{0,1.00,0.65,0.15}
+\definecolor{gray}{cmyk}{0.06,0,0,0.34}
+\definecolor{darkgray}{cmyk}{0.07,0,0,0.90}
+
+\begin{document}
+
+\thispagestyle{empty}
+\vspace*{-20mm}
+
+
+\paragraph{Schedule (Tentative):}
+\mbox{}\\
+\begin{center}
+\begin{tabular}{c|l}
+  \textbf{Week} & \textbf{Topics \& Assignments} \\
+  \hline\hline
+  01 & Syllabus, Info Aggregation Expmt, Smith '76 \& '82
+  02 & Roth's History \\ \hline
+  02 & Prior Wisdom on Incentives \\ \hline
+  01 & Theory: Incentives in Experiments I \\ \hline
+  01 & Theory: Incentives in Experiments II \\ \hline
+  02 & Theory: Model Testing \& Minimal Experiments \\ \hline
+  02 & Hypothesis Tests: Fey \& Proschan (2010), $p$-values, units of observation \\ \hline
+  03 & Siegal \& Castellan, scales, contingency table tests, correlation tests \\ \hline
+  03 & Tests of distributional differences \\ \hline
+     & \textbf{Data Analysis Exercise (DAE) 1 assigned} \\ \hline
+  04 & Multiple hypothesis testing, Bonferroni-like corrections \\ \hline
+  04 & Design \& Ethics: power calculations, $p$-hacking \\ \hline
+     & \textbf{DAE 1 due, DAE 2 assigned} \\ \hline
+  05 & Belief Elicitation: Scoring rules and incentive compatibility, Savage (1971) \\ \hline
+  05 & Belief Elicitation: Multiple price lists, empirical evidence \\ \hline
+     & \textbf{DAE 2 due} \\ \hline
+  06 & Student presentations I \\ \hline
+     & \textbf{Paper Proposals due} \\ \hline
+  06 & Student presentations II \\ \hline
+  07 & Regressions: Clustering vs Fixed effects vs Random effects \\ \hline
+     & \textbf{Problem Set assigned} \\ \hline
+  07 & Regressions: Robust standard errors, Gillen Snowberg \& Yariv (2019) \\ \hline
+  08 & Regressions: ANOVA vs. dummy variable regressions, interactions, interactions in logit/probit \\ \hline
+  08 & Bootstrapping, permutation tests \\ \hline
+  09 & Maximum likelihood estimation I \\ \hline
+     & \textbf{Problem Set due} \\ \hline
+  09 & Maximum likelihood estimation II \\ \hline
+     & \textbf{DAE 3 assigned} \\ \hline
+  10 & Finite mixture models \\ \hline
+  10 & Model selection: BIC, AIC, Cross validation \\ \hline
+     & \textbf{DAE 3 due, DAE 4 assigned} \\ \hline
+  11 & Writing IRB Approvals \\ \hline
+  11 & Getting funded  \\ \hline
+     & \textbf{DAE 4 due} \\ \hline
+  12 & Programming I: oTree  \\ \hline
+  12 & Programming II: zTree \\ \hline
+  13 & Programming III: PHP/HTML/JavaScript \\ \hline
+  13 & Programming IV: PHP/HTML/JavaScript Part 2 \\ \hline
+  14 & Application: Repeated games\\ \hline
+  14 & Application: Real-effort tasks \\ \hline
+\end{tabular}
+\end{center}
+
+Papers/topics
+\begin{itemize}
+    \item Repeated games methods
+    \item Norm elicitation
+    \item ZI robots, non-human opponents
+    \item Random decision time method
+    \item Real effort task elasticity
+    \item DOSE
+    
+\end{itemize}
+
+\end{document}
