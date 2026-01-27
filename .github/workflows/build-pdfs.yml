@@ -1,0 +1,56 @@
+name: Build Lecture PDFs and Index
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Find lecture .tex files
+        run: |
+          find LectureSlides -maxdepth 1 -name "*.tex" > texfiles.txt
+
+      - name: Compile lecture PDFs
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: texfiles.txt
+
+      - name: Collect PDFs
+        run: |
+          mkdir -p public
+          mv LectureSlides/*.pdf public/
+
+      - name: Generate index.html (from PDF titles)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+
+          echo "<!DOCTYPE html>" > public/index.html
+          echo "<html><head><meta charset='utf-8'><title>Lecture Slides</title></head><body>" >> public/index.html
+          echo "<h1>Lecture Slides</h1><ul>" >> public/index.html
+
+          for f in public/*.pdf; do
+            file=$(basename "$f")
+            title=$(pdfinfo "$f" | awk -F': *' '/^Title/ {print $2}')
+
+            if [ -z "$title" ]; then
+              title="${file%.pdf}"
+            fi
+
+            echo "<li><a href=\"$file\">$title</a></li>" >> public/index.html
+          done
+
+          echo "</ul></body></html>" >> public/index.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: public
