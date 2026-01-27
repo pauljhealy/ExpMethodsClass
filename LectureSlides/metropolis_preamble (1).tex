@@ -1,0 +1,60 @@
+\documentclass[10pt,t]{beamer}
+\usepackage{hyperref}
+\usepackage{fontawesome}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage[normalem]{ulem}
+\usepackage{amsfonts,amsmath,amssymb,bm,bbm}
+\usepackage{sgame}
+\usepackage{graphicx,pstricks}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{tikz,tikzsymbols}
+\usetikzlibrary{decorations.pathreplacing,shapes}
+\usepackage[english,ngerman]{babel}
+
+% ------------------------------------------------------------------------------
+% Use the beautiful metropolis beamer template
+% ------------------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{fontawesome}
+\usepackage{FiraSans} 
+\mode<presentation>
+{
+  \usetheme[progressbar=foot,background=light]{metropolis} 
+  \usecolortheme{default} % or try albatross, beaver, crane, ...
+  \usefonttheme{default}  % or try default, serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+  %\setbeamertemplate{frame footer}{My custom footer}
+} 
+
+\newenvironment{stepenumerate}{\begin{enumerate}[<+->]}{\end{enumerate}}
+\newenvironment{stepitemize}{\begin{itemize}[<+->]}{\end{itemize} }
+\newenvironment{stepenumeratewithalert}{\begin{enumerate}[<+-| alert@+>]}{\end{enumerate}}
+\newenvironment{stepitemizewithalert}{\begin{itemize}[<+-| alert@+>]}{\end{itemize} }
+
+\definecolor{metrop}{RGB}{29, 44, 44}
+
+\newenvironment{transitionframe}{
+  \setbeamercolor{background canvas}{bg=black!80}
+  \begin{frame}}{
+    \end{frame}
+}
+
+\newcommand{\br}{
+
+\bigskip
+
+}
+
+\definecolor{lefttext}{rgb}{0.2,0,0}
+\definecolor{righttext}{rgb}{0,0,0.2}
+\newcommand{\topchat}[3]{\hline\textbf{ID\##2} & \textbf{#1} & \textbf{ID\##3}\\\hline}
+\newcommand{\leftchat}[1]{\multicolumn{3}{|l|}{\cellcolor{blue!10}{\color{lefttext}#1}}\\}
+\newcommand{\rightchat}[1]{\multicolumn{3}{|r|}{\cellcolor{red!10}{\color{blue!80}#1}}\\}
+\newcommand{\answers}[2]{\hline\multicolumn{1}{|c|}{\textbf{#1}} &  & \multicolumn{1}{|c|}{\textbf{#2}}\\\hline}
+
+\newcommand*\hugme[1]{\tikz[baseline=(char.base)]{\node[shape=ellipse,draw,inner sep=0pt] (char) {#1};}}
