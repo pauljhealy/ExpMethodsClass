@@ -65,7 +65,13 @@ jobs:
               continue
             fi
             
-            title=$(pdfinfo "$f" | awk -F': *' '/^Title/ {print $2}')
+            title=$(pdfinfo "$f" \
+              | awk '/^Title:/ {flag=1; sub(/^Title:[[:space:]]*/, ""); print; next}
+                     /^[[:space:]]/ && flag {print}
+                     !/^[[:space:]]/ && flag {exit}' \
+              | tr '\n' ' ' \
+              | sed 's/\\\\/ /g' \
+              | sed 's/[[:space:]]\+/ /g')
 
             # Fallback to filename if PDF metadata Title is empty
             if [ -z "$title" ]; then
