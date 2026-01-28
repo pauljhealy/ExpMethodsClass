@@ -33,7 +33,8 @@ Derivation
 
 \begin{frame}{Discrete Choice Model: The Choice Set}
 
-Discrete choice models describe decision makers’ choices among alternatives. \\
+Discrete choice models describe decision makers’ choices among alternatives. 
+
 The set of alternatives, called the choice set, needs to exhibit three characteristics.
 \begin{itemize}
 \item The alternatives must be mutually exclusive
@@ -47,7 +48,9 @@ The set of alternatives, called the choice set, needs to exhibit three character
 \item The number of alternatives must be finite
 
 \end{itemize}
-\\ \hspace*{\fill} \\
+
+\hspace*{\fill} 
+
 \end{frame}
 
 
@@ -130,8 +133,6 @@ $$
 
 
 \begin{frame}{Discrete Choice Model: RUMs}
-
-
 Using the density $f\left(\varepsilon_n\right)$, this cumulative probability can be rewritten as
 $$
 \begin{aligned}
@@ -139,8 +140,10 @@ P_{n i} & =\operatorname{Prob}\left(\varepsilon_{n j}-\varepsilon_{n i}<V_{n i}-
 & =\int_{\varepsilon} I\left(\varepsilon_{n j}-\varepsilon_{n i}<V_{n i}-V_{n j} \ \forall j \neq i\right) f\left(\varepsilon_n\right) d \varepsilon_n,
 \end{aligned}
 $$
-where $I(\cdot)$ is the indicator function, equaling 1 when the expression in parentheses is true and 0 otherwise. \\
-\\ \hspace*{\fill} \\
+where $I(\cdot)$ is the indicator function, equaling 1 when the expression in parentheses is true and 0 otherwise.
+
+\hspace*{\fill}
+
 This is a multidimensional integral over the density of the unobserved portion of utility, $f\left(\varepsilon_n\right)$.
 \end{frame}
 
@@ -164,7 +167,9 @@ Only Differences in Utility Matter
 \item The choice probability is $P_{n i}=\operatorname{Prob}\left(U_{n i}>U_{n j} \ \forall j \neq i\right)=$ $\operatorname{Prob}\left(U_{n i}-U_{n j}>0 \  \forall j \neq i\right)$, which depends only on the difference in utility, not its absolute level.
 \item Adding a constant to the utility of all alternatives does not change the decision maker's choice.
 \end{itemize}
-\\ \hspace*{\fill} \\
+
+\hspace*{\fill}
+
 The Overall Scale of Utility Is Irrelevant
 \begin{itemize}
 \item The model $U_{n j}^0=V_{n j}+\varepsilon_{n j} \ \forall j$ is equivalent to $U_{n j}^1=\lambda V_{n j}+\lambda \varepsilon_{n j} \ \forall j$ for any $\lambda>0$.
@@ -657,17 +662,28 @@ For continuous variables, we replace the discrete difference operator $\Delta$ w
 
 
 \begin{frame}{Interaction Term: Check}
-/* manual estimation */ \\
+/* manual estimation */
+
 logit outcome treated time did, nolog
-\\ \hspace*{\fill} \\
-replace treated = 0 \\
-replace time = 0 \\
-replace did = 0 \\
-predict double y00 if e(sample) \\
-\\ \hspace*{\fill} \\
+
+\hspace*{\fill}
+
+replace treated = 0
+
+replace time = 0
+
+replace did = 0
+
+predict double y00 if e(sample)
+
+\hspace*{\fill}
+
 (repeated steps omitted)
-\\ \hspace*{\fill} \\
-gen ie = y11-y01-y10+y00 \\
+
+\hspace*{\fill}
+
+gen ie = y11-y01-y10+y00
+
 sum ie
 
 
