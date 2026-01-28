@@ -64,6 +64,9 @@ jobs:
             if [ "$filename" = "syllabus.pdf" ]; then
               continue
             fi
+
+            base="${filename%.pdf}"
+            texfile="LectureSlides/$base.tex"
             
             raw_title=$(pdfinfo "$f" \
               | awk '/^Title:/ {flag=1; sub(/^Title:[[:space:]]*/, ""); print; next}
@@ -82,7 +85,7 @@ jobs:
               title=$(basename "$f" .pdf)
             fi
 
-            echo "<li><a href=\"$filename\">$title</a></li>" >> public/index.html
+            echo "<li><a href=\"$filename\">$title</a> (<a href=\"$texfile\">LaTeX source</a>)</li>" >> public/index.html
           done
 
           echo "</ul></body></html>" >> public/index.html
