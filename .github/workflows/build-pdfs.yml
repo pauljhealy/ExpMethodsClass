@@ -33,7 +33,7 @@ jobs:
 
           while IFS= read -r texfile; do
             echo "Compiling $texfile ..."
-            latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build "$texfile"
+            latexmk -pdf -interaction=nonstopmode -halt-on-error -cd -outdir=build "$texfile"
           done < texfiles.txt
           
           while IFS= read -r texfile; do
