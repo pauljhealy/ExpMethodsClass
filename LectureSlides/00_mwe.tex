@@ -1,42 +1,20 @@
-\documentclass[12pt]{article}
-\usepackage{amsfonts,amsmath,amssymb}
-\usepackage{setspace,fullpage}
-\usepackage{graphicx}
-\usepackage{theorem}
-\newtheorem{theorem}{Theorem}
-\newtheorem{definition}[theorem]{Definition}
-{\theorembodyfont{\upshape}\newtheorem{example}{Example}}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{remark}[theorem]{Remark}
-\newtheorem{result}{Result}
-\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
-\newenvironment{support}[1][Support]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+\include{LectureSlides/includes/metropolis_preamble}
 
 \begin{document}
-\onehalfspacing
-\title{My First Overleaf to GitHub Website}
-\author{Paul J. Healy}
-\maketitle
 
-\begin{abstract}
-  I want my Overleaf project files to become a website!
-\end{abstract}
+% Title page info
+\title[Minimal Working Example]{ExpEcon Methods:\\A Minimal Working Example}
+\author[ECON 8877]{ECON 8877\\P.J. Healy} \color{metrop}
+\institute[OSU]{}
+\date[]{\vfill {\tiny Updated \today\ at\ \DTMcurrenttime}}
 
-\bigskip
-\bigskip
+\frame{\maketitle}
 
-\section{Introduction}
-
-Hello world! I made a GitHub website from Overleaf!
-
-Here's a picture:
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.25in]{LectureSlides/graphics/ach/AumannMug.png}
-    \caption{A picture of Aumann goes here}
-    \label{fig:testfig}
-\end{figure}
-
-And that's it!
+\begin{frame}{My First Frame}
+This is my first frame! It's pretty ugly.
+\br
+\includegraphics[width=1in]{LectureSlides/graphics/ach/AumannMug.png}
+\br
+That's it!
+\end{frame}
 \end{document} 
