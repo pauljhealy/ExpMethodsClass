@@ -65,17 +65,21 @@ jobs:
               continue
             fi
             
-            title=$(pdfinfo "$f" \
+            raw_title=$(pdfinfo "$f" \
               | awk '/^Title:/ {flag=1; sub(/^Title:[[:space:]]*/, ""); print; next}
                      /^[[:space:]]/ && flag {print}
-                     !/^[[:space:]]/ && flag {exit}' \
+                     !/^[[:space:]]/ && flag {exit}')
+
+            # Normalize
+            title=$(printf "%s" "$raw_title" \
               | tr '\n' ' ' \
               | sed 's/\\\\/ /g' \
-              | sed 's/[[:space:]]\+/ /g')
+              | sed 's/[[:space:]]\+/ /g' \
+              | sed 's/^ *//; s/ *$//')
 
-            # Fallback to filename if PDF metadata Title is empty
+            # Fallback to filename if empty
             if [ -z "$title" ]; then
-              title="${filename%.pdf}"
+              title=$(basename "$f" .pdf)
             fi
 
             echo "<li><a href=\"$filename\">$title</a></li>" >> public/index.html
