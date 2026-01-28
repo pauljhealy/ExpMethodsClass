@@ -17,6 +17,11 @@ jobs:
         run: |
           find LectureSlides -maxdepth 1 -name "01_vernon.tex" > texfiles.txt
 
+      - name: Show which .tex files will be compiled
+        run: |
+          echo "Contents of texfiles.txt:"
+          cat texfiles.txt
+
       - name: Compile lecture PDFs
         uses: xu-cheng/latex-action@v3
         with:
