@@ -18,7 +18,7 @@ jobs:
       - name: Find lecture .tex files
         run: |
           mkdir -p build
-          find LectureSlides -maxdepth 1 -name "*.tex" > texfiles.txt
+          find LectureSlides -maxdepth 1 -name "00_mwe.tex" > texfiles.txt
           echo "Found the following .tex files:"
           cat texfiles.txt
           find Syllabus -maxdepth 1 -name "syllabus.tex" > syllabuspath.txt
