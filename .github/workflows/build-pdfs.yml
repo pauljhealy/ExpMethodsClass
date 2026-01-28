@@ -67,6 +67,11 @@ jobs:
 
             base="${filename%.pdf}"
             texfile="LectureSlides/$base.tex"
+
+            REPO_URL="https://github.com/pauljhealy/ExpMethodsClass"
+            BRANCH="main"
+
+            tex_url="$REPO_URL/blob/$BRANCH/LectureSlides/$base.tex"
             
             raw_title=$(pdfinfo "$f" \
               | awk '/^Title:/ {flag=1; sub(/^Title:[[:space:]]*/, ""); print; next}
@@ -85,7 +90,7 @@ jobs:
               title=$(basename "$f" .pdf)
             fi
 
-            echo "<li><a href=\"$filename\">$title</a> (<a href=\"$texfile\">LaTeX source</a>)</li>" >> public/index.html
+            echo "<li><a href=\"$filename\">$title</a> (<a href=\"$tex_url\" target=\"_blank\">LaTeX source</a>)</li>" >> public/index.html
           done
 
           echo "</ol></body></html>" >> public/index.html
