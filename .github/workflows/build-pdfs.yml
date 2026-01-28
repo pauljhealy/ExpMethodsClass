@@ -18,9 +18,12 @@ jobs:
       - name: Find lecture .tex files
         run: |
           mkdir -p build
-          find LectureSlides -maxdepth 1 -name "00_mwe.tex" > texfiles.txt
+          find LectureSlides -maxdepth 1 -name "*.tex" > texfiles.txt
           echo "Found the following .tex files:"
           cat texfiles.txt
+          find Syllabus -maxdepth 1 -name "syllabus.tex" > syllabuspath.txt
+          echo "Found the syllabus .tex file:"
+          cat syllabuspath.txt
 
       # 3️⃣ Compile each .tex into a PDF
       - name: Compile lecture PDFs
@@ -32,6 +35,11 @@ jobs:
             echo "Compiling $texfile ..."
             latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build "$texfile"
           done < texfiles.txt
+          
+          while IFS= read -r texfile; do
+            echo "Compiling $texfile ..."
+            latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build "$texfile"
+          done < syllabuspath.txt
 
       # 4️⃣ Move PDFs to public/
       - name: Collect PDFs
@@ -44,10 +52,17 @@ jobs:
         run: |
           echo "<!DOCTYPE html>" > public/index.html
           echo "<html><head><meta charset='utf-8'><title>Lecture Slides</title></head><body>" >> public/index.html
-          echo "<h1>Lecture Slides</h1><ul>" >> public/index.html
+          echo "<h2>Syllabus</h2><ul>" >> public/index.html
+          echo "<li><a href=\"syllabus.pdf\">Syllabus</a></li>" >> public/index.html
+          echo "</ul><br>" >> public/index.html
+          echo "<h2>Lecture Slides</h2><ul>" >> public/index.html
 
           for f in public/*.pdf; do
             filename=$(basename "$f")
+            if [ "$filename" = "syllabus.pdf" ]; then
+              continue
+            fi
+            
             title=$(pdfinfo "$f" | awk -F': *' '/^Title/ {print $2}')
 
             # Fallback to filename if PDF metadata Title is empty
