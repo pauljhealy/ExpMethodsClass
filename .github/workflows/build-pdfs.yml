@@ -15,7 +15,7 @@ jobs:
 
       - name: Find lecture .tex files
         run: |
-          find LectureSlides -maxdepth 1 -name "*.tex" > texfiles.txt
+          find LectureSlides -maxdepth 1 -name "01_vernon.tex" > texfiles.txt
 
       - name: Compile lecture PDFs
         uses: xu-cheng/latex-action@v3
