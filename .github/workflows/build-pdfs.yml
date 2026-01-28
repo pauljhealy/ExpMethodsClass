@@ -57,7 +57,7 @@ jobs:
           echo "<h2>Syllabus</h2><ul>" >> public/index.html
           echo "<li><a href=\"syllabus.pdf\">Syllabus</a></li>" >> public/index.html
           echo "</ul><br>" >> public/index.html
-          echo "<h2>Lecture Slides</h2><ul>" >> public/index.html
+          echo "<h2>Lecture Slides</h2><ol>" >> public/index.html
 
           for f in public/*.pdf; do
             filename=$(basename "$f")
@@ -88,7 +88,7 @@ jobs:
             echo "<li><a href=\"$filename\">$title</a> (<a href=\"$texfile\">LaTeX source</a>)</li>" >> public/index.html
           done
 
-          echo "</ul></body></html>" >> public/index.html
+          echo "</ol></body></html>" >> public/index.html
 
       # 6️⃣ Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
