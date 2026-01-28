@@ -29,7 +29,7 @@ jobs:
       - name: Compile lecture PDFs
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra texlive-amsmath texlive-games texlive-pstricks texlive-pictures texlive-science texlive-bibtex-extra latexmk poppler-utils
+          sudo apt-get install -y texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra texlive-games texlive-pstricks texlive-pictures texlive-science texlive-bibtex-extra latexmk poppler-utils
 
           while IFS= read -r texfile; do
             echo "Compiling $texfile ..."
