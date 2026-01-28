@@ -15,7 +15,7 @@ jobs:
 
       - name: Find lecture .tex files
         run: |
-          find LectureSlides -maxdepth 1 -name "00_mwe.tex" > texfiles.txt
+          find LectureSlides -maxdepth 1 -name "*.tex" > texfiles.txt
 
       - name: Show which .tex files will be compiled
         run: |
