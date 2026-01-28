@@ -10,50 +10,57 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout repository
       - name: Check out repo
         uses: actions/checkout@v4
 
+      # 2️⃣ Find all standalone .tex files in LectureSlides
       - name: Find lecture .tex files
         run: |
+          mkdir -p build
           find LectureSlides -maxdepth 1 -name "*.tex" > texfiles.txt
-
-      - name: Show which .tex files will be compiled
-        run: |
-          echo "Contents of texfiles.txt:"
+          echo "Found the following .tex files:"
           cat texfiles.txt
 
+      # 3️⃣ Compile each .tex into a PDF
       - name: Compile lecture PDFs
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: texfiles.txt
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra latexmk poppler-utils
 
+          while IFS= read -r texfile; do
+            echo "Compiling $texfile ..."
+            latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build "$texfile"
+          done < texfiles.txt
+
+      # 4️⃣ Move PDFs to public/
       - name: Collect PDFs
         run: |
           mkdir -p public
-          mv LectureSlides/*.pdf public/
+          mv build/*.pdf public/
 
-      - name: Generate index.html (from PDF titles)
+      # 5️⃣ Generate index.html from PDF titles
+      - name: Generate index.html
         run: |
-          sudo apt-get update
-          sudo apt-get install -y poppler-utils
-
           echo "<!DOCTYPE html>" > public/index.html
           echo "<html><head><meta charset='utf-8'><title>Lecture Slides</title></head><body>" >> public/index.html
           echo "<h1>Lecture Slides</h1><ul>" >> public/index.html
 
           for f in public/*.pdf; do
-            file=$(basename "$f")
+            filename=$(basename "$f")
             title=$(pdfinfo "$f" | awk -F': *' '/^Title/ {print $2}')
 
+            # Fallback to filename if PDF metadata Title is empty
             if [ -z "$title" ]; then
-              title="${file%.pdf}"
+              title="${filename%.pdf}"
             fi
 
-            echo "<li><a href=\"$file\">$title</a></li>" >> public/index.html
+            echo "<li><a href=\"$filename\">$title</a></li>" >> public/index.html
           done
 
           echo "</ul></body></html>" >> public/index.html
 
+      # 6️⃣ Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
