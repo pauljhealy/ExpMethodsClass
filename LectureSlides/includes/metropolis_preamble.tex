@@ -21,6 +21,9 @@
 \usepackage{rotating}
 \usepackage{multirow}
 \usepackage{natbib}
+\bibliographystyle{plain}
+\renewcommand{\bibfont}{\footnotesize}
+\renewcommand{\bibsection}{}
 \usepackage{listings}
 
 %\usepackage{matlab-prettifier} % For enhanced MATLAB highlighting
@@ -54,6 +57,9 @@
   \setbeamertemplate{navigation symbols}{}
   \setbeamertemplate{caption}[numbered]
   %\setbeamertemplate{frame footer}{My custom footer}
+  \makeatletter
+    \setbeamertemplate{frametitle continuation}{}
+  \makeatother
 } 
 
 \newenvironment{stepenumerate}{\begin{enumerate}[<+->]}{\end{enumerate}}
