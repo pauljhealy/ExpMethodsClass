@@ -97,7 +97,6 @@ jobs:
             fi
 
             echo "<li><a href=\"$filename\">$title</a>&nbsp;&nbsp;&nbsp; (<a href=\"$tex_url\" target=\"_blank\">LaTeX source</a>, <em>updated $last_updated</em>)</li>" >> public/index.html
-    done
           done
 
           echo "</ol></body></html>" >> public/index.html
