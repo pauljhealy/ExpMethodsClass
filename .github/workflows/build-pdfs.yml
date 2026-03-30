@@ -14,17 +14,33 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v4
 
+      # Download previously built PDFs
+      - name: Download previously built PDFs
+        run: |
+          mkdir -p public
+          # Fetch PDFs from the current gh-pages branch
+          git fetch origin gh-pages || true
+          git checkout origin/gh-pages --- . || true
+          mv *.pdf public/ 2>/dev/null || true
+          git checkout main -- .
+
       # 2️⃣ Find all standalone .tex files in LectureSlides
-      - name: Find lecture .tex files
+      - name: Find changed lecture .tex files
         run: |
           mkdir -p build
-          find LectureSlides -maxdepth 1 -name "*.tex" \
-          ! -path "LectureSlides/includes/*" \
-          | sort > texfiles.txt
-          echo "Found the following .tex files:"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # Manual trigger: recompile everything
+            find LectureSlides -maxdepth 1 -name "*.tex" \
+              ! -path "LectureSlides/includes/*" | sort > texfiles.txt
+            find Syllabus -maxdepth 1 -name "syllabus.tex" > syllabuspath.txt
+          else
+            git diff --name-only HEAD~1 HEAD -- 'LectureSlides/*.tex' \
+              | grep -v 'includes/' | sort > texfiles.txt
+            git diff --name-only HEAD~1 HEAD -- 'Syllabus/syllabus.tex' \
+              > syllabuspath.txt
+          fi
+          echo "Files to compile:"
           cat texfiles.txt
-          find Syllabus -maxdepth 1 -name "syllabus.tex" > syllabuspath.txt
-          echo "Found the syllabus .tex file:"
           cat syllabuspath.txt
 
       # 3️⃣ Compile each .tex into a PDF
