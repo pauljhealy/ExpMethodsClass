@@ -90,7 +90,14 @@ jobs:
               title=$(basename "$f" .pdf)
             fi
 
-            echo "<li><a href=\"$filename\">$title</a> (<a href=\"$tex_url\" target=\"_blank\">LaTeX source</a>)</li>" >> public/index.html
+            # Get last commit date for this .tex file
+            last_updated=$(git log -1 --format="%as" -- "$texfile")
+            if [ -z "$last_updated" ]; then
+              last_updated="unknown"
+            fi
+
+            echo "<li><a href=\"$filename\">$title</a>&nbsp;&nbsp;&nbsp; (<a href=\"$tex_url\" target=\"_blank\">LaTeX source</a>, <em>updated $last_updated</em>)</li>" >> public/index.html
+    done
           done
 
           echo "</ol></body></html>" >> public/index.html
