@@ -101,7 +101,9 @@ jobs:
             echo "</ul>" >> public/index.html
           done
 
-          echo "</ol></body></html>" >> public/index.html
+          echo "</ol><br>" >> public/index.html
+          echo "Download the <a href="https://github.com/pauljhealy/ExpMethodsClass/blob/main/LectureSlides/includes/metropolis_preamble.tex">preamble file</a> included in every .tex file above." >> public/index.html
+          echo "</body></html>" >> public/index.html
 
       # 6️⃣ Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
