@@ -28,8 +28,13 @@ jobs:
       - name: Find changed lecture .tex files
         run: |
           mkdir -p build
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            # Manual trigger: recompile everything
+          if ! git rev-parse HEAD~1 >/dev/null 2>&1; then
+            # No previous commit — recompile everything
+            find LectureSlides -maxdepth 1 -name "*.tex" \
+              ! -path "LectureSlides/includes/*" | sort > texfiles.txt
+            find Syllabus -maxdepth 1 -name "syllabus.tex" > syllabuspath.txt
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # Manual trigger — recompile everything
             find LectureSlides -maxdepth 1 -name "*.tex" \
               ! -path "LectureSlides/includes/*" | sort > texfiles.txt
             find Syllabus -maxdepth 1 -name "syllabus.tex" > syllabuspath.txt
@@ -107,10 +112,15 @@ jobs:
 
             # Get last commit date for this .tex file
             last_updated=$(git log -1 --format="%as" -- "$texfile")
+            last_updated_string="(updated $last_updated)"
             if [ -z "$last_updated" ]; then
               last_updated="unknown"
+              last_updated_string=""
             fi
-
+            if [ "$last_updated" = "2026-03-30" ]; then
+              last_updated_string=""
+            fi
+            
             echo "<li>$title" >> public/index.html
             echo "<ul><li><a href=\"$filename\">Slides</a></li>" >> public/index.html
             echo "<li><a href=\"$tex_url\" target=\"_blank\">LaTeX source</a> (updated $last_updated)</li>" >> public/index.html
