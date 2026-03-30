@@ -81,6 +81,9 @@ jobs:
               | sed 's/[[:space:]]\+/ /g' \
               | sed 's/^ *//; s/ *$//')
 
+            # Strip "ExpEcon Methods: "
+            title=$(echo "$title" | sed 's/^ExpEcon Methods: //')
+
             # Fallback to filename if empty
             if [ -z "$title" ]; then
               title=$(basename "$f" .pdf)
