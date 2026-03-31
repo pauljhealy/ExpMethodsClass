@@ -17,6 +17,8 @@ jobs:
       # 1️⃣ Checkout repository
       - name: Check out repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # Download previously built PDFs
       - name: Download previously built PDFs
@@ -52,11 +54,29 @@ jobs:
           cat texfiles.txt
           cat syllabuspath.txt
 
+      # 2.5 Cache LaTeX packages
+      - name: Cache LaTeX packages
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/apt/archives
+          key: latex-${{ runner.os }}-${{ hashFiles('.github/workflows/*.yml') }}
+          restore-keys: |
+            latex-${{ runner.os }}-
+
+      # 2.6 Cache latexmk build artifacts
+      - name: Cache build artifacts
+        uses: actions/cache@v4
+        with:
+          path: build
+          key: latexmk-${{ runner.os }}-${{ hashFiles('LectureSlides/*.tex', 'Syllabus/syllabus.tex') }}
+          restore-keys: |
+            latexmk-${{ runner.os }}-
+
       # 3️⃣ Compile each .tex into a PDF
       - name: Compile lecture PDFs
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra texlive-games texlive-pstricks texlive-pictures texlive-science texlive-bibtex-extra latexmk poppler-utils gnuplot
+          sudo apt-get install -y --no-upgrade texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra texlive-games texlive-pstricks texlive-pictures texlive-science texlive-bibtex-extra latexmk poppler-utils gnuplot
 
           while IFS= read -r texfile; do
             echo "Compiling $texfile ..."
