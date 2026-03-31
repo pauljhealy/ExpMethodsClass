@@ -26,7 +26,7 @@ jobs:
           mkdir -p public
           # Fetch PDFs from the current gh-pages branch
           git fetch origin gh-pages || true
-          git checkout origin/gh-pages --- . || true
+          git checkout origin/gh-pages -- . || true
           mv *.pdf public/ 2>/dev/null || true
           git checkout main -- .
 
@@ -98,6 +98,11 @@ jobs:
       # 5️⃣ Generate index.html from PDF titles
       - name: Generate index.html
         run: |
+          pdf_count=$(find public -name "*.pdf" | wc -l)
+          echo "Found $pdf_count PDFs in public/"
+          if [ "$pdf_count" -eq 0 ]; then
+            echo "ERROR: No PDFs found in public/!" && exit 1
+          fi
           cat topstuff.html > public/index.html
 
           for f in public/*.pdf; do
