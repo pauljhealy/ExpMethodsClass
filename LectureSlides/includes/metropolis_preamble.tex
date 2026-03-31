@@ -20,11 +20,12 @@
 \usepackage{setspace}
 \usepackage{rotating}
 \usepackage{multirow}
+\usepackage{listings}
+
 \usepackage{natbib}
 \bibliographystyle{unsrtnat}
 \renewcommand{\bibfont}{\footnotesize}
-\renewcommand{\bibsection}{}
-\usepackage{listings}
+\renewcommand{\bibsection}{\vspace{-1em}}
 
 %\usepackage{matlab-prettifier} % For enhanced MATLAB highlighting
 \lstset{
@@ -61,6 +62,10 @@
     \setbeamertemplate{frametitle continuation}{}
   \makeatother
 } 
+\addtobeamertemplate{frametitle continuation}{}{%
+  \setbeamertemplate{frametitle continuation}{}%
+}
+\setbeamertemplate{frametitle continuation}{}
 
 \newenvironment{stepenumerate}{\begin{enumerate}[<+->]}{\end{enumerate}}
 \newenvironment{stepitemize}{\begin{itemize}[<+->]}{\end{itemize} }
