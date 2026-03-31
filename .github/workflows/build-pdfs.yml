@@ -88,11 +88,11 @@ jobs:
             latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build "$texfile"
           done < syllabuspath.txt
 
-      # 4️⃣ Move PDFs to public/
+      # 4️⃣ Copy PDFs to public/
       - name: Collect PDFs
         run: |
           mkdir -p public
-          mv build/*.pdf public/
+          cp build/*.pdf public/ 2>/dev/null || true
           cp *.css public/
 
       # 5️⃣ Generate index.html from PDF titles
